@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archmirror-rsync-client
+  labels:
+    app: rsync-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rsync-client
+  template:
+    metadata:
+      labels:
+        app: rsync-client
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: archmirror-pvc
+      containers:
+        - name: rsync-client
+          image: npastorale/archmirror-rsync-client
+          volumeMounts:
+            - name: data
+              mountPath: /data
