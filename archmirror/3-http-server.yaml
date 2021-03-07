@@ -27,8 +27,16 @@ spec:
       labels:
         app: http-server
     spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: archmirror-pvc
       containers:
         - name: http-server
           image: npastorale/archmirror-http-server
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: true
