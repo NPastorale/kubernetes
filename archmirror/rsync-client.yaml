@@ -1,26 +1,22 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
-  name: archmirror-rsync-client
-  labels:
-    app: rsync-client
+  name: rsync-client
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: rsync-client
-  template:
-    metadata:
-      labels:
-        app: rsync-client
+  schedule: "27 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
     spec:
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: archmirror-pvc
-      containers:
-        - name: rsync-client
-          image: npastorale/archmirror-rsync-client
-          volumeMounts:
+      template:
+        spec:
+          volumes:
             - name: data
-              mountPath: /data
+              persistentVolumeClaim:
+                claimName: archmirror-pvc
+          containers:
+            - name: rsync-client
+              image: npastorale/archmirror-rsync-client
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+          restartPolicy: Never
