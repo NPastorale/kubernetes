@@ -3,8 +3,9 @@ kind: CronJob
 metadata:
   name: rsync-client
 spec:
-  schedule: "27 * * * *"
+  schedule: "*/15 * * * *"
   concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 12
   jobTemplate:
     spec:
       template:
@@ -16,7 +17,10 @@ spec:
           containers:
             - name: rsync-client
               image: npastorale/archmirror-rsync-client
+              env:
+                - name: TZ
+                  value: "Europe/Madrid"
               volumeMounts:
                 - name: data
                   mountPath: /data
-          restartPolicy: Never
+          restartPolicy: OnFailure
