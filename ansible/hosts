@@ -1,0 +1,5 @@
+[masters]
+kmaster.nahue.com.ar ansible_user=ubuntu
+
+[workers]
+kworker[1:5].nahue.com.ar ansible_user=ubuntu
