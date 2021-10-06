@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bind9
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind-nahue
+  namespace: bind9
+spec:
+  type: LoadBalancer
+  selector:
+    app: bind-nahue
+  ports:
+    - protocol: UDP
+      port: 53
+      targetPort: 53
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bind-nahue
+  namespace: bind9
+data:
+  nahue.com.ar.zone: |
+    ; nahue.com.ar
+    $TTL 3600
+    nahue.com.ar. IN     SOA    nahue.freeddns.org. admin@nahue.com.ar. (
+            2021050101  ; Serial
+            3H          ; refresh after 3 hours
+            1H          ; retry after 1 hour
+            1W          ; expire after 1 week
+            1D)         ; minimum TTL of 1 day
+
+
+                    IN	NS		  ns1.nahue.freeddns.org.
+                    IN	NS		  ns2.nahue.freeddns.org.
+                    IN	NS		  ns3.nahue.freeddns.org.
+                    IN	NS		  ns4.nahue.freeddns.org.
+    nahue.com.ar.	  IN	A	  	  213.195.115.29
+    www		    	  	IN 	CNAME	  nahue.com.ar.
+    mirrors		    	IN	CNAME	  nahue.com.ar.
+
+    ; Resource Record - veryfy the IP where your mails come from(disable if not needed)
+    ; @	IN TXT		"v=spf1 ip4:85.214.123.0/24 -all"
+
+    ; EOF
+  named.conf: |
+    options {
+            directory "/var/bind";
+
+            listen-on { any; };
+            listen-on-v6 { none; };
+
+            allow-transfer {
+                    none;
+            };
+
+            pid-file "/var/run/named/named.pid";
+
+            allow-recursion { none; };
+            recursion no;
+    };
+
+    zone "nahue.com.ar" IN {
+            type master;
+            file "/etc/bind/master/nahue.com.ar.zone";
+    };
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind-nahue
+  namespace: bind9
+  labels:
+    app: bind-nahue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind-nahue
+  template:
+    metadata:
+      labels:
+        app: bind-nahue
+    spec:
+      volumes:
+        - name: bind-nahue
+          configMap:
+            name: bind-nahue
+      containers:
+        - name: bind-nahue
+          image: npastorale/bind9
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 53
+          volumeMounts:
+            - name: bind-nahue
+              mountPath: /etc/bind/named.conf
+              subPath: named.conf
+            - name: bind-nahue
+              mountPath: /etc/bind/master/nahue.com.ar.zone
+              subPath: nahue.com.ar.zone

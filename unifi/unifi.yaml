@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: unifi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: unifi-config-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.1.2
+    path: "/share/k8s-volumes/unifi/unifi-config"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: unifi-config-pvc
+  namespace: unifi
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi
+  namespace: unifi
+spec:
+  type: LoadBalancer
+  selector:
+    app: unifi
+  ports:
+    - name: stun
+      protocol: UDP
+      port: 3478
+      targetPort: 3478
+    - name: ap-discovery
+      protocol: UDP
+      port: 10001
+      targetPort: 10001
+    - name: comms
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: web
+      protocol: TCP
+      port: 443
+      targetPort: 8443
+    - name: controller-discovery
+      protocol: UDP
+      port: 1900
+      targetPort: 1900
+    - name: guest-portal-https
+      protocol: TCP
+      port: 8843
+      targetPort: 8843
+    - name: guest-portal-http
+      protocol: TCP
+      port: 8880
+      targetPort: 8880
+    - name: throughput-test
+      protocol: TCP
+      port: 6789
+      targetPort: 6789
+    - name: syslog
+      protocol: UDP
+      port: 5514
+      targetPort: 5514
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi
+  namespace: unifi
+  labels:
+    app: unifi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unifi
+  template:
+    metadata:
+      labels:
+        app: unifi
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: unifi-config-pvc
+      containers:
+        - name: unifi
+          image: lscr.io/linuxserver/unifi-controller
+          imagePullPolicy: Always
+          env:
+            - name: PUID
+              value: "65534"
+            - name: GUID
+              value: "65534"
+          ports:
+            - containerPort: 3478
+            - containerPort: 10001
+            - containerPort: 8080
+            - containerPort: 8443
+            - containerPort: 1900
+            - containerPort: 8843
+            - containerPort: 8880
+            - containerPort: 6789
+            - containerPort: 5514
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: unifi-ingress
+  namespace: unifi
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+    - host: unifi.nahue.com.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: unifi
+                port:
+                  number: 443
