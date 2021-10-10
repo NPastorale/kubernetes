@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+spec:
+  selector:
+    matchLabels:
+      app: kuard
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+        - image: nginx
+          imagePullPolicy: Always
+          name: kuard
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/index.html
+              name: nginx-conf
+              subPath: index.html
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-index-html-configmap
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index-html-configmap
+data:
+  index.html: |
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <html>
+    <head>
+    <style>
+    h1 {text-align: center; font-size: 96px; color: red;}
+    p {text-align: center; font-size: 96px; color: orange;}
+    div {text-align: center;}
+    </style>
+    </head>
+    <body>
+
+    <div class="rainbow-text" style="text-align: center; font-size: 96px;">
+      <span class="block-line"><span><span style="color:#ff0000;">H</span><span style="color:#ffaa00;">o</span><span style="color:#aaff00;">l</span><span style="color:#00ff00;">a&nbsp;</span></span><span><span style="color:#00ffaa;">e</span><span style="color:#00aaff;">n</span><span style="color:#0000ff;">a</span><span style="color:#aa00ff;">n</span><span style="color:#ff00aa;">a</span></span></span>
+    </div>
+    <p>Ke acé che?</p>
+
+    </body>
+    </html>
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuard
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: kuard
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kuard
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-prod"
+
+spec:
+  tls:
+    - hosts:
+        - test.nahue.com.ar
+      secretName: quickstart-example-tls
+  rules:
+    - host: test.nahue.com.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kuard
+                port:
+                  number: 80
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: npastorale@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: npastorale@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
