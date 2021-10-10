@@ -121,7 +121,13 @@ kind: Ingress
 metadata:
   name: http-server-ingress
   namespace: archmirror
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
+  tls:
+    - hosts:
+        - mirrors.nahue.com.ar
+      secretName: linux-mirrors
   rules:
     - host: mirrors.nahue.com.ar
       http:
@@ -133,3 +139,45 @@ spec:
                 name: http-server
                 port:
                   number: 80
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+  namespace: archmirror
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: npastorale@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: archmirror
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: npastorale@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
