@@ -43,6 +43,7 @@ data:
     nahue.com.ar.	  IN	A	  	  213.195.115.29
     www		    	  	IN 	CNAME	  nahue.com.ar.
     mirrors		    	IN	CNAME	  nahue.com.ar.
+    test            IN  CNAME   nahue.com.ar.
 
     ; Resource Record - veryfy the IP where your mails come from(disable if not needed)
     ; @	IN TXT		"v=spf1 ip4:85.214.123.0/24 -all"
