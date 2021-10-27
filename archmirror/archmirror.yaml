@@ -73,8 +73,8 @@ spec:
             claimName: archmirror-pvc
       containers:
         - name: http-server
-          image: npastorale/archmirror-http-server
-          imagePullPolicy: Always
+          image: npastorale/archmirror-http-server:1.0.0
+          imagePullPolicy: IfNotPresent
           env:
             - name: TZ
               value: "Europe/Madrid"
@@ -105,7 +105,7 @@ spec:
                 claimName: archmirror-pvc
           containers:
             - name: rsync-client
-              image: npastorale/archmirror-rsync-client
+              image: npastorale/archmirror-rsync-client:1.0.0
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
