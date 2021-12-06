@@ -29,7 +29,7 @@ data:
     ; nahue.com.ar
     $TTL 3600
     nahue.com.ar. IN     SOA    nahue.freeddns.org. admin@nahue.com.ar. (
-            2021050101  ; Serial
+            2021112703  ; Serial
             3H          ; refresh after 3 hours
             1H          ; retry after 1 hour
             1W          ; expire after 1 week
@@ -40,10 +40,11 @@ data:
                     IN	NS		  ns2.nahue.freeddns.org.
                     IN	NS		  ns3.nahue.freeddns.org.
                     IN	NS		  ns4.nahue.freeddns.org.
-    nahue.com.ar.	  IN	A	  	  213.195.115.29
+    nahue.com.ar.	  IN	A	  	  213.195.112.85
     www		    	  	IN 	CNAME	  nahue.com.ar.
     mirrors		    	IN	CNAME	  nahue.com.ar.
     test            IN  CNAME   nahue.com.ar.
+    unifi           IN  CNAME   nahue.com.ar.
 
     ; Resource Record - veryfy the IP where your mails come from(disable if not needed)
     ; @	IN TXT		"v=spf1 ip4:85.214.123.0/24 -all"

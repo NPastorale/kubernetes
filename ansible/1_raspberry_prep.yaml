@@ -3,22 +3,22 @@
   become: true
   gather_facts: false
   tasks:
-    - name: Create the 'ubuntu' user
+    - name: Create the 'pi' user
       user:
-        name: ubuntu
+        name: pi
         state: present
         createhome: true
         shell: /bin/bash
 
-    - name: Allow 'ubuntu' to have passwordless sudo
+    - name: Allow 'pi' to have passwordless sudo
       lineinfile:
         dest: /etc/sudoers
-        line: "ubuntu ALL=(ALL) NOPASSWD: ALL"
+        line: "pi ALL=(ALL) NOPASSWD: ALL"
         validate: "visudo -cf %s"
 
-    - name: Set authorized key for ubuntu user
+    - name: Set authorized key for pi user
       authorized_key:
-        user: ubuntu
+        user: pi
         state: present
         key: "{{ lookup('file', '/home/nahue/.ssh/k8s-cluster.pub') }}"
 
@@ -36,7 +36,7 @@
 
     - name: Turn off status and activity lights
       blockinfile:
-        path: /boot/firmware/usercfg.txt
+        path: /boot/config.txt
         block: |
           [pi4]
           # Disable the PWR LED

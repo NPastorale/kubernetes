@@ -124,7 +124,7 @@ spec:
             claimName: unifi-config-pvc
       containers:
         - name: unifi
-          image: lscr.io/linuxserver/unifi-controller
+          image: lscr.io/linuxserver/unifi-controller:6.5.53
           imagePullPolicy: Always
           env:
             - name: PUID
@@ -153,8 +153,14 @@ metadata:
   name: unifi-ingress
   namespace: unifi
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - unifi.nahue.com.ar
+      secretName: unifi
   rules:
     - host: unifi.nahue.com.ar
       http:
