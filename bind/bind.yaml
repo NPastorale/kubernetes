@@ -7,14 +7,35 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bind-nahue
+  name: bind-nahue-udp
   namespace: bind9
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "dns"
 spec:
   type: LoadBalancer
+  loadBalancerIP: 192.168.1.151
   selector:
     app: bind-nahue
   ports:
     - protocol: UDP
+      port: 53
+      targetPort: 53
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind-nahue-tcp
+  namespace: bind9
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "dns"
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.151
+  selector:
+    app: bind-nahue
+  ports:
+    - protocol: TCP
       port: 53
       targetPort: 53
 
@@ -28,9 +49,9 @@ data:
   nahue.com.ar.zone: |
     ; nahue.com.ar
     $TTL 3600
-    nahue.com.ar. IN     SOA    nahue.freeddns.org. admin@nahue.com.ar. (
-            2022011201  ; Serial
-            3H          ; refresh after 3 hours
+    nahue.com.ar. IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
+            2022021601  ; Serial
+            1H          ; refresh after 1 hour
             1H          ; retry after 1 hour
             1W          ; expire after 1 week
             1D)         ; minimum TTL of 1 day
@@ -40,11 +61,11 @@ data:
                     IN	NS      ns2.nahue.freeddns.org.
                     IN	NS      ns3.nahue.freeddns.org.
                     IN	NS      ns4.nahue.freeddns.org.
-    nahue.com.ar.   IN  A       213.195.123.163
-    www             IN  CNAME   nahue.com.ar.
+    nahue.com.ar.   IN  A       213.195.117.9
     mirrors         IN  CNAME   nahue.com.ar.
-    test            IN  CNAME   nahue.com.ar.
     unifi           IN  CNAME   nahue.com.ar.
+    test            IN  CNAME   nahue.com.ar.
+    www             IN  CNAME   nahue.com.ar.
     nahue.com.ar.   CAA 1 issue "letsencrypt.org"
 
   named.conf: |
