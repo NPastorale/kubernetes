@@ -125,7 +125,7 @@ spec:
       containers:
         - name: unifi
           image: lscr.io/linuxserver/unifi-controller:6.5.55
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
             - name: PUID
               value: "65534"
