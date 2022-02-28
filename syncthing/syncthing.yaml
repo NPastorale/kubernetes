@@ -162,28 +162,28 @@ spec:
               readOnly: false
 
 ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: unifi-ingress
-#   namespace: unifi
-#   annotations:
-#     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-#     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-# spec:
-#   ingressClassName: nginx
-#   tls:
-#     - hosts:
-#         - unifi.nahue.com.ar
-#       secretName: unifi
-#   rules:
-#     - host: unifi.nahue.com.ar
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: unifi-tcp
-#                 port:
-#                   number: 443
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: syncthing-ingress
+  namespace: syncthing
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - sync.nahue.com.ar
+      secretName: syncthing
+  rules:
+    - host: sync.nahue.com.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: syncthing-tcp
+                port:
+                  number: 8384
