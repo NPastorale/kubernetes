@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: punga-dns
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: punga-dns-udp
+  namespace: punga-dns
+spec:
+  type: LoadBalancer
+  selector:
+    app: punga-dns
+  ports:
+    - protocol: UDP
+      port: 53
+      targetPort: 53
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: punga-dns
+  namespace: punga-dns
+data:
+  nahue.com.ar.zone: |
+    ; nahue.com.ar
+    $TTL 3600
+    nahue.com.ar. IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
+            202202801  ; Serial
+            1H          ; refresh after 1 hour
+            1H          ; retry after 1 hour
+            1W          ; expire after 1 week
+            1D)         ; minimum TTL of 1 day
+
+
+                    IN	NS      ns1.nahue.freeddns.org.
+                    IN	NS      ns2.nahue.freeddns.org.
+                    IN	NS      ns3.nahue.freeddns.org.
+                    IN	NS      ns4.nahue.freeddns.org.
+    @               IN  A       192.168.1.150
+    *               IN  CNAME   nahue.com.ar.
+
+  named.conf: |
+    options {
+            directory "/var/bind";
+
+            listen-on { any; };
+            listen-on-v6 { none; };
+
+            allow-transfer {
+                    none;
+            };
+
+            pid-file "/var/run/named/named.pid";
+
+            allow-recursion { none; };
+            recursion no;
+    };
+
+    zone "nahue.com.ar" IN {
+            type master;
+            file "/etc/bind/master/nahue.com.ar.zone";
+    };
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: punga-dns
+  namespace: punga-dns
+  labels:
+    app: punga-dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: punga-dns
+  template:
+    metadata:
+      labels:
+        app: punga-dns
+    spec:
+      volumes:
+        - name: punga-dns
+          configMap:
+            name: punga-dns
+      containers:
+        - name: punga-dns
+          image: npastorale/bind9
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 53
+          volumeMounts:
+            - name: punga-dns
+              mountPath: /etc/bind/named.conf
+              subPath: named.conf
+            - name: punga-dns
+              mountPath: /etc/bind/master/nahue.com.ar.zone
+              subPath: nahue.com.ar.zone

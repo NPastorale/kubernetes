@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: punga
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: punga-app
+  namespace: punga
+  labels:
+    app: punga-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: punga-app
+  template:
+    metadata:
+      labels:
+        app: punga-app
+    spec:
+      containers:
+        - name: punga-app
+          image: npastorale/http-echo
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: punga-service
+  namespace: punga
+spec:
+  type: ClusterIP
+  selector:
+    app: punga-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: punga-ingress
+  namespace: punga
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - sync.nahue.com.ar
+      secretName: syncthing-punga
+  rules:
+    - host: sync.nahue.com.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: punga-service
+                port:
+                  number: 80
