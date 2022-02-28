@@ -50,7 +50,7 @@ data:
     ; nahue.com.ar
     $TTL 3600
     nahue.com.ar. IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
-            2022021601  ; Serial
+            202202801  ; Serial
             1H          ; refresh after 1 hour
             1H          ; retry after 1 hour
             1W          ; expire after 1 week
@@ -66,6 +66,7 @@ data:
     unifi           IN  CNAME   nahue.com.ar.
     test            IN  CNAME   nahue.com.ar.
     www             IN  CNAME   nahue.com.ar.
+    sync            IN  CNAME   nahue.com.ar.
     nahue.com.ar.   CAA 1 issue "letsencrypt.org"
 
   named.conf: |
