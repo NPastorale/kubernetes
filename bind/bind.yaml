@@ -47,10 +47,9 @@ metadata:
   namespace: bind9
 data:
   nahue.com.ar.zone: |
-    ; nahue.com.ar
     $TTL 3600
     nahue.com.ar. IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
-            202202801  ; Serial
+            2022030109  ; Serial
             1H          ; refresh after 1 hour
             1H          ; retry after 1 hour
             1W          ; expire after 1 week
@@ -61,7 +60,7 @@ data:
                     IN	NS      ns2.nahue.freeddns.org.
                     IN	NS      ns3.nahue.freeddns.org.
                     IN	NS      ns4.nahue.freeddns.org.
-    nahue.com.ar.   IN  A       213.195.117.9
+    @               IN  A       213.195.117.90
     mirrors         IN  CNAME   nahue.com.ar.
     unifi           IN  CNAME   nahue.com.ar.
     test            IN  CNAME   nahue.com.ar.
