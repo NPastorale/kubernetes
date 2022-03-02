@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wireguard
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wireguard
+  name: wireguard
+  namespace: wireguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      containers:
+        - image: linuxserver/wireguard:1.0.20210914
+          name: wireguard
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wireguard
+  name: wireguard
+  namespace: wireguard
+spec:
+  ports:
+    - port: 51820
+      protocol: UDP
+      targetPort: 51820
+  selector:
+    app: wireguard
