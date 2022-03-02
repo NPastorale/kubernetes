@@ -39,7 +39,7 @@ spec:
             - name: SERVERPORT
               value: "51820"
             - name: PEERS
-              value: "10"
+              value: "S21,Legion"
             - name: ALLOWEDIPS
               value: "0.0.0.0/0"
 
