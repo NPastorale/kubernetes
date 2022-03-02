@@ -22,8 +22,21 @@ spec:
         app: wireguard
     spec:
       containers:
-        - image: linuxserver/wireguard:1.0.20210914
+        - image: linuxserver/wireguard
           name: wireguard
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: SERVERPORT
+              value: "51820"
+            - name: PEERS
+              value: "1"
+            - name: ALLOWEDIPS
+              value: "0.0.0.0/0"
 
 ---
 apiVersion: v1
