@@ -24,6 +24,11 @@ spec:
       containers:
         - image: linuxserver/wireguard
           name: wireguard
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
           env:
             - name: PUID
               value: "1000"
