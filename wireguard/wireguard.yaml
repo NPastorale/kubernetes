@@ -4,6 +4,37 @@ metadata:
   name: wireguard
 
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wireguard-config-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.1.2
+    path: "/share/k8s-volumes/wireguard/wireguard-config"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wireguard-config-pvc
+  namespace: wireguard
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,6 +52,10 @@ spec:
       labels:
         app: wireguard
     spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: wireguard-config-pvc
       containers:
         - image: linuxserver/wireguard
           name: wireguard
@@ -30,10 +65,6 @@ spec:
                 - NET_ADMIN
                 - SYS_MODULE
           env:
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
             - name: TZ
               value: "Europe/Madrid"
             - name: SERVERPORT
@@ -43,7 +74,13 @@ spec:
             - name: ALLOWEDIPS
               value: "0.0.0.0/0"
             - name: SERVERURL
-              value: "vpn.nahue.com.ar"
+              value: "nahue.com.ar"
+            - name: PEERDNS
+              value: "auto"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
 
 ---
 apiVersion: v1
@@ -54,6 +91,7 @@ metadata:
   name: wireguard
   namespace: wireguard
 spec:
+  type: LoadBalancer
   ports:
     - port: 51820
       protocol: UDP
