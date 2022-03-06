@@ -122,6 +122,16 @@ spec:
               value: "Europe/Madrid"
           ports:
             - containerPort: 53
+          livenessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
           volumeMounts:
             - name: bind-nahue
               mountPath: /etc/bind/named.conf
