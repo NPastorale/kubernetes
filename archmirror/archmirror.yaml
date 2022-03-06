@@ -80,6 +80,19 @@ spec:
               value: "Europe/Madrid"
           ports:
             - containerPort: 80
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /data/lastsync
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /lastsync
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
           volumeMounts:
             - name: data
               mountPath: /data
