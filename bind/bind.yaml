@@ -115,8 +115,8 @@ spec:
             name: bind-nahue
       containers:
         - name: bind-nahue
-          image: npastorale/bind9
-          imagePullPolicy: Always
+          image: npastorale/bind9:9.16.25
+          imagePullPolicy: IfNotPresent
           env:
             - name: TZ
               value: "Europe/Madrid"
