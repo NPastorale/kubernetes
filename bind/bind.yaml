@@ -67,6 +67,7 @@ data:
     www             IN  CNAME   nahue.com.ar.
     sync            IN  CNAME   nahue.com.ar.
     deluge          IN  CNAME   nahue.com.ar.
+    cygnus          IN  CNAME   nahue.com.ar.
     nahue.com.ar.   CAA 1 issue "letsencrypt.org"
 
   named.conf: |
