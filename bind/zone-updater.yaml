@@ -22,7 +22,7 @@ data:
     #############
 
     # Files to be modified
-    bindconfig=/etc/bind/master/nahue.com.ar.zone
+    bindconfig=/etc/bind/master/nahue.com.ar.external.zone
     tmpbindconfig=/tmp/zonefile
     cmyaml=/tmp/zonefile.yaml
 
@@ -64,7 +64,7 @@ data:
       then
         echo "Internet is reachable"
         echo "External IP and Bind IP are different"
-            cp $bindconfig $tmpbindconfig
+        cp $bindconfig $tmpbindconfig
         sed -i -e "s/$currbindip/$currextip/g" "$tmpbindconfig" # Replaces all the occurrences of current file IP found with the new IP on bindconfig
         echo "Updating IPs..."
         if [ "$currbindsersub" = "$currdate" ] # Compares the date within the current serial number against the current date
@@ -78,7 +78,7 @@ data:
 
             {
                 printf 'data:\n'
-                printf '  nahue.com.ar.zone: |\n'
+                printf '  nahue.com.ar.external.zone: |\n'
 
                 while IFS="" read -r line; do
                     echo "    $line"
@@ -131,8 +131,8 @@ spec:
                   mountPath: /etc/bind/named.conf
                   subPath: named.conf
                 - name: bind-nahue
-                  mountPath: /etc/bind/master/nahue.com.ar.zone
-                  subPath: nahue.com.ar.zone
+                  mountPath: /etc/bind/master/nahue.com.ar.external.zone
+                  subPath: nahue.com.ar.external.zone
                 - name: zone-update
                   mountPath: /main.bash
                   subPath: main.bash

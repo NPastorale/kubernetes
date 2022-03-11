@@ -46,7 +46,7 @@ metadata:
   name: bind-nahue
   namespace: bind9
 data:
-  nahue.com.ar.zone: |
+  nahue.com.ar.external.zone: |
     $TTL 3600
     nahue.com.ar. IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
             2022030109  ; Serial
@@ -70,7 +70,45 @@ data:
     cygnus          IN  CNAME   nahue.com.ar.
     nahue.com.ar.   CAA 1 issue "letsencrypt.org"
 
+  nahue.com.ar.internal.zone: |
+    $TTL 3600
+    nahue.com.ar.   IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
+            2022030901  ; Serial
+            1H          ; refresh after 1 hour
+            1H          ; retry after 1 hour
+            1W          ; expire after 1 week
+            1D)         ; minimum TTL of 1 day
+
+
+                    IN	NS      ns1.nahue.freeddns.org.
+                    IN	NS      ns2.nahue.freeddns.org.
+                    IN	NS      ns3.nahue.freeddns.org.
+                    IN	NS      ns4.nahue.freeddns.org.
+    @               IN  A       192.168.1.150
+    internal        IN  A       192.168.1.155
+    external        IN  CNAME   nahue.com.ar.
+    kmaster         IN  A       192.168.1.10
+    kworker1        IN  A       192.168.1.11
+    kworker2        IN  A       192.168.1.12
+    kworker3        IN  A       192.168.1.13
+    kworker4        IN  A       192.168.1.14
+    kworker5        IN  A       192.168.1.15
+    mirrors         IN  CNAME   external
+    test            IN  CNAME   external
+    www             IN  CNAME   external
+    unifi           IN  CNAME   internal
+    sync            IN  CNAME   internal
+    deluge          IN  CNAME   internal
+    cygnus          IN  CNAME   internal
+    librespeed      IN  CNAME   internal
+
   named.conf: |
+    acl "trusted" {
+        192.168.1.0/24;
+        localhost;
+        localnets;
+    };
+
     options {
             directory "/var/bind";
 
@@ -83,13 +121,27 @@ data:
 
             pid-file "/var/run/named/named.pid";
 
+            allow-query { any; };
             allow-recursion { none; };
             recursion no;
     };
 
-    zone "nahue.com.ar" IN {
+    view "internal" {
+        match-clients { "trusted"; };
+        allow-recursion { "trusted"; };
+        recursion yes;
+        zone "nahue.com.ar" {
             type master;
-            file "/etc/bind/master/nahue.com.ar.zone";
+            file "/etc/bind/master/nahue.com.ar.internal.zone";
+        };
+    };
+    view "external" {
+        match-clients { any; };
+        recursion no;
+        zone "test.example.com" {
+            type master;
+            file "/etc/bind/master/nahue.com.ar.external.zone";
+        };
     };
 
 ---
@@ -138,5 +190,8 @@ spec:
               mountPath: /etc/bind/named.conf
               subPath: named.conf
             - name: bind-nahue
-              mountPath: /etc/bind/master/nahue.com.ar.zone
-              subPath: nahue.com.ar.zone
+              mountPath: /etc/bind/master/nahue.com.ar.internal.zone
+              subPath: nahue.com.ar.internal.zone
+            - name: bind-nahue
+              mountPath: /etc/bind/master/nahue.com.ar.external.zone
+              subPath: nahue.com.ar.external.zone
