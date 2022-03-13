@@ -16,6 +16,7 @@ spec:
   loadBalancerIP: 192.168.1.151
   selector:
     app: bind-nahue
+  externalTrafficPolicy: Local
   ports:
     - protocol: UDP
       port: 53
@@ -34,6 +35,7 @@ spec:
   loadBalancerIP: 192.168.1.151
   selector:
     app: bind-nahue
+  externalTrafficPolicy: Local
   ports:
     - protocol: TCP
       port: 53
@@ -103,12 +105,6 @@ data:
     librespeed      IN  CNAME   internal
 
   named.conf: |
-    acl "trusted" {
-        192.168.1.0/24;
-        localhost;
-        localnets;
-    };
-
     options {
             directory "/var/bind";
 
@@ -126,22 +122,24 @@ data:
             recursion no;
     };
 
-    view "internal" {
-        match-clients { "trusted"; };
-        allow-recursion { "trusted"; };
-        recursion yes;
-        zone "nahue.com.ar" {
-            type master;
-            file "/etc/bind/master/nahue.com.ar.internal.zone";
-        };
-    };
-    view "external" {
-        match-clients { any; };
-        recursion no;
-        zone "test.example.com" {
+    zone "nahue.com.ar" IN {
             type master;
             file "/etc/bind/master/nahue.com.ar.external.zone";
+    };
+
+    logging {
+
+        channel stdout {
+            stderr;
+            severity info;
+            print-category yes;
+            print-severity yes;
+            print-time yes;
         };
+      category security { stdout; };
+      category dnssec   { stdout; };
+      category default  { stdout; };
+      category queries  { stdout; };
     };
 
 ---
