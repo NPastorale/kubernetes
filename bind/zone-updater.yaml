@@ -22,7 +22,7 @@ data:
     #############
 
     # Files to be modified
-    bindconfig=/etc/bind/master/nahue.com.ar.external.zone
+    bindconfig=/etc/bind/master/nahue.com.ar.zone
     tmpbindconfig=/tmp/zonefile
     cmyaml=/tmp/zonefile.yaml
 
@@ -78,15 +78,15 @@ data:
 
             {
                 printf 'data:\n'
-                printf '  nahue.com.ar.external.zone: |\n'
+                printf '  nahue.com.ar.zone: |\n'
 
                 while IFS="" read -r line; do
                     echo "    $line"
                 done
             } < $tmpbindconfig > $cmyaml
             #kubectl magic
-            kubectl patch configmap/bind-nahue -n bind9 --type merge --patch-file $cmyaml
-            kubectl rollout restart -n bind9 deployment bind-nahue
+            kubectl patch configmap/bind-external -n bind9 --type merge --patch-file $cmyaml
+            kubectl rollout restart -n bind9 deployment bind-external
 
       else
         echo "External IP and Bind IP match"
@@ -114,9 +114,9 @@ spec:
       template:
         spec:
           volumes:
-            - name: bind-nahue
+            - name: bind-external
               configMap:
-                name: bind-nahue
+                name: bind-external
             - name: zone-update
               configMap:
                 name: zone-update
@@ -127,12 +127,12 @@ spec:
               image: npastorale/kubectl:v1.23.4
               command: ["/main.bash"]
               volumeMounts:
-                - name: bind-nahue
+                - name: bind-external
                   mountPath: /etc/bind/named.conf
                   subPath: named.conf
-                - name: bind-nahue
-                  mountPath: /etc/bind/master/nahue.com.ar.external.zone
-                  subPath: nahue.com.ar.external.zone
+                - name: bind-external
+                  mountPath: /etc/bind/master/nahue.com.ar.zone
+                  subPath: nahue.com.ar.zone
                 - name: zone-update
                   mountPath: /main.bash
                   subPath: main.bash
