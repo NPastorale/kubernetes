@@ -7,15 +7,15 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bind-nahue-udp
+  name: bind-external-udp
   namespace: bind9
   annotations:
-    metallb.universe.tf/allow-shared-ip: "dns"
+    metallb.universe.tf/allow-shared-ip: "bind-external"
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.151
   selector:
-    app: bind-nahue
+    app: bind-external
   externalTrafficPolicy: Local
   ports:
     - protocol: UDP
@@ -26,15 +26,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bind-nahue-tcp
+  name: bind-external-tcp
   namespace: bind9
   annotations:
-    metallb.universe.tf/allow-shared-ip: "dns"
+    metallb.universe.tf/allow-shared-ip: "bind-external"
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.151
   selector:
-    app: bind-nahue
+    app: bind-external
   externalTrafficPolicy: Local
   ports:
     - protocol: TCP
@@ -45,16 +45,16 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: bind-nahue
+  name: bind-external
   namespace: bind9
 data:
-  nahue.com.ar.external.zone: |
+  nahue.com.ar.zone: |
     $TTL 3600
     nahue.com.ar. IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
-            2022030109  ; Serial
+            2022031502  ; Serial
             1H          ; refresh after 1 hour
             1H          ; retry after 1 hour
-            1W          ; expire after 1 week
+            2W          ; expire after 1 week
             1D)         ; minimum TTL of 1 day
 
 
@@ -72,10 +72,144 @@ data:
     cygnus          IN  CNAME   nahue.com.ar.
     nahue.com.ar.   CAA 1 issue "letsencrypt.org"
 
-  nahue.com.ar.internal.zone: |
+  named.conf: |
+    options {
+            directory "/var/bind";
+
+            listen-on { any; };
+            listen-on-v6 { none; };
+
+            dnssec-enable yes;
+
+            dnssec-validation auto;
+
+            allow-transfer {
+                    none;
+            };
+
+            pid-file "/var/run/named/named.pid";
+
+            allow-query { any; };
+            allow-recursion { none; };
+            recursion no;
+    };
+
+    zone "nahue.com.ar" IN {
+            type master;
+            file "/etc/bind/master/nahue.com.ar.zone";
+    };
+
+    logging {
+
+        channel stdout {
+            stderr;
+            severity info;
+            print-category yes;
+            print-severity yes;
+            print-time yes;
+        };
+      category security { stdout; };
+      category dnssec   { stdout; };
+      category default  { stdout; };
+      category queries  { stdout; };
+    };
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind-external
+  namespace: bind9
+  labels:
+    app: bind-external
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind-external
+  template:
+    metadata:
+      labels:
+        app: bind-external
+    spec:
+      volumes:
+        - name: bind-external
+          configMap:
+            name: bind-external
+      containers:
+        - name: bind-external
+          image: npastorale/bind9:9.16.25
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 53
+          livenessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          volumeMounts:
+            - name: bind-external
+              mountPath: /etc/bind/named.conf
+              subPath: named.conf
+            - name: bind-external
+              mountPath: /etc/bind/master/nahue.com.ar.zone
+              subPath: nahue.com.ar.zone
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind-internal-udp
+  namespace: bind9
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "bind-internal"
+spec:
+  type: LoadBalancer
+  selector:
+    app: bind-internal
+  internalTrafficPolicy: Local
+  ports:
+    - protocol: UDP
+      port: 53
+      targetPort: 53
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind-internal-tcp
+  namespace: bind9
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "bind-internal"
+spec:
+  type: LoadBalancer
+  selector:
+    app: bind-internal
+  internalTrafficPolicy: Local
+  ports:
+    - protocol: TCP
+      port: 53
+      targetPort: 53
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bind-internal
+  namespace: bind9
+data:
+  nahue.com.ar.zone: |
     $TTL 3600
     nahue.com.ar.   IN     SOA    ns1.nahue.freeddns.org. admin@nahue.com.ar. (
-            2022030901  ; Serial
+            2022031501  ; Serial
             1H          ; refresh after 1 hour
             1H          ; retry after 1 hour
             1W          ; expire after 1 week
@@ -105,6 +239,12 @@ data:
     librespeed      IN  CNAME   internal
 
   named.conf: |
+    acl internal {
+      10.0.0.0/8;
+      172.16.0.0/12;
+      192.168.0.0/16;
+    };
+
     options {
             directory "/var/bind";
 
@@ -118,13 +258,13 @@ data:
             pid-file "/var/run/named/named.pid";
 
             allow-query { any; };
-            allow-recursion { none; };
-            recursion no;
+            allow-recursion { internal; };
+            recursion yes;
     };
 
     zone "nahue.com.ar" IN {
             type master;
-            file "/etc/bind/master/nahue.com.ar.external.zone";
+            file "/etc/bind/master/nahue.com.ar.zone";
     };
 
     logging {
@@ -146,26 +286,26 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bind-nahue
+  name: bind-internal
   namespace: bind9
   labels:
-    app: bind-nahue
+    app: bind-internal
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bind-nahue
+      app: bind-internal
   template:
     metadata:
       labels:
-        app: bind-nahue
+        app: bind-internal
     spec:
       volumes:
-        - name: bind-nahue
+        - name: bind-internal
           configMap:
-            name: bind-nahue
+            name: bind-internal
       containers:
-        - name: bind-nahue
+        - name: bind-internal
           image: npastorale/bind9:9.16.25
           imagePullPolicy: IfNotPresent
           env:
@@ -184,12 +324,9 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 3
           volumeMounts:
-            - name: bind-nahue
+            - name: bind-internal
               mountPath: /etc/bind/named.conf
               subPath: named.conf
-            - name: bind-nahue
-              mountPath: /etc/bind/master/nahue.com.ar.internal.zone
-              subPath: nahue.com.ar.internal.zone
-            - name: bind-nahue
-              mountPath: /etc/bind/master/nahue.com.ar.external.zone
-              subPath: nahue.com.ar.external.zone
+            - name: bind-internal
+              mountPath: /etc/bind/master/nahue.com.ar.zone
+              subPath: nahue.com.ar.zone
