@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rsync-client
+  namespace: archmirror
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 4
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: archmirror-pvc
+          containers:
+            - name: rsync-client
+              image: npastorale/archmirror-rsync-client:3.2.3
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: TZ
+                  value: "Europe/Madrid"
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+          restartPolicy: OnFailure

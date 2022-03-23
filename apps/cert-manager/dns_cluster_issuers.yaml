@@ -1,0 +1,48 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: npastorale@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - dns01:
+          rfc2136:
+            nameserver: 192.168.1.151
+            tsigKeyName: ddns-key
+            tsigAlgorithm: HMACSHA512
+            tsigSecretSecretRef:
+              name: ddns-key
+              key: ddns-key
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: npastorale@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the DNS-01 challenge provider
+    solvers:
+      - dns01:
+          rfc2136:
+            nameserver: 192.168.1.151
+            tsigKeyName: ddns-key
+            tsigAlgorithm: HMACSHA512
+            tsigSecretSecretRef:
+              name: ddns-key
+              key: ddns-key

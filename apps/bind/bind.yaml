@@ -64,15 +64,15 @@ data:
                     IN	NS      ns4.nahue.freeddns.org.
     @               IN  A       213.195.117.90
     mirrors         IN  CNAME   nahue.com.ar.
-    unifi           IN  CNAME   nahue.com.ar.
     test            IN  CNAME   nahue.com.ar.
     www             IN  CNAME   nahue.com.ar.
-    sync            IN  CNAME   nahue.com.ar.
-    deluge          IN  CNAME   nahue.com.ar.
-    cygnus          IN  CNAME   nahue.com.ar.
     nahue.com.ar.   CAA 1 issue "letsencrypt.org"
 
   named.conf: |
+    key "ddns-key" {
+        algorithm hmac-sha512;
+        secret "lQNGNszQkEQ6edBEfhKVKyyWLBhb1OosGGnpZPXK3vfkpJlCDw0hhzzcRDG6MHrE/+Yp5eFP1mi/i9V64z25tA==";
+    };
     options {
             directory "/var/bind";
 
@@ -97,6 +97,9 @@ data:
     zone "nahue.com.ar" IN {
             type master;
             file "/etc/bind/master/nahue.com.ar.zone";
+            update-policy {
+              grant ddns-key zonesub ANY;
+            };
     };
 
     logging {
