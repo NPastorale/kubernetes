@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps/archmirror
+  name: archmirror
   namespace: argocd
 spec:
   destination:
-    namespace: archmirror
+    namespace: mirrors
     server: https://kubernetes.default.svc
-  project: default
+  project: mirrors
   source:
-    path: archmirror
+    path: apps/archmirror
     repoURL: git@github.com:NPastorale/kubernetes.git
     targetRevision: HEAD
   syncPolicy:

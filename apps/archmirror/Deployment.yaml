@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: http-server
-  namespace: archmirror
   labels:
     app: http-server
 spec:
