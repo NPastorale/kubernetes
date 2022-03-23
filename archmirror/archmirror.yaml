@@ -12,6 +12,7 @@ metadata:
     type: local
 spec:
   storageClassName: manual
+  persistentVolumeReclaimPolicy: Retain
   capacity:
     storage: 100Gi
   accessModes:
