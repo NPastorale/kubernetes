@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind-external
+  labels:
+    app: bind-external
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind-external
+  template:
+    metadata:
+      labels:
+        app: bind-external
+    spec:
+      volumes:
+        - name: bind-external
+          configMap:
+            name: bind-external
+      containers:
+        - name: bind-external
+          image: npastorale/bind9:9.16.25
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 53
+          livenessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          volumeMounts:
+            - name: bind-external
+              mountPath: /etc/bind/named.conf
+              subPath: named.conf
+            - name: bind-external
+              mountPath: /etc/bind/master/nahue.com.ar.zone
+              subPath: nahue.com.ar.zone

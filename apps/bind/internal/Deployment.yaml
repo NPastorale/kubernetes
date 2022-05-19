@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind-internal
+  labels:
+    app: bind-internal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bind-internal
+  template:
+    metadata:
+      labels:
+        app: bind-internal
+    spec:
+      volumes:
+        - name: bind-internal
+          configMap:
+            name: bind-internal
+      containers:
+        - name: bind-internal
+          image: npastorale/bind9:9.16.25
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 53
+          livenessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          volumeMounts:
+            - name: bind-internal
+              mountPath: /etc/bind/named.conf
+              subPath: named.conf
+            - name: bind-internal
+              mountPath: /etc/bind/master/nahue.com.ar.zone
+              subPath: nahue.com.ar.zone

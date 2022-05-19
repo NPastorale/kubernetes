@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: bind-kubectl
+spec:
+  schedule: "* * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 4
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: bind-external
+              configMap:
+                name: bind-external
+            - name: zone-update
+              configMap:
+                name: zone-update
+                defaultMode: 0755
+          serviceAccountName: bind-kubectl
+          containers:
+            - name: bind-kubectl
+              image: npastorale/kubectl:v1.23.4
+              command: ["/main.bash"]
+              volumeMounts:
+                - name: bind-external
+                  mountPath: /etc/bind/named.conf
+                  subPath: named.conf
+                - name: bind-external
+                  mountPath: /etc/bind/master/nahue.com.ar.zone
+                  subPath: nahue.com.ar.zone
+                - name: zone-update
+                  mountPath: /main.bash
+                  subPath: main.bash
+          restartPolicy: OnFailure

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: deluge-config-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.1.2
+    path: "/share/k8s-volumes/deluge/deluge-config"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: deluge-data-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5000Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.1.2
+    path: "/share/k8s-volumes/deluge/deluge-data"

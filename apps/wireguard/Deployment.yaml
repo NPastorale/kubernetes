@@ -1,47 +1,9 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: wireguard
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: wireguard-config-pv
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.1.2
-    path: "/share/k8s-volumes/wireguard/wireguard-config"
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: wireguard-config-pvc
-  namespace: wireguard
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: wireguard
   name: wireguard
-  namespace: wireguard
 spec:
   replicas: 1
   selector:
@@ -81,20 +43,3 @@ spec:
             - name: config
               mountPath: /config
               readOnly: false
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: wireguard
-  name: wireguard
-  namespace: wireguard
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 51820
-      protocol: UDP
-      targetPort: 51820
-  selector:
-    app: wireguard

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi
+  labels:
+    app: unifi
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: unifi
+  template:
+    metadata:
+      labels:
+        app: unifi
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: unifi-config-pvc
+      containers:
+        - name: unifi
+          image: lscr.io/linuxserver/unifi-controller:7.1.61
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "65534"
+            - name: GUID
+              value: "65534"
+          ports:
+            - containerPort: 3478
+            - containerPort: 10001
+            - containerPort: 8080
+            - containerPort: 8443
+            - containerPort: 1900
+            - containerPort: 8843
+            - containerPort: 8880
+            - containerPort: 6789
+            - containerPort: 5514
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false

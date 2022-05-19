@@ -16,7 +16,7 @@ spec:
                 claimName: archmirror-pvc
           containers:
             - name: rsync-client
-              image: npastorale/archmirror-rsync-client:3.2.3
+              image: npastorale/archmirror-rsync-client:3.2.3-alpine3.15.4
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
