@@ -1,18 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cygnus
+  name: unifi
   namespace: argocd
 spec:
   destination:
-    namespace: default
+    namespace: unifi
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/cygnus
+    path: apps/unifi
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

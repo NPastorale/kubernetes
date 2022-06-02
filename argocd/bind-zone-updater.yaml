@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bind
+  name: bind-zone-updater
   namespace: argocd
 spec:
   destination:
@@ -9,8 +9,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/bind
-    repoURL: git@github.com:NPastorale/kubernetes.git
+    path: apps/bind/zone-updater
+    repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
     automated:
