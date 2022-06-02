@@ -8,6 +8,7 @@ spec:
   successfulJobsHistoryLimit: 4
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 840
       template:
         spec:
           volumes:
