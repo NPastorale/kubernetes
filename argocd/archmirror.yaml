@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     path: apps/archmirror
-    repoURL: git@github.com:NPastorale/kubernetes.git
+    repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
     automated:
