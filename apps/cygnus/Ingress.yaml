@@ -4,7 +4,7 @@ metadata:
   name: cygnus
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: internal-nginx
   tls:
@@ -21,4 +21,4 @@ spec:
               service:
                 name: cygnus
                 port:
-                  number: 80
+                  number: 443
