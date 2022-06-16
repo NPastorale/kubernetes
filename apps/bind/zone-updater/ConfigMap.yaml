@@ -26,7 +26,7 @@ data:
     cmyaml=/tmp/zonefile.yaml
 
     # Current external IP
-    currextip=$(curl -v --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 'https://ifconfig.me' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+    currextip=$(curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 'https://ifconfig.me' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
 
     # Current bind config file IP
     currbindip=$(grep -Eo '([0-9]*\.){3}[0-9]*' $bindconfig)
