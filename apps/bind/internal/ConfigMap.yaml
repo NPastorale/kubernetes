@@ -20,10 +20,19 @@ data:
             allow-query { any; };
             allow-recursion { internal; };
             recursion yes;
+
+            response-policy { 
+                zone "rpz.local"; 
+            };
     };
     zone "nahue.com.ar" IN {
             type master;
             file "/etc/bind/master/nahue.com.ar.zone";
+    };
+
+    zone "rpz.local" {
+        type master;
+        file "/etc/bind/master/rpz.local.zone";
     };
     logging {
         channel stdout {
