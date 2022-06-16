@@ -22,11 +22,9 @@ data:
 
     # Files to be modified
     bindconfig=/etc/bind/master/nahue.com.ar.zone
-    tmpbindconfig=/tmp/zonefile
-    cmyaml=/tmp/zonefile.yaml
 
     # Current external IP
-    currextip=$(curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 'https://ifconfig.me' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+    currextip=$(curl -s --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 'https://ifconfig.me' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
 
     # Current bind config file IP
     currbindip=$(grep -Eo '([0-9]*\.){3}[0-9]*' $bindconfig)
@@ -63,29 +61,16 @@ data:
       then
         echo "Internet is reachable"
         echo "External IP and Bind IP are different"
-        cp $bindconfig $tmpbindconfig
-        sed -i -e "s/$currbindip/$currextip/g" "$tmpbindconfig" # Replaces all the occurrences of current file IP found with the new IP on bindconfig
+        sed -i -e "s/$currbindip/$currextip/g" "$bindconfig" # Replaces all the occurrences of current file IP found with the new IP on bindconfig
         echo "Updating IPs..."
         if [ "$currbindsersub" = "$currdate" ] # Compares the date within the current serial number against the current date
         then
-          sed -i -e "s/$currbindser/$newserial1/g" "$tmpbindconfig" # Adds one to the current serial on bindconfig
+          sed -i -e "s/$currbindser/$newserial1/g" "$bindconfig" # Adds one to the current serial on bindconfig
           echo "Serial is from the same date. Adding one..."
         else
-          sed -i -e "s/$currbindser/$newserial/g" "$tmpbindconfig" # Replaces the old serial with the new one on bindconfig
+          sed -i -e "s/$currbindser/$newserial/g" "$bindconfig" # Replaces the old serial with the new one on bindconfig
           echo "Serial is from different date. Changing serial..."
-        fi
-
-            {
-                printf 'data:\n'
-                printf '  nahue.com.ar.zone: |\n'
-
-                while IFS="" read -r line; do
-                    echo "    $line"
-                done
-            } < $tmpbindconfig > $cmyaml
-            #kubectl magic
-            kubectl patch configmap/bind-external -n bind9 --type merge --patch-file $cmyaml
-            kubectl rollout restart -n bind9 deployment bind-external
+        kubectl rollout restart -n bind9 deployment bind-external
 
       else
         echo "External IP and Bind IP match"
