@@ -18,6 +18,9 @@ spec:
         - name: bind-internal
           configMap:
             name: bind-internal
+        - name: config
+          persistentVolumeClaim:
+            claimName: bind-internal-config-pvc
       containers:
         - name: bind-internal
           image: npastorale/bind9:9.16.25
@@ -41,6 +44,9 @@ spec:
             - name: bind-internal
               mountPath: /etc/bind/named.conf
               subPath: named.conf
-            - name: bind-internal
-              mountPath: /etc/bind/master/nahue.com.ar.zone
-              subPath: nahue.com.ar.zone
+            # - name: bind-internal
+            #   mountPath: /etc/bind/master/nahue.com.ar.zone
+            #   subPath: nahue.com.ar.zone
+            - name: config
+              mountPath: /etc/bind/master
+              readOnly: false

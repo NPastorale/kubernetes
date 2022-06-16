@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bind-internal-config-pvc
+spec:
+  storageClassName: manual
+  volumeName: bind-internal-config-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
