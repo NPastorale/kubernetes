@@ -4,6 +4,7 @@ metadata:
   name: unifi-config-pvc
 spec:
   storageClassName: manual
+  volumeName: unifi-config-pv
   accessModes:
     - ReadWriteMany
   resources:

@@ -10,6 +10,9 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
+  claimRef:
+    name: syncthing-config-pvc
+    namespace: syncthing
   nfs:
     server: 192.168.1.2
     path: "/share/k8s-volumes/syncthing/syncthing-config"
@@ -27,6 +30,9 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
+  claimRef:
+    name: syncthing-data-pvc
+    namespace: syncthing
   nfs:
     server: 192.168.1.2
     path: "/share/k8s-volumes/syncthing/syncthing-data"

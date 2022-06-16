@@ -4,6 +4,7 @@ metadata:
   name: wireguard-config-pvc
 spec:
   storageClassName: manual
+  volumeName: wireguard-config-pv
   accessModes:
     - ReadWriteMany
   resources:

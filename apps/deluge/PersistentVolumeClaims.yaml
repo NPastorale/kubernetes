@@ -4,6 +4,7 @@ metadata:
   name: deluge-config-pvc
 spec:
   storageClassName: manual
+  volumeName: deluge-config-pv
   accessModes:
     - ReadWriteMany
   resources:
@@ -17,6 +18,7 @@ metadata:
   name: deluge-data-pvc
 spec:
   storageClassName: manual
+  volumeName: deluge-data-pv
   accessModes:
     - ReadWriteMany
   resources:

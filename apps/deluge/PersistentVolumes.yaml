@@ -10,6 +10,9 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
+  claimRef:
+    name: deluge-config-pvc
+    namespace: deluge
   nfs:
     server: 192.168.1.2
     path: "/share/k8s-volumes/deluge/deluge-config"
@@ -27,6 +30,9 @@ spec:
     storage: 5000Gi
   accessModes:
     - ReadWriteMany
+  claimRef:
+    name: deluge-data-pvc
+    namespace: deluge
   nfs:
     server: 192.168.1.2
     path: "/share/k8s-volumes/deluge/deluge-data"
