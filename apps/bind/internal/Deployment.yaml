@@ -44,9 +44,6 @@ spec:
             - name: bind-internal
               mountPath: /etc/bind/named.conf
               subPath: named.conf
-            # - name: bind-internal
-            #   mountPath: /etc/bind/master/nahue.com.ar.zone
-            #   subPath: nahue.com.ar.zone
             - name: config
               mountPath: /etc/bind/master
               readOnly: false
