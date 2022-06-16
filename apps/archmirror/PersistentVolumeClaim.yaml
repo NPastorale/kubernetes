@@ -4,6 +4,7 @@ metadata:
   name: archmirror-pvc
 spec:
   storageClassName: manual
+  volumeName: archmirror-pv
   accessModes:
     - ReadWriteMany
   resources:

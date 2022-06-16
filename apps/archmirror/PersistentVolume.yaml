@@ -11,6 +11,8 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
+  claimRef:
+    name: archmirror-pvc
   nfs:
     server: 192.168.1.2
     path: "/share/Archmirror_data/Data"
