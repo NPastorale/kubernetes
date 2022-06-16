@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-ingress
+  namespace: argocd
+spec:
+  destination:
+    namespace: external-ingress-nginx
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: ingress-nginx
+    helm:
+      parameters:
+        - name: controller.ingressClassResource.controllerValue
+          value: k8s.io/external-nginx
+        - name: controller.ingressClassResource.name
+          value: external-nginx
+        - name: controller.ingressClassResource.default
+          value: "true"
+        - name: controller.ingressClassByName
+          value: "true"
+        - name: controller.config.hsts-max-age
+          value: "31536000"
+        - name: controller.config.hsts-preload
+          value: "true"
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.1.3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
