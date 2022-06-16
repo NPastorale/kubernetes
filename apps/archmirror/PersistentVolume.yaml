@@ -13,6 +13,7 @@ spec:
     - ReadWriteMany
   claimRef:
     name: archmirror-pvc
+    namespace: archmirror
   nfs:
     server: 192.168.1.2
     path: "/share/Archmirror_data/Data"
