@@ -70,6 +70,7 @@ data:
         else
           sed -i -e "s/$currbindser/$newserial/g" "$bindconfig" # Replaces the old serial with the new one on bindconfig
           echo "Serial is from different date. Changing serial..."
+        fi
         kubectl rollout restart -n bind9 deployment bind-external
 
       else
