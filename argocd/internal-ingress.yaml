@@ -18,6 +18,8 @@ spec:
           value: internal-nginx
         - name: controller.ingressClassByName
           value: "true"
+        - name: controller.service.loadBalancerIP
+          value: "192.168.1.153"
     repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: 4.1.3
   syncPolicy:
