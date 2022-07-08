@@ -51,7 +51,7 @@ metadata:
 spec:
   ingressClassName: internal-nginx
   rules:
-    - host: librespeed.nahue.com.ar
+    - host: librespeed.nahue.ar
       http:
         paths:
           - path: /

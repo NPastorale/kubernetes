@@ -1,5 +1,5 @@
 [masters]
-kmaster.nahue.com.ar ansible_user=pi
+kmaster.nahue.ar ansible_user=pi
 
 [workers]
-kworker[1:5].nahue.com.ar ansible_user=pi
+kworker[1:5].nahue.ar ansible_user=pi

@@ -9,10 +9,10 @@ spec:
   ingressClassName: internal-nginx
   tls:
     - hosts:
-        - cygnus.nahue.com.ar
+        - cygnus.nahue.ar
       secretName: cygnus
   rules:
-    - host: cygnus.nahue.com.ar
+    - host: cygnus.nahue.ar
       http:
         paths:
           - path: /

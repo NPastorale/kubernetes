@@ -31,5 +31,5 @@ spec:
               mountPath: /etc/bind/named.conf
               subPath: named.conf
             - name: bind-nahue
-              mountPath: /etc/bind/master/nahue.com.ar.zone
-              subPath: nahue.com.ar.zone
+              mountPath: /etc/bind/master/nahue.ar.zone
+              subPath: nahue.ar.zone

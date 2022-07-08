@@ -43,7 +43,7 @@
   any_errors_fatal: true
   tasks:
     - name: Join cluster
-      shell: "{{ hostvars['kmaster.nahue.com.ar'].join_command }} >> node_joined.txt"
+      shell: "{{ hostvars['kmaster.nahue.ar'].join_command }} >> node_joined.txt"
       args:
         chdir: $HOME
         creates: node_joined.txt

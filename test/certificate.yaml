@@ -8,4 +8,4 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - "pepito.nahue.com.ar"
+    - "pepito.nahue.ar"

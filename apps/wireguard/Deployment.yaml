@@ -36,7 +36,7 @@ spec:
             - name: ALLOWEDIPS
               value: "0.0.0.0/0"
             - name: SERVERURL
-              value: "nahue.com.ar"
+              value: "nahue.ar"
             - name: PEERDNS
               value: "auto"
           volumeMounts:

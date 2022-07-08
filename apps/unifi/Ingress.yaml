@@ -9,10 +9,10 @@ spec:
   ingressClassName: internal-nginx
   tls:
     - hosts:
-        - unifi.nahue.com.ar
+        - unifi.nahue.ar
       secretName: unifi
   rules:
-    - host: unifi.nahue.com.ar
+    - host: unifi.nahue.ar
       http:
         paths:
           - path: /

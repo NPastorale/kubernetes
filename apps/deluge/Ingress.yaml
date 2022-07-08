@@ -8,10 +8,10 @@ spec:
   ingressClassName: internal-nginx
   tls:
     - hosts:
-        - deluge.nahue.com.ar
+        - deluge.nahue.ar
       secretName: deluge
   rules:
-    - host: deluge.nahue.com.ar
+    - host: deluge.nahue.ar
       http:
         paths:
           - path: /

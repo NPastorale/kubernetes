@@ -22,7 +22,7 @@ data:
     #############
 
     # Files to be modified
-    bindconfig=/etc/bind/master/nahue.com.ar.zone
+    bindconfig=/etc/bind/master/nahue.ar.zone
     tmpbindconfig=/tmp/zonefile
     cmyaml=/tmp/zonefile.yaml
 
@@ -78,7 +78,7 @@ data:
 
             {
                 printf 'data:\n'
-                printf '  nahue.com.ar.zone: |\n'
+                printf '  nahue.ar.zone: |\n'
 
                 while IFS="" read -r line; do
                     echo "    $line"
@@ -131,8 +131,8 @@ spec:
                   mountPath: /etc/bind/named.conf
                   subPath: named.conf
                 - name: bind-nahue
-                  mountPath: /etc/bind/master/nahue.com.ar.zone
-                  subPath: nahue.com.ar.zone
+                  mountPath: /etc/bind/master/nahue.ar.zone
+                  subPath: nahue.ar.zone
                 - name: zone-update
                   mountPath: /main.bash
                   subPath: main.bash

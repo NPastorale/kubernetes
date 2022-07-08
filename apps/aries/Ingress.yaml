@@ -9,10 +9,10 @@ spec:
   ingressClassName: internal-nginx
   tls:
     - hosts:
-        - aries.nahue.com.ar
+        - aries.nahue.ar
       secretName: aries
   rules:
-    - host: aries.nahue.com.ar
+    - host: aries.nahue.ar
       http:
         paths:
           - path: /

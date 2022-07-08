@@ -25,9 +25,9 @@ data:
                 zone "rpz.local"; 
             };
     };
-    zone "nahue.com.ar" IN {
+    zone "nahue.ar" IN {
             type master;
-            file "/etc/bind/master/nahue.com.ar.zone";
+            file "/etc/bind/master/nahue.ar.zone";
     };
 
     zone "rpz.local" {

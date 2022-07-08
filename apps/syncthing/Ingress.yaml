@@ -9,10 +9,10 @@ spec:
   ingressClassName: internal-nginx
   tls:
     - hosts:
-        - sync.nahue.com.ar
+        - sync.nahue.ar
       secretName: syncthing
   rules:
-    - host: sync.nahue.com.ar
+    - host: sync.nahue.ar
       http:
         paths:
           - path: /

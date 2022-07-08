@@ -21,7 +21,7 @@ data:
     #############
 
     # Files to be modified
-    bindconfig=/etc/bind/master/nahue.com.ar.zone
+    bindconfig=/etc/bind/master/nahue.ar.zone
 
     # Current external IP
     currextip=$(curl -s --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 'https://ifconfig.me' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')

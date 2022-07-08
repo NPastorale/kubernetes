@@ -8,12 +8,12 @@ spec:
   ingressClassName: external-nginx
   tls:
     - hosts:
-        - mirrors.nahue.com.ar
-        - www.nahue.com.ar
-        - nahue.com.ar
+        - mirrors.nahue.ar
+        - www.nahue.ar
+        - nahue.ar
       secretName: mirrors
   rules:
-    - host: mirrors.nahue.com.ar
+    - host: mirrors.nahue.ar
       http:
         paths:
           - path: /
@@ -23,7 +23,7 @@ spec:
                 name: http-server
                 port:
                   number: 80
-    - host: www.nahue.com.ar
+    - host: www.nahue.ar
       http:
         paths:
           - path: /
@@ -33,7 +33,7 @@ spec:
                 name: http-server
                 port:
                   number: 80
-    - host: nahue.com.ar
+    - host: nahue.ar
       http:
         paths:
           - path: /
