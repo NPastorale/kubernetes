@@ -20,7 +20,7 @@ spec:
             claimName: archmirror-pvc
       containers:
         - name: http-server
-          image: npastorale/archmirror-http-server:1.21.6
+          image: npastorale/archmirror-http-server:1.22.0
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
