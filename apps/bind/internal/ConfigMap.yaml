@@ -45,3 +45,7 @@ data:
       category default  { stdout; };
       category queries  { stdout; };
     };
+    // disable lookup over IPv6
+    server ::/0 {
+            bogus yes;
+    };
