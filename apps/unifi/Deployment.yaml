@@ -22,7 +22,7 @@ spec:
             claimName: unifi-config-pvc
       containers:
         - name: unifi
-          image: lscr.io/linuxserver/unifi-controller:7.1.61
+          image: lscr.io/linuxserver/unifi-controller:7.2.92
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
