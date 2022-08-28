@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lancache
+  labels:
+    app: lancache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lancache
+  template:
+    metadata:
+      labels:
+        app: lancache
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: lancache-pvc
+      containers:
+        - name: lancache
+          image: npastorale/monolithic
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: FORCE_PERMS_CHECK
+              value: "true"
+          # ports:
+          #   - containerPort: 80
+          volumeMounts:
+            - name: data
+              mountPath: /data/cache
+              readOnly: false

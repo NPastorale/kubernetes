@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: joke
+  labels:
+    app: joke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: joke
+  template:
+    metadata:
+      labels:
+        app: joke
+    spec:
+      containers:
+        - name: joke
+          image: npastorale/joke
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

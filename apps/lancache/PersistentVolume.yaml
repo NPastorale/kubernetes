@@ -1,18 +1,19 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: bind-external-config-pv
+  name: lancache-pv
   labels:
     type: local
 spec:
   storageClassName: manual
+  persistentVolumeReclaimPolicy: Retain
   capacity:
-    storage: 1Gi
+    storage: 4Ti
   accessModes:
     - ReadWriteMany
   claimRef:
-    name: bind-external-config-pvc
-    namespace: bind9
+    name: lancache-pvc
+    namespace: lancache
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/bind-external/bind-external-config"
+    path: "/share/Cache/Data"

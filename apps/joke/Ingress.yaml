@@ -1,24 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: unifi-ingress
+  name: joke
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: internal-nginx
+  ingressClassName: external-nginx
   tls:
     - hosts:
-        - unifi.nahue.ar
-      secretName: unifi
+        - elverdaderorey.nahue.ar
+      secretName: joke
   rules:
-    - host: unifi.nahue.ar
+    - host: elverdaderorey.nahue.ar
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: unifi-tcp
+                name: joke
                 port:
-                  number: 443
+                  number: 80
