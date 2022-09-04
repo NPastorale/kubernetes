@@ -13,11 +13,14 @@ data:
             directory "/var/bind";
             listen-on { any; };
             listen-on-v6 { none; };
-            allow-transfer { any; };
+            allow-transfer { internal; };
             pid-file "/var/run/named/named.pid";
             allow-query { any; };
             allow-recursion { internal; };
             recursion yes;
+
+            notify yes;
+            also-notify { 192.168.1.1; };
 
             response-policy { 
                 zone "rpz.local"; 
