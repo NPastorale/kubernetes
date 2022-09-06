@@ -25,7 +25,7 @@ spec:
             claimName: syncthing-data-pvc
       containers:
         - name: syncthing
-          image: lscr.io/linuxserver/syncthing:1.19.1
+          image: lscr.io/linuxserver/syncthing:1.21.0
           imagePullPolicy: IfNotPresent
           env:
             - name: hostname
