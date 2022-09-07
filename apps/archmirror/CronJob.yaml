@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: rsync-client
 spec:
-  schedule: "*/15 * * * *"
+  schedule: "*/5 * * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 4
   jobTemplate:
