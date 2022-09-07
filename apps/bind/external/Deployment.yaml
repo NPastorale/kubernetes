@@ -24,7 +24,7 @@ spec:
             claimName: bind-external-config-pvc
       containers:
         - name: bind-external
-          image: npastorale/bind9:9.16.29
+          image: npastorale/bind9:9.16.29-0
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ

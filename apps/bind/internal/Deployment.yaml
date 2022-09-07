@@ -24,7 +24,7 @@ spec:
             claimName: bind-internal-config-pvc
       containers:
         - name: bind-internal
-          image: npastorale/bind9:9.16.29
+          image: npastorale/bind9:9.16.29-0
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
