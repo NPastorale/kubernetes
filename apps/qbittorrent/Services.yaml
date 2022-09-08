@@ -5,7 +5,7 @@ metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: "qbittorrent"
 spec:
-  type: LoadBalancer
+  type: NodePort
   loadBalancerIP: 192.168.1.162
   selector:
     app: qbittorrent
@@ -27,7 +27,7 @@ metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: "qbittorrent"
 spec:
-  type: LoadBalancer
+  type: NodePort
   loadBalancerIP: 192.168.1.162
   selector:
     app: qbittorrent
