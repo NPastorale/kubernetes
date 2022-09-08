@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  labels:
+    app: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: qbittorrent-data-pvc
+      containers:
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:4.4.5
+          ports:
+            - containerPort: 8080
+            - containerPort: 6881
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1001"
+            - name: GUID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: WEBUI_PORT
+              value: "8080"
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: 58846
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: 58846
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 5
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+            - name: data
+              mountPath: /downloads
+              readOnly: false
