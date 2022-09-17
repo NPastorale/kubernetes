@@ -31,10 +31,10 @@ data:
             file "/etc/bind/master/nahue.ar.zone";
     };
 
-    zone "rpz.local" {
-        type master;
-        file "/etc/bind/master/rpz.local.zone";
-    };
+    // zone "rpz.local" {
+    //     type master;
+    //     file "/etc/bind/master/rpz.local.zone";
+    // };
     logging {
         channel stdout {
             stderr;
