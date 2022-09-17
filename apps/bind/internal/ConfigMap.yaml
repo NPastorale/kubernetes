@@ -22,9 +22,6 @@ data:
             notify yes;
             also-notify { 192.168.1.1; };
 
-            response-policy { 
-                zone "rpz.local"; 
-            };
     };
     zone "nahue.ar" IN {
             type master;
