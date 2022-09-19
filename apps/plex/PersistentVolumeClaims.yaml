@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-config-pvc
+spec:
+  storageClassName: manual
+  volumeName: plex-config-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-data-pvc
+spec:
+  storageClassName: manual
+  volumeName: plex-data-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Ti
