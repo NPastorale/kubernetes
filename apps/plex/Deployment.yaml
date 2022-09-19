@@ -26,14 +26,14 @@ spec:
       hostNetwork: true
       containers:
         - name: plex
-          image: lscr.io/linuxserver/plex:1.29.0
+          image: lscr.io/linuxserver/plex:latest
           env:
             - name: hostname
               value: syncthing-server
             - name: TZ
               value: "Europe/Madrid"
             - name: VERSION
-              value: "latest"
+              value: "docker"
             - name: PUID
               value: "1000"
             - name: GUID
