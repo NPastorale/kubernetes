@@ -26,6 +26,7 @@ spec:
       containers:
         - name: plex
           image: lscr.io/linuxserver/plex:1.28.2
+          hostNetwork: true
           env:
             - name: hostname
               value: syncthing-server
