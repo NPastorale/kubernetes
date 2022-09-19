@@ -9,5 +9,4 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    env:
-      OPTIONS: { "kubernetes_updates": true }
+    OPTIONS: { "kubernetes_updates": true }
