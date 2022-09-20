@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tautulli-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - tautulli.nahue.ar
+      secretName: tautulli
+  rules:
+    - host: tautulli.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tautulli-tcp
+                port:
+                  number: 8181

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tautulli-tcp
+spec:
+  type: LoadBalancer
+  selector:
+    app: tautulli
+  ports:
+    - name: web
+      protocol: TCP
+      port: 8181
+      targetPort: 8181
