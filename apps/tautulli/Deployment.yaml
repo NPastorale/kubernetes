@@ -30,11 +30,6 @@ spec:
               value: "1000"
             - name: GUID
               value: "1000"
-          readinessProbe:
-            tcpSocket:
-              port: 8181
-            initialDelaySeconds: 5
-            periodSeconds: 5
           ports:
             - containerPort: 8181
               name: web
