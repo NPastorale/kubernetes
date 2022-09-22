@@ -19,9 +19,9 @@ spec:
         - name: bind-external
           configMap:
             name: bind-external
-        - name: config
+        - name: data
           persistentVolumeClaim:
-            claimName: bind-external-config-pvc
+            claimName: bind-external-data-pvc
       containers:
         - name: bind-external
           image: npastorale/bind9:9.16.29-0
@@ -45,6 +45,6 @@ spec:
             - name: bind-external
               mountPath: /etc/bind/named.conf
               subPath: named.conf
-            - name: config
+            - name: data
               mountPath: /etc/bind/master
               readOnly: false

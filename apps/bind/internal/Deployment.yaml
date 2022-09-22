@@ -19,9 +19,9 @@ spec:
         - name: bind-internal
           configMap:
             name: bind-internal
-        - name: config
+        - name: data
           persistentVolumeClaim:
-            claimName: bind-internal-config-pvc
+            claimName: bind-internal-data-pvc
       containers:
         - name: bind-internal
           image: npastorale/bind9:9.16.29-0
@@ -45,6 +45,6 @@ spec:
             - name: bind-internal
               mountPath: /etc/bind/named.conf
               subPath: named.conf
-            - name: config
+            - name: data
               mountPath: /etc/bind/master
               readOnly: false

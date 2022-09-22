@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: bind-external-config-pv
+  name: bind-external-data-pv
   labels:
     type: local
 spec:
@@ -11,8 +11,8 @@ spec:
   accessModes:
     - ReadWriteMany
   claimRef:
-    name: bind-external-config-pvc
+    name: bind-external-data-pvc
     namespace: bind9
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/bind-external/bind-external-config"
+    path: "/share/k8s-volumes/persistent/bind/external/data"
