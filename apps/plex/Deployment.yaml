@@ -5,7 +5,7 @@ metadata:
   labels:
     app: plex
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: plex
@@ -33,7 +33,7 @@ spec:
             - name: TZ
               value: "Europe/Madrid"
             - name: VERSION
-              value: "docker"
+              value: "public"
             - name: PUID
               value: "1000"
             - name: GUID
