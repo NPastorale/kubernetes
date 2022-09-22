@@ -15,12 +15,26 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex-data-pvc
+  name: plex-persistent-data-pvc
 spec:
   storageClassName: manual
-  volumeName: plex-data-pv
+  volumeName: plex-persistent-data-pv
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 10Ti
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-ephemeral-data-pvc
+spec:
+  storageClassName: manual
+  volumeName: plex-ephemeral-data-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Ti

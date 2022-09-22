@@ -20,9 +20,12 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: plex-config-pvc
-        - name: data
+        - name: persistent-data
           persistentVolumeClaim:
-            claimName: plex-data-pvc
+            claimName: plex-persistent-data-pvc
+        - name: ephemeral-data
+          persistentVolumeClaim:
+            claimName: plex-ephemeral-data-pvc
       hostNetwork: true
       containers:
         - name: plex
@@ -76,6 +79,9 @@ spec:
             - name: config
               mountPath: /config
               readOnly: false
-            - name: data
-              mountPath: /data
-              readOnly: false
+            - name: persistent-data
+              mountPath: /persistent-data
+              readOnly: true
+            - name: ephemeral-data
+              mountPath: /ephemeral-data
+              readOnly: true

@@ -15,13 +15,13 @@ spec:
     namespace: plex
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/plex/plex-config"
+    path: "/share/k8s-volumes/persistent/plex/config"
 
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: plex-data-pv
+  name: plex-persistent-data-pv
   labels:
     type: local
 spec:
@@ -31,8 +31,28 @@ spec:
   accessModes:
     - ReadWriteMany
   claimRef:
-    name: plex-data-pvc
+    name: plex-persistent-data-pvc
     namespace: plex
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/plex/plex-data"
+    path: "/share/k8s-volumes/persistent/plex/data"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: plex-ephemeral-data-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 20Ti
+  accessModes:
+    - ReadWriteMany
+  claimRef:
+    name: plex-ephemeral-data-pvc
+    namespace: plex
+  nfs:
+    server: 192.168.1.2
+    path: "/share/k8s-volumes/ephemeral/plex/data"
