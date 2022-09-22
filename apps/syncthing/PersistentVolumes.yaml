@@ -15,7 +15,7 @@ spec:
     namespace: syncthing
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/syncthing/syncthing-config"
+    path: "/share/k8s-volumes/persistent/syncthing/config"
 
 ---
 apiVersion: v1
@@ -35,4 +35,4 @@ spec:
     namespace: syncthing
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/syncthing/syncthing-data"
+    path: "/share/k8s-volumes/persistent/syncthing/data"
