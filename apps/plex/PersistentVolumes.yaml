@@ -12,12 +12,13 @@ spec:
     - ReadWriteMany
   mountOptions:
     - nfsvers=4.2
+    - local_lock=posix
   claimRef:
     name: plex-config-pvc
     namespace: plex
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/persistent/plex/config"
+    path: "/k8s-volumes/persistent/plex/config"
 
 ---
 apiVersion: v1
@@ -39,7 +40,7 @@ spec:
     namespace: plex
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/persistent/plex/data"
+    path: "/k8s-volumes/persistent/plex/data"
 
 ---
 apiVersion: v1
@@ -61,4 +62,4 @@ spec:
     namespace: plex
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/ephemeral/plex/data"
+    path: "/k8s-volumes/ephemeral/plex/data"
