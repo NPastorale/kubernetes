@@ -17,7 +17,7 @@ spec:
     namespace: qbittorrent
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/qbittorrent/qbittorrent-config"
+    path: "/k8s-volumes/qbittorrent/qbittorrent-config"
 
 ---
 apiVersion: v1
@@ -39,4 +39,4 @@ spec:
     namespace: qbittorrent
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/qbittorrent/qbittorrent-data"
+    path: "/k8s-volumes/qbittorrent/qbittorrent-data"

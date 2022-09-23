@@ -17,4 +17,4 @@ spec:
     namespace: bind9
   nfs:
     server: 192.168.1.2
-    path: "/share/k8s-volumes/persistent/bind/external/data"
+    path: "/k8s-volumes/persistent/bind/external/data"
