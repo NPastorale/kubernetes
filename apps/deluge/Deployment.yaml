@@ -5,7 +5,7 @@ metadata:
   labels:
     app: deluge
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: deluge
@@ -33,9 +33,9 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
-              value: "0"
+              value: "1001"
             - name: GUID
-              value: "0"
+              value: "1000"
             - name: TZ
               value: "Europe/Madrid"
             - name: DELUGE_LOGLEVEL
@@ -48,7 +48,7 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 58846
-            initialDelaySeconds: 120
+            initialDelaySeconds: 60
             periodSeconds: 5
           volumeMounts:
             - name: config
