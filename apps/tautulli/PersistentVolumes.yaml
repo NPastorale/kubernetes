@@ -10,6 +10,8 @@ spec:
     storage: 50Gi
   accessModes:
     - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
   claimRef:
     name: tautulli-config-pvc
     namespace: tautulli

@@ -10,6 +10,8 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
   claimRef:
     name: syncthing-config-pvc
     namespace: syncthing
@@ -30,6 +32,8 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
   claimRef:
     name: syncthing-data-pvc
     namespace: syncthing
