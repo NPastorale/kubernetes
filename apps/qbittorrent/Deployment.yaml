@@ -23,6 +23,7 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: qbittorrent-data-pvc
+      hostNetwork: true
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.4.5
