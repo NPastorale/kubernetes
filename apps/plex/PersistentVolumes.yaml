@@ -10,6 +10,8 @@ spec:
     storage: 50Gi
   accessModes:
     - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
   claimRef:
     name: plex-config-pvc
     namespace: plex
@@ -30,6 +32,8 @@ spec:
     storage: 10Ti
   accessModes:
     - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
   claimRef:
     name: plex-persistent-data-pvc
     namespace: plex
@@ -50,6 +54,8 @@ spec:
     storage: 20Ti
   accessModes:
     - ReadWriteMany
+  mountOptions:
+    - nfsvers=4.2
   claimRef:
     name: plex-ephemeral-data-pvc
     namespace: plex
