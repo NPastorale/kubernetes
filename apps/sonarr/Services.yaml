@@ -3,8 +3,7 @@ kind: Service
 metadata:
   name: sonarr
 spec:
-  type: LoadBalancer
-  loadBalancerIP: 192.168.1.156
+  type: ClusterIP
   selector:
     app: sonarr
   ports:
