@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+  labels:
+    app: code-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: code-server-config-pvc
+      containers:
+        - name: code-server
+          image: lscr.io/linuxserver/code-server:latest
+          ports:
+            - containerPort: 8443
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: GUID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Madrid"
+          readinessProbe:
+            tcpSocket:
+              port: 8443
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
