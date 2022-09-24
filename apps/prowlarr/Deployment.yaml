@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prowlarr
+  labels:
+    app: prowlarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prowlarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: prowlarr
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: prowlarr-config-pvc
+      containers:
+        - name: prowlarr
+          image: lscr.io/linuxserver/prowlarr:0.4.6-develop
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: PUID
+              value: "1000"
+            - name: GUID
+              value: "1000"
+          readinessProbe:
+            httpGet:
+              port: 9696
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              port: 9696
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          ports:
+            - containerPort: 9696
+              name: web
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
