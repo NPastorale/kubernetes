@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: radarr-config-pvc
+        - name: persistent-data
+          persistentVolumeClaim:
+            claimName: radarr-persistent-data-pvc
+        - name: ephemeral-data
+          persistentVolumeClaim:
+            claimName: radarr-ephemeral-data-pvc
+      containers:
+        - name: radarr
+          image: lscr.io/linuxserver/radarr:4.1.0
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: PUID
+              value: "1000"
+            - name: GUID
+              value: "1000"
+          readinessProbe:
+            httpGet:
+              port: 7878
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              port: 7878
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          ports:
+            - containerPort: 7878
+              name: web
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+            - name: persistent-data
+              mountPath: /persistent-data
+              readOnly: false
+            - name: ephemeral-data
+              mountPath: /ephemeral-data
+              readOnly: false
