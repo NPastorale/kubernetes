@@ -26,7 +26,6 @@ spec:
         - name: ephemeral-data
           persistentVolumeClaim:
             claimName: sonarr-ephemeral-data-pvc
-      hostNetwork: true
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:3.0.9
