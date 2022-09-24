@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: sonarr-config-pvc
+        - name: persistent-data
+          persistentVolumeClaim:
+            claimName: sonarr-persistent-data-pvc
+        - name: ephemeral-data
+          persistentVolumeClaim:
+            claimName: sonarr-ephemeral-data-pvc
+      hostNetwork: true
+      containers:
+        - name: sonarr
+          image: lscr.io/linuxserver/sonarr:3.0.9
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: PUID
+              value: "1000"
+            - name: GUID
+              value: "1000"
+          readinessProbe:
+            tcpSocket:
+              port: 8989
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8989
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          ports:
+            - containerPort: 8989
+              name: web
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+            - name: persistent-data
+              mountPath: /persistent-data
+              readOnly: false
+            - name: ephemeral-data
+              mountPath: /ephemeral-data
+              readOnly: false

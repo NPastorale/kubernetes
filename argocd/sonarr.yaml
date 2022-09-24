@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarr
+  namespace: argocd
+spec:
+  destination:
+    namespace: sonarr
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: apps/sonarr
+    repoURL: https://github.com/NPastorale/kubernetes
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
