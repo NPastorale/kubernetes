@@ -46,6 +46,7 @@ spec:
               port: 7878
             initialDelaySeconds: 15
             periodSeconds: 5
+            failureThreshold: 20
           ports:
             - containerPort: 7878
               name: web

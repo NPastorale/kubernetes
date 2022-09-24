@@ -40,6 +40,7 @@ spec:
               port: 9696
             initialDelaySeconds: 15
             periodSeconds: 5
+            failureThreshold: 20
           ports:
             - containerPort: 9696
               name: web

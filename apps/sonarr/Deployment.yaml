@@ -46,6 +46,7 @@ spec:
               port: 8989
             initialDelaySeconds: 15
             periodSeconds: 5
+            failureThreshold: 20
           ports:
             - containerPort: 8989
               name: web
