@@ -10,8 +10,6 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  mountOptions:
-    - nfsvers=4.2
   claimRef:
     name: bind-external-data-pvc
     namespace: bind9

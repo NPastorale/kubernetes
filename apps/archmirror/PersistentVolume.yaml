@@ -11,8 +11,6 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
-  mountOptions:
-    - nfsvers=4.2
   claimRef:
     name: archmirror-pvc
     namespace: mirrors

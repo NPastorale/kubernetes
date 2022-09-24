@@ -10,8 +10,6 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
-  mountOptions:
-    - nfsvers=4.2
   claimRef:
     name: qbittorrent-config-pvc
     namespace: qbittorrent
@@ -32,8 +30,6 @@ spec:
     storage: 5000Gi
   accessModes:
     - ReadWriteMany
-  mountOptions:
-    - nfsvers=4.2
   claimRef:
     name: qbittorrent-data-pvc
     namespace: qbittorrent
