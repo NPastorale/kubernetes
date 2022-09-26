@@ -20,7 +20,7 @@ spec:
         # - name: config
         #   persistentVolumeClaim:
         #     claimName: plex-config-pvc
-        - name: iscsi-config
+        - name: config
           iscsi:
             targetPortal: 192.168.1.2:3260
             iqn: iqn.2004-04.com.qnap:ts-453bmini:iscsi.cygnus.0bed79
