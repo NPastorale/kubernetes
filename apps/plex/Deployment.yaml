@@ -17,16 +17,16 @@ spec:
         app: plex
     spec:
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: plex-config-pvc
         # - name: config
-        #   iscsi:
-        #     targetPortal: 192.168.1.2:3260
-        #     iqn: iqn.2004-04.com.qnap:ts-453bmini:iscsi.cygnus.0bed79
-        #     lun: 0
-        #     fsType: ext4
-        #     readOnly: false
+        #   persistentVolumeClaim:
+        #     claimName: plex-config-pvc
+        - name: config
+          iscsi:
+            targetPortal: 192.168.1.2:3260
+            iqn: iqn.2004-04.com.qnap:ts-453bmini:iscsi.cygnus.0bed79
+            lun: 0
+            fsType: ext4
+            readOnly: false
         - name: persistent-data
           persistentVolumeClaim:
             claimName: plex-persistent-data-pvc
