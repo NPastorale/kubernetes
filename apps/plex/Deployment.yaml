@@ -21,13 +21,13 @@ spec:
         #   nfs:
         #     path: "/k8s-volumes/persistent/plex/config"
         #     server: 192.168.1.2
-        - name: config
-          iscsi:
-            targetPortal: 192.168.1.2:3260
-            iqn: iqn.2004-04.com.qnap:ts-453bmini:iscsi.cygnus.0bed79
-            lun: 0
-            fsType: ext4
-            readOnly: false
+        # - name: config
+        #   iscsi:
+        #     targetPortal: 192.168.1.2:3260
+        #     iqn: iqn.2004-04.com.qnap:ts-453bmini:iscsi.cygnus.0bed79
+        #     lun: 0
+        #     fsType: ext4
+        #     readOnly: false
         - name: persistent-data
           nfs:
             path: "/k8s-volumes/persistent/plex/data"
@@ -93,9 +93,9 @@ spec:
             - containerPort: 32414
               protocol: UDP
           volumeMounts:
-            - name: config
-              mountPath: /config
-              readOnly: false
+            # - name: config
+            #   mountPath: /config
+            #   readOnly: false
             - name: persistent-data
               mountPath: /persistent-data
               readOnly: true
