@@ -16,8 +16,9 @@ spec:
     spec:
       volumes:
         - name: data
-          persistentVolumeClaim:
-            claimName: archmirror-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/archmirror/data"
+            server: 192.168.1.2
       containers:
         - name: http-server
           image: npastorale/archmirror-http-server:1.23.1-0
