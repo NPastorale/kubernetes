@@ -21,6 +21,10 @@ spec:
       containers:
         - name: http-server
           image: npastorale/archmirror-http-server:1.23.1-0
+          resources:
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
