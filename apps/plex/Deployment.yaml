@@ -18,8 +18,9 @@ spec:
     spec:
       volumes:
         # - name: config
-        #   persistentVolumeClaim:
-        #     claimName: plex-config-pvc
+        #   nfs:
+        #     path: "/k8s-volumes/persistent/plex/config"
+        #     server: 192.168.1.2
         - name: config
           iscsi:
             targetPortal: 192.168.1.2:3260
@@ -28,15 +29,24 @@ spec:
             fsType: ext4
             readOnly: false
         - name: persistent-data
-          persistentVolumeClaim:
-            claimName: plex-persistent-data-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/plex/data"
+            server: 192.168.1.2
         - name: ephemeral-data
-          persistentVolumeClaim:
-            claimName: plex-ephemeral-data-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/plex/data"
+            server: 192.168.1.2
       hostNetwork: true
       containers:
         - name: plex
           image: lscr.io/linuxserver/plex:1.28.2
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           env:
             - name: hostname
               value: syncthing-server

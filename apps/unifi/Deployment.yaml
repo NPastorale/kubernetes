@@ -18,11 +18,19 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: unifi-config-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/unifi/config"
+            server: 192.168.1.2
       containers:
         - name: unifi
           image: lscr.io/linuxserver/unifi-controller:7.2.92
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID

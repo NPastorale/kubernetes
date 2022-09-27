@@ -15,8 +15,9 @@ spec:
               configMap:
                 name: bind-external
             - name: data
-              persistentVolumeClaim:
-                claimName: bind-external-data-pvc
+              nfs:
+                path: "/k8s-volumes/persistent/bind/external/data"
+                server: 192.168.1.2
             - name: zone-update
               configMap:
                 name: zone-update

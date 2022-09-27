@@ -18,17 +18,27 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: radarr-config-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/radarr/config"
+            server: 192.168.1.2
         - name: persistent-data
-          persistentVolumeClaim:
-            claimName: radarr-persistent-data-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/plex/data"
+            server: 192.168.1.2
         - name: ephemeral-data
-          persistentVolumeClaim:
-            claimName: radarr-ephemeral-data-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/plex/data"
+            server: 192.168.1.2
       containers:
         - name: radarr
           image: lscr.io/linuxserver/radarr:4.1.0
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           env:
             - name: TZ
               value: "Europe/Madrid"

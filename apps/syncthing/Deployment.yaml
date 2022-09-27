@@ -18,14 +18,23 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: syncthing-config-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/syncthing/config"
+            server: 192.168.1.2
         - name: data
-          persistentVolumeClaim:
-            claimName: syncthing-data-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/syncthing/data"
+            server: 192.168.1.2
       containers:
         - name: syncthing
           image: lscr.io/linuxserver/syncthing:1.21.0
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           imagePullPolicy: IfNotPresent
           env:
             - name: hostname

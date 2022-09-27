@@ -17,6 +17,13 @@ spec:
       containers:
         - name: joke
           image: npastorale/joke
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           imagePullPolicy: Always
           ports:
             - containerPort: 80

@@ -20,11 +20,19 @@ spec:
           configMap:
             name: bind-internal
         - name: data
-          persistentVolumeClaim:
-            claimName: bind-internal-data-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/bind/internal/data"
+            server: 192.168.1.2
       containers:
         - name: bind-internal
           image: npastorale/bind9:9.16.29-0
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ

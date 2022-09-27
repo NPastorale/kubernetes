@@ -18,15 +18,24 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: deluge-config-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/deluge/config"
+            server: 192.168.1.2
         - name: data
-          persistentVolumeClaim:
-            claimName: deluge-data-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/deluge/data"
+            server: 192.168.1.2
       hostNetwork: true
       containers:
         - name: deluge
           image: lscr.io/linuxserver/deluge:2.1.1
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           ports:
             - containerPort: 58846
             - containerPort: 8112

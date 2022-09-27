@@ -18,11 +18,19 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: code-server-config-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/code-server/config"
+            server: 192.168.1.2
       containers:
         - name: code-server
           image: lscr.io/linuxserver/code-server:latest
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           ports:
             - containerPort: 8443
           imagePullPolicy: IfNotPresent

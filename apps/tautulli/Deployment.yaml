@@ -18,11 +18,19 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: tautulli-config-pvc
+          nfs:
+            path: "/k8s-volumes/persistent/tautulli/config"
+            server: 192.168.1.2
       containers:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:2.10.4
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           env:
             - name: TZ
               value: "Europe/Madrid"

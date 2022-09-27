@@ -18,15 +18,24 @@ spec:
     spec:
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: qbittorrent-config-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/qbittorrent/config"
+            server: 192.168.1.2
         - name: data
-          persistentVolumeClaim:
-            claimName: qbittorrent-data-pvc
+          nfs:
+            path: "/k8s-volumes/ephemeral/qbittorrent/data"
+            server: 192.168.1.2
       hostNetwork: true
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.4.5
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
           ports:
             - containerPort: 8080
             - containerPort: 6881
