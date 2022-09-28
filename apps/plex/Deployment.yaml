@@ -93,9 +93,9 @@ spec:
             - containerPort: 32414
               protocol: UDP
           volumeMounts:
-            # - name: config
-            #   mountPath: /config
-            #   readOnly: false
+            - name: config
+              mountPath: /config
+              readOnly: false
             - name: persistent-data
               mountPath: /persistent-data
               readOnly: true
