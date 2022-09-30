@@ -17,10 +17,17 @@ spec:
         app: prowlarr
     spec:
       volumes:
+        # - name: config
+        #   nfs:
+        #     path: "/k8s-volumes/persistent/prowlarr/config"
+        #     server: 192.168.1.2
         - name: config
-          nfs:
-            path: "/k8s-volumes/persistent/prowlarr/config"
-            server: 192.168.1.2
+          iscsi:
+            targetPortal: 192.168.1.2:3260
+            iqn: iqn.2004-04.com.qnap:ts-453bmini:iscsi.cygnus.0bed79
+            lun: 1
+            fsType: ext4
+            readOnly: false
       containers:
         - name: prowlarr
           image: lscr.io/linuxserver/prowlarr:0.4.6-develop
