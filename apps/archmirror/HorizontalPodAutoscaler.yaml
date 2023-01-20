@@ -4,8 +4,8 @@ metadata:
   name: http-server
   namespace: mirrors
 spec:
-  maxReplicas: 10
-  minReplicas: 3
+  maxReplicas: 20
+  minReplicas: 10
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
