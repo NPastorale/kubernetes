@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ubuntu-prep
+  name: archinstall
   namespace: argocd
 spec:
   destination:
-    namespace: ubuntu-prep
+    namespace: archinstall
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/ubuntu-prep
+    path: apps/archinstall
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
