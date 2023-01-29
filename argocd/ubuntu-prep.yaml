@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ubuntu-prep
+  namespace: argocd
+spec:
+  destination:
+    namespace: mirrors
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: apps/ubuntu-prep
+    repoURL: https://github.com/NPastorale/kubernetes
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
