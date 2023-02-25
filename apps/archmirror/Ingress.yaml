@@ -9,31 +9,9 @@ spec:
   tls:
     - hosts:
         - mirrors.nahue.ar
-        - www.nahue.ar
-        - nahue.ar
       secretName: mirrors
   rules:
     - host: mirrors.nahue.ar
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: http-server
-                port:
-                  number: 80
-    - host: www.nahue.ar
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: http-server
-                port:
-                  number: 80
-    - host: nahue.ar
       http:
         paths:
           - path: /
