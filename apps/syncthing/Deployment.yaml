@@ -27,7 +27,7 @@ spec:
             server: 192.168.1.2
       containers:
         - name: syncthing
-          image: lscr.io/linuxserver/syncthing:1.21.0
+          image: lscr.io/linuxserver/syncthing:1.23.2
           resources:
             requests:
               memory: "128Mi"
