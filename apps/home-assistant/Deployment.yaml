@@ -5,7 +5,6 @@ metadata:
   labels:
     app: home-assistant
 spec:
-  # replicas: 1
   selector:
     matchLabels:
       app: home-assistant
@@ -36,8 +35,7 @@ spec:
             - name: TZ
               value: "Europe/Madrid"
           ports:
-            - containerPort: 80
+            - containerPort: 8123
           volumeMounts:
             - name: config
               mountPath: /config
-              readOnly: true
