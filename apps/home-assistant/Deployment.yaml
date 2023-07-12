@@ -20,6 +20,7 @@ spec:
           nfs:
             path: "/k8s-volumes/persistent/home-assistant/config"
             server: 192.168.1.2
+      hostNetwork: true
       containers:
         - name: home-assistant
           image: lscr.io/linuxserver/homeassistant:2023.7.1
