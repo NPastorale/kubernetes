@@ -29,6 +29,8 @@ spec:
           nfs:
             path: "/k8s-volumes/ephemeral/plex/data"
             server: 192.168.1.2
+        - name: gpu
+          mountPath: /dev/dri
       hostNetwork: true
       containers:
         - name: plex
@@ -95,3 +97,5 @@ spec:
             - name: ephemeral-data
               mountPath: /ephemeral-data
               readOnly: true
+            - name: gpu
+              mountPath: /dev/dri
