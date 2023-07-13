@@ -19,7 +19,7 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/k8s-volumes/persistent/plex/data"
+            path: "/k8s-volumes/persistent/plex/config"
             server: 192.168.1.2
         # - name: config
         #   iscsi:
