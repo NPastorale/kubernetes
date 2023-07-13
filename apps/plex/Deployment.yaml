@@ -90,7 +90,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-              readOnly: false
             - name: persistent-data
               mountPath: /persistent-data
               readOnly: true
