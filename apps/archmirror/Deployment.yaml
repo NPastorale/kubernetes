@@ -45,6 +45,8 @@ spec:
               value: "Europe/Madrid"
           ports:
             - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
           livenessProbe:
             exec:
               command:
