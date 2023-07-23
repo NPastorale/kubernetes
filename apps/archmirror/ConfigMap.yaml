@@ -4,8 +4,6 @@ metadata:
   name: nginx-conf
 data:
   nginx.conf: |
-    daemon off;
-
     user  nginx;
     worker_processes  1;
 
