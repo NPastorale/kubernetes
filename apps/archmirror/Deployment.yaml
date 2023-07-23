@@ -5,7 +5,6 @@ metadata:
   labels:
     app: http-server
 spec:
-  # replicas: 1
   selector:
     matchLabels:
       app: http-server
@@ -15,40 +14,62 @@ spec:
         app: http-server
     spec:
       volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+        - name: config
+          nfs:
+            path: "/k8s-volumes/persistent/archmirror/config"
+            server: 192.168.1.2
         - name: data
           nfs:
             path: "/k8s-volumes/ephemeral/archmirror/data"
             server: 192.168.1.2
+        - name: cache
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
       containers:
         - name: http-server
-          image: npastorale/archmirror-http-server:1.23.3-0
+          image: nginx:stable-alpine-slim
           resources:
             requests:
               memory: "128Mi"
               cpu: "250m"
             limits:
-              memory: "8Gi"
-              cpu: "4"
+              memory: "1Gi"
+              cpu: "1"
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
               value: "Europe/Madrid"
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           livenessProbe:
             exec:
               command:
                 - cat
                 - /data/lastsync
-            initialDelaySeconds: 3
-            periodSeconds: 3
+            initialDelaySeconds: 5
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /lastsync
-              port: 80
-            initialDelaySeconds: 3
-            periodSeconds: 3
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
           volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: config
+              mountPath: /config
+              readOnly: true
             - name: data
               mountPath: /data
               readOnly: true
+            - name: cache
+              mountPath: /var/cache/nginx
+            - name: tmp
+              mountPath: /tmp/nginx

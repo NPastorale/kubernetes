@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx.conf: |
+    server {
+      gzip off;
+      listen 80;
+      root /data;
+      location / {
+        autoindex on;
+        autoindex_localtime on;
+      }
+      location /config/favicon.ico {
+        alias /config/favicon.ico;
+      }
+    }
