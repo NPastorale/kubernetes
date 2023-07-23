@@ -18,7 +18,7 @@ spec:
                 server: 192.168.1.2
           containers:
             - name: rsync-client
-              image: npastorale/archmirror-rsync-client:3.2.4-0-debug2
+              image: npastorale/archmirror-rsync-client:3.2.7-r4
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
