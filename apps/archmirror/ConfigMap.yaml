@@ -28,18 +28,25 @@ data:
       client_max_body_size 10m;
 
       index index.html index.htm;
+    }
 
-      server {
-        gzip off;
-        listen 8080;
-        listen  [::]:8080;
-        root /data;
-        location / {
-          autoindex on;
-          autoindex_localtime on;
-        }
-        location /favicon.ico {
-          alias /config/favicon.ico;
-        }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: default-conf
+data:
+  default.conf: |
+    server {
+      gzip off;
+      listen 8080;
+      listen  [::]:8080;
+      root /data;
+      location / {
+        autoindex on;
+        autoindex_localtime on;
+      }
+      location /favicon.ico {
+        alias /config/favicon.ico;
       }
     }
