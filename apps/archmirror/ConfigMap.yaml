@@ -7,6 +7,7 @@ data:
     server {
       gzip off;
       listen 80;
+      listen  [::]:80;
       root /data;
       location / {
         autoindex on;
