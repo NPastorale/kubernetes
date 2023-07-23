@@ -78,4 +78,4 @@ spec:
             - name: tmp
               mountPath: /tmp/nginx
             - name: pid
-              mountPath: /var/run/nginx.pid
+              mountPath: /var/run
