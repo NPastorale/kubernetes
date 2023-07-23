@@ -4,16 +4,44 @@ metadata:
   name: nginx-conf
 data:
   nginx.conf: |
-    server {
-      gzip off;
-      listen 80;
-      listen  [::]:80;
-      root /data;
-      location / {
-        autoindex on;
-        autoindex_localtime on;
-      }
-      location /config/favicon.ico {
-        alias /config/favicon.ico;
+    daemon off;
+
+    user  nginx;
+    worker_processes  1;
+
+    pid /var/run/nginx.pid;
+
+    events {
+      worker_connections 1024;
+    }
+
+    http {
+      include /etc/nginx/mime.types;
+      default_type application/octet-stream;
+
+      proxy_buffering off;
+
+      sendfile off;
+      keepalive_timeout 120;
+
+      server_names_hash_bucket_size 128;
+
+      client_body_buffer_size 10m;
+      client_max_body_size 10m;
+
+      index index.html index.htm;
+
+      server {
+        gzip off;
+        listen 80;
+        listen  [::]:80;
+        root /data;
+        location / {
+          autoindex on;
+          autoindex_localtime on;
+        }
+        location /favicon.ico {
+          alias /config/favicon.ico;
+        }
       }
     }

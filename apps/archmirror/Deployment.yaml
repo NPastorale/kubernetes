@@ -29,6 +29,8 @@ spec:
           emptyDir: {}
         - name: tmp
           emptyDir: {}
+        - name: pid
+          emptyDir: {}
       containers:
         - name: http-server
           image: nginx:stable-alpine-slim
@@ -62,7 +64,7 @@ spec:
             periodSeconds: 5
           volumeMounts:
             - name: nginx-conf
-              mountPath: etc/nginx/conf.d/default.conf
+              mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
               readOnly: true
             - name: config
@@ -75,3 +77,5 @@ spec:
               mountPath: /var/cache/nginx
             - name: tmp
               mountPath: /tmp/nginx
+            - name: pid
+              mountPath: /var/run/nginx.pid
