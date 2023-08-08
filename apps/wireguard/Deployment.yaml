@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard-spain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard-spain
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wireguard-spain
+    spec:
+      containers:
+        - image: lscr.io/linuxserver/wireguard:latest
+          name: wireguard-spain
+          env:
+            - name: "SERVERURL"
+              value: "vpn.nahue.ar"
+            - name: "TZ"
+              value: "Europe/Madrid"
+            - name: "PEERS"
+              value: "S21,XPSplus"
+            - name: "PEERDNS"
+              value: "192.168.1.1,192.168.1.160"
+            - name: "PERSISTENTKEEPALIVE_PEERS"
+              value: "all"
+            - name: "SERVERPORT"
+              value: "51821"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "128Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
