@@ -10,4 +10,4 @@ spec:
     - name: web
       protocol: UDP
       port: 51821
-      targetPort: 51821
+      targetPort: 51820
