@@ -14,6 +14,11 @@ spec:
       labels:
         app: wireguard-spain
     spec:
+      volumes:
+        - name: config
+          nfs:
+            path: "/k8s-volumes/persistent/wireguard/config"
+            server: 192.168.1.2
       containers:
         - image: lscr.io/linuxserver/wireguard:latest
           name: wireguard-spain
@@ -41,3 +46,7 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
