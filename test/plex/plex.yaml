@@ -1,0 +1,159 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: plex
+  labels:
+    app: plex
+spec:
+  serviceName: plex
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      volumes:
+        - name: config
+          nfs:
+            path: "/k8s-volumes/persistent/plex/config_test"
+            server: 192.168.1.2
+        - name: config-db
+          nfs:
+            path: "/k8s-volumes/persistent/plex/databases"
+            server: 192.168.1.2
+        - name: persistent-data
+          nfs:
+            path: "/k8s-volumes/persistent/plex/data"
+            server: 192.168.1.2
+        - name: ephemeral-data
+          nfs:
+            path: "/k8s-volumes/ephemeral/plex/data"
+            server: 192.168.1.2
+        - name: "plex-litestream"
+          configMap:
+            name: plex-litestream
+        - name: "plex-database"
+          emptyDir: {}
+      initContainers:
+        - name: init-litestream
+          image: litestream/litestream:0.3.13
+          args:
+            [
+              "restore",
+              "-if-db-not-exists",
+              "-if-replica-exists",
+              "/data/com.plexapp.plugins.library.db",
+            ]
+          volumeMounts:
+            - name: plex-database
+              mountPath: "/data"
+            - name: config-db
+              mountPath: "/nfs"
+            - name: plex-litestream
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yaml
+        - name: init-litestream-blobs
+          image: litestream/litestream:0.3.13
+          args:
+            [
+              "restore",
+              "-if-db-not-exists",
+              "-if-replica-exists",
+              "/data/com.plexapp.plugins.library.blobs.db",
+            ]
+          volumeMounts:
+            - name: plex-database
+              mountPath: "/data"
+            - name: config-db
+              mountPath: "/nfs"
+            - name: plex-litestream
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yaml
+      hostNetwork: true
+      containers:
+        - name: plex
+          image: lscr.io/linuxserver/plex:1.32.7
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+          env:
+            - name: hostname
+              value: syncthing-server
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: VERSION
+              value: "docker"
+            - name: PUID
+              value: "911"
+            - name: GUID
+              value: "911"
+          readinessProbe:
+            tcpSocket:
+              port: 32400
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 32400
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          ports:
+            - containerPort: 32400
+              name: web
+              protocol: TCP
+            - containerPort: 1900
+              name: dlna-udp
+              protocol: UDP
+            - containerPort: 32469
+              name: dlna-tcp
+              protocol: TCP
+            - containerPort: 5353
+              name: bonjour
+              protocol: UDP
+            - containerPort: 8324
+              name: companion
+              protocol: TCP
+            - containerPort: 32410
+              protocol: UDP
+            - containerPort: 32412
+              protocol: UDP
+            - containerPort: 32413
+              protocol: UDP
+            - containerPort: 32414
+              protocol: UDP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: persistent-data
+              mountPath: /persistent-data
+              readOnly: true
+            - name: ephemeral-data
+              mountPath: /ephemeral-data
+              readOnly: true
+            - name: plex-database
+              mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
+        - name: litestream
+          image: litestream/litestream:0.3.13
+          lifecycle:
+            postStart:
+              exec:
+                command: ["chmod", "-R", "777", "/data"]
+          args: ["replicate"]
+          volumeMounts:
+            - name: config-db
+              mountPath: "/nfs"
+            - name: plex-database
+              mountPath: "/data"
+            - name: plex-litestream
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yaml
+          ports:
+            - name: metrics
+              containerPort: 9090
