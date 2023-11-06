@@ -1,16 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: plex
   labels:
     app: plex
 spec:
+  serviceName: plex
   replicas: 1
   selector:
     matchLabels:
       app: plex
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -21,6 +20,10 @@ spec:
           nfs:
             path: "/k8s-volumes/persistent/plex/config"
             server: 192.168.1.2
+        - name: config-db
+          nfs:
+            path: "/k8s-volumes/persistent/plex/databases"
+            server: 192.168.1.2
         - name: persistent-data
           nfs:
             path: "/k8s-volumes/persistent/plex/data"
@@ -29,13 +32,56 @@ spec:
           nfs:
             path: "/k8s-volumes/ephemeral/plex/data"
             server: 192.168.1.2
+        - name: "plex-litestream"
+          configMap:
+            name: plex-litestream
+        - name: "plex-database"
+          emptyDir: {}
         - name: gpu
           hostPath:
             path: /dev/dri
+      initContainers:
+        - name: init-litestream
+          image: litestream/litestream:0.3.13
+          args:
+            [
+              "restore",
+              "-if-db-not-exists",
+              "-if-replica-exists",
+              "/data/com.plexapp.plugins.library.db",
+            ]
+          volumeMounts:
+            - name: plex-database
+              mountPath: "/data"
+            - name: config-db
+              mountPath: "/nfs"
+            - name: plex-litestream
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yaml
+        - name: init-litestream-blobs
+          image: litestream/litestream:0.3.13
+          args:
+            [
+              "restore",
+              "-if-db-not-exists",
+              "-if-replica-exists",
+              "/data/com.plexapp.plugins.library.blobs.db",
+            ]
+          volumeMounts:
+            - name: plex-database
+              mountPath: "/data"
+            - name: config-db
+              mountPath: "/nfs"
+            - name: plex-litestream
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yaml
       hostNetwork: true
       containers:
         - name: plex
-          image: lscr.io/linuxserver/plex:1.32.4
+          image: lscr.io/linuxserver/plex:1.32.7
+          securityContext:
+            privileged: true
+            runAsUser: 0
           resources:
             requests:
               memory: "128Mi"
@@ -50,10 +96,10 @@ spec:
               value: "Europe/Madrid"
             - name: VERSION
               value: "docker"
-            - name: PUID
-              value: "1000"
-            - name: GUID
-              value: "1000"
+            # - name: PUID
+            #   value: "1000"
+            # - name: GUID
+            #   value: "1000"
           readinessProbe:
             tcpSocket:
               port: 32400
@@ -97,5 +143,25 @@ spec:
             - name: ephemeral-data
               mountPath: /ephemeral-data
               readOnly: true
+            - name: plex-database
+              mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
             - name: gpu
               mountPath: /dev/dri
+        - name: litestream
+          image: litestream/litestream:0.3.13
+          lifecycle:
+            postStart:
+              exec:
+                command: ["chmod", "-R", "777", "/data"]
+          args: ["replicate"]
+          volumeMounts:
+            - name: config-db
+              mountPath: "/nfs"
+            - name: plex-database
+              mountPath: "/data"
+            - name: plex-litestream
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yaml
+          ports:
+            - name: metrics
+              containerPort: 9090
