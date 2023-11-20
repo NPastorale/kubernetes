@@ -39,8 +39,8 @@ spec:
           image: nginx:stable-alpine-slim
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "250m"
+              memory: "56Mi"
+              cpu: "100m"
             limits:
               memory: "1Gi"
               cpu: "1"

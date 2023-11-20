@@ -34,8 +34,8 @@ spec:
           image: lscr.io/linuxserver/radarr:4.1.0
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "250m"
+              memory: "56Mi"
+              cpu: "100m"
             limits:
               memory: "8Gi"
               cpu: "4"

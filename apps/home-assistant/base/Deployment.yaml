@@ -26,8 +26,8 @@ spec:
           image: lscr.io/linuxserver/homeassistant:2023.7.1
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "250m"
+              memory: "56Mi"
+              cpu: "100m"
             limits:
               memory: "8Gi"
               cpu: "4"
