@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: qbittorrent
+  name: app-of-apps
   namespace: argocd
 spec:
   destination:
-    namespace: qbittorrent
+    namespace: app-of-apps
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/qbittorrent/overlays/prod
+    path: argocd
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:

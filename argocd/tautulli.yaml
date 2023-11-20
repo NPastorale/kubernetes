@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/tautulli
+    path: apps/tautulli/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:

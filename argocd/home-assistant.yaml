@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/home-assistant
+    path: apps/home-assistant/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
