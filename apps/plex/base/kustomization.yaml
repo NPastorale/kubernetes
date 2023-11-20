@@ -1,0 +1,5 @@
+resources:
+  - ConfigMap.yaml
+  - Ingress.yaml
+  - Service.yaml
+  - StatefulSet.yaml

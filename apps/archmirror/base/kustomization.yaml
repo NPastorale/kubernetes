@@ -1,0 +1,7 @@
+resources:
+  - ConfigMap.yaml
+  - CronJob.yaml
+  - Deployment.yaml
+  - HorizontalPodAutoscaler.yaml
+  - Ingress.yaml
+  - Service.yaml

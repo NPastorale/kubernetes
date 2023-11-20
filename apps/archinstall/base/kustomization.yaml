@@ -1,0 +1,3 @@
+resources:
+  - Ingress.yaml
+  - Service.yaml
