@@ -27,7 +27,7 @@ spec:
         - name: controller.service.loadBalancerIP
           value: "192.168.1.150"
     repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.2.5
+    targetRevision: 4.8.3
   syncPolicy:
     automated:
       prune: true
