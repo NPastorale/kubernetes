@@ -8,10 +8,15 @@ spec:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: default
-  source:
-    path: apps/argocd
-    repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+  sources:
+    - path: apps/argocd
+      repoURL: https://github.com/NPastorale/kubernetes
+      targetRevision: HEAD
+    - path: manifests
+      repoURL: https://github.com/argoproj/argo-cd
+      targetRevision: stable
+      directory:
+        include: "install.yaml"
   syncPolicy:
     automated:
       prune: true
