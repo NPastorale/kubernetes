@@ -23,7 +23,7 @@ spec:
             server: 192.168.1.2
       containers:
         - name: unifi
-          image: lscr.io/linuxserver/unifi-controller:7.5.187
+          image: lscr.io/linuxserver/unifi-controller:8.0.7
           resources:
             requests:
               memory: "56Mi"
