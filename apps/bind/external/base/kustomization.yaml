@@ -1,4 +1,4 @@
 resources:
   - ConfigMap.yaml
-  - Deployment.yaml
   - Service.yaml
+  - StatefulSet.yaml

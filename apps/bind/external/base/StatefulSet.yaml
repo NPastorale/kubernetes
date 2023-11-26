@@ -1,12 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: bind-external
   labels:
     app: bind-external
 spec:
+  serviceName: bind-external-udp
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: bind-external
