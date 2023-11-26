@@ -31,7 +31,7 @@ spec:
             server: 192.168.1.2
       containers:
         - name: sonarr
-          image: lscr.io/linuxserver/sonarr:3.0.9
+          image: lscr.io/linuxserver/sonarr:3.0.10
           resources:
             requests:
               memory: "56Mi"
