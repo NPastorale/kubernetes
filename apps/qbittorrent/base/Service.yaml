@@ -14,9 +14,9 @@ spec:
       targetPort: 8080
     - name: traffic-tcp
       protocol: TCP
-      port: 6881
-      targetPort: 6881
+      port: 53957
+      targetPort: 53957
     - name: traffic-udp
       protocol: UDP
-      port: 6881
-      targetPort: 6881
+      port: 53957
+      targetPort: 53957
