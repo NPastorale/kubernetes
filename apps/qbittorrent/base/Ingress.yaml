@@ -18,6 +18,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: qbittorrent-tcp
+                name: qbittorrent
                 port:
                   number: 8080

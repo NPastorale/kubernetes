@@ -19,6 +19,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: syncthing-tcp
+                name: syncthing
                 port:
                   number: 8384

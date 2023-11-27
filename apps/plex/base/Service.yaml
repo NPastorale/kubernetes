@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: plex-tcp
-  annotations:
-    metallb.universe.tf/allow-shared-ip: "plex"
+  name: plex
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.156
@@ -14,7 +12,7 @@ spec:
       protocol: TCP
       port: 32400
       targetPort: 32400
-    - name: dlna
+    - name: dlna-tcp
       protocol: TCP
       port: 32469
       targetPort: 32469
@@ -22,21 +20,7 @@ spec:
       protocol: TCP
       port: 8342
       targetPort: 8342
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: plex-udp
-  annotations:
-    metallb.universe.tf/allow-shared-ip: "plex"
-spec:
-  type: LoadBalancer
-  loadBalancerIP: 192.168.1.156
-  selector:
-    app: plex
-  ports:
-    - name: dlna
+    - name: dlna-udp
       protocol: UDP
       port: 1900
       targetPort: 1900
