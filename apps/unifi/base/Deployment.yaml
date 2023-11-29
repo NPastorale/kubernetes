@@ -20,7 +20,7 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/persistent/unifi/config"
-            server: 192.168.1.2
+            server: 10.10.0.10
       containers:
         - name: unifi
           image: lscr.io/linuxserver/unifi-controller:8.0.7
