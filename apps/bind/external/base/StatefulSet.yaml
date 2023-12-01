@@ -22,7 +22,7 @@ spec:
         - name: data
           nfs:
             path: "/k8s-volumes/persistent/bind/external/data"
-            server: 192.168.1.2
+            server: 10.10.10.10
       containers:
         - name: bind-external
           image: npastorale/bind9:9.16.29-0

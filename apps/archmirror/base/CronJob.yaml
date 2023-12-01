@@ -15,7 +15,7 @@ spec:
             - name: data
               nfs:
                 path: "/k8s-volumes/ephemeral/archmirror/data"
-                server: 192.168.1.2
+                server: 10.10.10.10
           containers:
             - name: rsync-client
               image: npastorale/archmirror-rsync-client:3.2.7-r4

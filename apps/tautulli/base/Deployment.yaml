@@ -20,7 +20,7 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/persistent/tautulli/config"
-            server: 192.168.1.2
+            server: 10.10.10.10
       containers:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:2.13.2

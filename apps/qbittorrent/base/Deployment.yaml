@@ -20,11 +20,11 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/ephemeral/qbittorrent/config"
-            server: 192.168.1.2
+            server: 10.10.10.10
         - name: data
           nfs:
             path: "/k8s-volumes/ephemeral/qbittorrent/data"
-            server: 192.168.1.2
+            server: 10.10.10.10
       hostNetwork: true
       containers:
         - name: qbittorrent

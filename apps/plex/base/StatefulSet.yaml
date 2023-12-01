@@ -19,19 +19,19 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/persistent/plex/config"
-            server: 192.168.1.2
+            server: 10.10.10.10
         - name: config-db
           nfs:
             path: "/k8s-volumes/persistent/plex/databases"
-            server: 192.168.1.2
+            server: 10.10.10.10
         - name: persistent-data
           nfs:
             path: "/k8s-volumes/persistent/plex/data"
-            server: 192.168.1.2
+            server: 10.10.10.10
         - name: ephemeral-data
           nfs:
             path: "/k8s-volumes/ephemeral/plex/data"
-            server: 192.168.1.2
+            server: 10.10.10.10
         - name: "plex-litestream"
           configMap:
             name: plex-litestream
