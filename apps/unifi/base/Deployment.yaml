@@ -16,7 +16,6 @@ spec:
       labels:
         app: unifi
     spec:
-      hostNetwork: true
       volumes:
         - name: config
           nfs:
