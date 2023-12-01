@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: ubuntu-prep
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: ubuntu-prep
