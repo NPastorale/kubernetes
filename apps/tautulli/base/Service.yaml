@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: tautulli-tcp
 spec:
-  type: LoadBalancer
   selector:
     app: tautulli
   ports:

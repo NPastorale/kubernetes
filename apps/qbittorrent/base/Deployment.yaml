@@ -38,7 +38,7 @@ spec:
               cpu: "4"
           ports:
             - containerPort: 8080
-            - containerPort: 6881
+            - containerPort: 53957
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
@@ -49,16 +49,16 @@ spec:
               value: "Europe/Madrid"
             - name: WEBUI_PORT
               value: "8080"
-          # readinessProbe:
-          #   tcpSocket:
-          #     port: 58846
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
-          # livenessProbe:
-          #   tcpSocket:
-          #     port: 58846
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 53957
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 53957
+            initialDelaySeconds: 10
+            periodSeconds: 5
           volumeMounts:
             - name: config
               mountPath: /config

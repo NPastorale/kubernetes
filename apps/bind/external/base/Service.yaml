@@ -4,7 +4,7 @@ metadata:
   name: bind-external
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.151
+  loadBalancerIP: 10.10.20.50
   selector:
     app: bind-external
   ports:

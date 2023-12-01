@@ -4,7 +4,7 @@ metadata:
   name: syncthing
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.154
+  loadBalancerIP: 10.10.20.55
   selector:
     app: syncthing
   ports:

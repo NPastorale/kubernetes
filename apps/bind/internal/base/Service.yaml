@@ -4,7 +4,7 @@ metadata:
   name: bind-internal
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.160
+  loadBalancerIP: 10.10.20.52
   selector:
     app: bind-internal
   ports:
