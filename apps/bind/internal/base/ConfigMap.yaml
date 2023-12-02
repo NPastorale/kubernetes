@@ -18,7 +18,7 @@ data:
             allow-query { any; };
             allow-recursion { internal; };
             recursion yes;
-            response-policy { zone "rpz"; };
+            response-policy { zone "rpz.local"; };
 
             notify yes;
             also-notify { 192.168.1.1; };
@@ -29,7 +29,7 @@ data:
             file "/etc/bind/master/nahue.ar.zone";
     };
 
-    zone "rpz" {
+    zone "rpz.local" {
             type master;
             file "/etc/bind/master/rpz.local.zone";
     };
