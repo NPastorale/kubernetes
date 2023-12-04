@@ -15,7 +15,7 @@ spec:
     solvers:
       - dns01:
           rfc2136:
-            nameserver: 192.168.1.151
+            nameserver: 10.10.20.50
             tsigKeyName: ddns-key
             tsigAlgorithm: HMACSHA512
             tsigSecretSecretRef:
@@ -40,7 +40,7 @@ spec:
     solvers:
       - dns01:
           rfc2136:
-            nameserver: 192.168.1.151
+            nameserver: 10.10.20.50
             tsigKeyName: ddns-key
             tsigAlgorithm: HMACSHA512
             tsigSecretSecretRef:
