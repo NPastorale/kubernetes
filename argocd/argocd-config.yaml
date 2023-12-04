@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd-config
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,14 +11,10 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: manifests
-    repoURL: https://github.com/argoproj/argo-cd
-    targetRevision: stable
-    directory:
-      include: "install.yaml"
+    path: apps/argocd-config
+    repoURL: https://github.com/NPastorale/kubernetes
+    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
