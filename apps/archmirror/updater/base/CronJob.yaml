@@ -16,9 +16,18 @@ spec:
               nfs:
                 path: "/k8s-volumes/ephemeral/archmirror/data"
                 server: 10.10.10.10
+            - name: mirrors
+              configMap:
+                name: mirrors
+                defaultMode: 0777
+            - name: rsync
+              configMap:
+                name: rsync
+                defaultMode: 0777
           containers:
             - name: rsync-client
-              image: npastorale/archmirror-rsync-client:3.2.7-r4
+              image: npastorale/rsync:3.2.7-r4
+              command: ["/script/rsync.sh"]
               imagePullPolicy: IfNotPresent
               env:
                 - name: TZ
@@ -26,4 +35,11 @@ spec:
               volumeMounts:
                 - name: data
                   mountPath: /data
+                - name: mirrors
+                  mountPath: /script/mirrors.txt
+                  subPath: mirrors.txt
+                  readOnly: true
+                - name: rsync
+                  mountPath: /script/rsync.sh
+                  subPath: rsync.sh
           restartPolicy: OnFailure

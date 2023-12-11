@@ -1,5 +1,4 @@
 resources:
-  - CronJob.yaml
   - Deployment.yaml
   - HorizontalPodAutoscaler.yaml
   - Ingress.yaml

@@ -1,0 +1,16 @@
+pkg.adfinis.com/archlinux/
+archlinux.za.mirror.allworldit.com/archlinux/
+archlinux.uk.mirror.allworldit.com/archlinux/
+mirrors.atviras.lt/archlinux/
+mirror.csclub.uwaterloo.ca/archlinux/
+mirrors.dotsrc.org/archlinux/
+mirror.f4st.host/archlinux/
+mirror.fsmg.org.nz/archlinux/
+mirror.neuf.no/archlinux/
+mirrors.ocf.berkeley.edu/archlinux/
+mirror.one.com/archlinux/
+mirrors.rit.edu/archlinux/
+ftp.rnl.tecnico.ulisboa.pt/pub/archlinux/
+ftp.halifax.rwth-aachen.de/archlinux/
+mirror.selfnet.de/archlinux/
+ftp.sh.cvut.cz/arch/

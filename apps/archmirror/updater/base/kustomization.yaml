@@ -1,0 +1,9 @@
+resources:
+  - CronJob.yaml
+configMapGenerator:
+  - name: mirrors
+    files:
+      - mirrors.txt
+  - name: rsync
+    files:
+      - rsync.sh
