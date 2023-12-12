@@ -1,6 +1,12 @@
 resources:
-  - ConfigMap.yaml
   - CronJob.yaml
   - RoleBinding.yaml
   - Role.yaml
   - ServiceAccount.yaml
+configMapGenerator:
+  - name: bind-external
+    files:
+      - named.conf
+  - name: zone-update
+    files:
+      - main.bash
