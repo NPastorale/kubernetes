@@ -19,11 +19,11 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/ephemeral/qbittorrent/config"
-            server: 10.10.10.10
+            server: 10.10.20.10
         - name: data
           nfs:
             path: "/k8s-volumes/ephemeral/qbittorrent/data"
-            server: 10.10.10.10
+            server: 10.10.20.10
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.5.2

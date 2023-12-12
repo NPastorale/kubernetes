@@ -19,15 +19,15 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/persistent/sonarr/config"
-            server: 10.10.10.10
+            server: 10.10.20.10
         - name: persistent-data
           nfs:
             path: "/k8s-volumes/persistent/plex/data"
-            server: 10.10.10.10
+            server: 10.10.20.10
         - name: ephemeral-data
           nfs:
             path: "/k8s-volumes/ephemeral/plex/data"
-            server: 10.10.10.10
+            server: 10.10.20.10
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:3.0.10

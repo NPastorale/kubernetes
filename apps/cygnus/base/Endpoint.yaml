@@ -4,6 +4,6 @@ metadata:
   name: cygnus
 subsets:
   - addresses:
-      - ip: 10.10.10.10
+      - ip: 10.10.20.10
     ports:
       - port: 443

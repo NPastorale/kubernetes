@@ -19,11 +19,11 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/persistent/syncthing/config"
-            server: 10.10.10.10
+            server: 10.10.20.10
         - name: data
           nfs:
             path: "/k8s-volumes/persistent/syncthing/data"
-            server: 10.10.10.10
+            server: 10.10.20.10
       containers:
         - name: syncthing
           image: lscr.io/linuxserver/syncthing:1.27.1

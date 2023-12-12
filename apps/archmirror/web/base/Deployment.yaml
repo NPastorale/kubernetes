@@ -23,11 +23,11 @@ spec:
         - name: config
           nfs:
             path: "/k8s-volumes/persistent/archmirror/config"
-            server: 10.10.10.10
+            server: 10.10.20.10
         - name: data
           nfs:
             path: "/k8s-volumes/ephemeral/archmirror/data"
-            server: 10.10.10.10
+            server: 10.10.20.10
         - name: cache
           emptyDir: {}
         - name: tmp
