@@ -1,4 +1,4 @@
 resources:
-  - Deployment.yaml
   - Ingress.yaml
   - Service.yaml
+  - StatefulSet.yaml
