@@ -1,16 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: syncthing
   labels:
     app: syncthing
 spec:
+  serviceName: syncthing
   replicas: 1
   selector:
     matchLabels:
       app: syncthing
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
