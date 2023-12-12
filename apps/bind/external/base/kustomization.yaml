@@ -1,4 +1,7 @@
 resources:
-  - ConfigMap.yaml
   - Service.yaml
   - StatefulSet.yaml
+configMapGenerator:
+  - name: bind-external
+    files:
+      - named.conf

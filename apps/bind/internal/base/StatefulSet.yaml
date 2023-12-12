@@ -1,12 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: bind-internal
   labels:
     app: bind-internal
 spec:
+  serviceName: bind-internal
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: bind-internal

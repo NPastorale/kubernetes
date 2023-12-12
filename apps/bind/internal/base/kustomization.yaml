@@ -1,4 +1,7 @@
 resources:
-  - ConfigMap.yaml
-  - Deployment.yaml
   - Service.yaml
+  - StatefulSet.yaml
+configMapGenerator:
+  - name: bind-internal
+    files:
+      - named.conf
