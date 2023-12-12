@@ -1,16 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: tautulli
   labels:
     app: tautulli
 spec:
+  serviceName: tautulli
   replicas: 1
   selector:
     matchLabels:
       app: tautulli
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
