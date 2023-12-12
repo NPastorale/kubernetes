@@ -22,7 +22,7 @@ spec:
             server: 10.10.10.10
       containers:
         - name: home-assistant
-          image: lscr.io/linuxserver/homeassistant:2023.7.1
+          image: lscr.io/linuxserver/homeassistant:2023.12.1
           resources:
             requests:
               memory: "56Mi"
