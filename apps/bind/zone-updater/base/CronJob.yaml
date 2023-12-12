@@ -11,9 +11,9 @@ spec:
       template:
         spec:
           volumes:
-            - name: bind-external
+            - name: bind-external-updater
               configMap:
-                name: bind-external
+                name: bind-external-updater
             - name: data
               nfs:
                 path: "/k8s-volumes/persistent/bind/external/data"
@@ -28,7 +28,7 @@ spec:
               image: npastorale/kubectl:1.27.4
               command: ["/main.bash"]
               volumeMounts:
-                - name: bind-external
+                - name: bind-external-updater
                   mountPath: /etc/bind/named.conf
                   subPath: named.conf
                 - name: data
