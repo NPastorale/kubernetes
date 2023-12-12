@@ -8,6 +8,11 @@
 #                                                     #
 #######################################################
 
+# Function for logging to stdout
+log() {
+    echo "$(date +"%Y-%m-%d %H:%M:%S") - $1"
+}
+
 #############
 # Variables #
 #############
@@ -36,36 +41,36 @@ currdate=$(date +%Y%m%d)
 # Current date serial format YYYYMMDDXX
 newserial=$(date +%Y%m%d)01
 
-echo "Starting dynbind process"
+log "Starting dynbind process"
 
 if [ -z "$currextip" ]; then # Checks if currextip has zero lenght
-    echo "Zero length IP"
-    echo "Terminated"
+    log "Zero length IP"
+    log "Terminated"
     exit
 fi
 
 if ping -c 1 -n -q -s 4 -W 5 8.8.8.8 &>/dev/null; then
     if [ "$currextip" != "$currbindip" ]; then # Compares the current external IP against the one in the zone file
-        echo "Internet is reachable"
-        echo "External IP and Bind IP are different"
+        log "Internet is reachable"
+        log "External IP and Bind IP are different"
         sed -i -e "s/$currbindip/$currextip/g" "$bindconfig" # Replaces all the occurrences of current file IP found with the new IP on bindconfig
-        echo "Updating IPs..."
+        log "Updating IPs..."
         if [ "$currbindsersub" = "$currdate" ]; then               # Compares the date within the current serial number against the current date
             sed -i -e "s/$currbindser/$newserial1/g" "$bindconfig" # Adds one to the current serial on bindconfig
-            echo "Serial is from the same date. Adding one..."
+            log "Serial is from the same date. Adding one..."
         else
             sed -i -e "s/$currbindser/$newserial/g" "$bindconfig" # Replaces the old serial with the new one on bindconfig
-            echo "Serial is from different date. Changing serial..."
+            log "Serial is from different date. Changing serial..."
         fi
         kubectl rollout restart -n bind9 deployment bind-external
 
     else
-        echo "External IP and Bind IP match"
-        echo "Terminated"
+        log "External IP and Bind IP match"
+        log "Terminated"
         exit
     fi
 else
-    echo "Internet is unreachable"
-    echo "Terminated"
+    log "Internet is unreachable"
+    log "Terminated"
     exit
 fi
