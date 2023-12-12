@@ -1,16 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: prowlarr
   labels:
     app: prowlarr
 spec:
+  serviceName: prowlarr
   replicas: 1
   selector:
     matchLabels:
       app: prowlarr
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -23,7 +22,7 @@ spec:
             server: 10.10.10.10
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:1.9.4.4039-ls40
+          image: lscr.io/linuxserver/prowlarr:1.9.4
           resources:
             requests:
               memory: "56Mi"
