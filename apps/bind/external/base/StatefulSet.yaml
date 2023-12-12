@@ -5,7 +5,7 @@ metadata:
   labels:
     app: bind-external
 spec:
-  serviceName: bind-external-udp
+  serviceName: bind-external
   replicas: 1
   selector:
     matchLabels:
