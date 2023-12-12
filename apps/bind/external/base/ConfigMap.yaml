@@ -12,7 +12,6 @@ data:
             directory "/var/bind";
             listen-on { any; };
             listen-on-v6 { none; };
-            dnssec-enable yes;
             dnssec-validation auto;
             allow-transfer {
                     none;
