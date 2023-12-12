@@ -1,5 +1,8 @@
 resources:
-  - ConfigMap.yaml
   - Ingress.yaml
   - Service.yaml
   - StatefulSet.yaml
+configMapGenerator:
+  - name: plex-litestream
+    files:
+      - litestream.yaml

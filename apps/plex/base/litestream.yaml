@@ -1,0 +1,7 @@
+dbs:
+  - path: /data/com.plexapp.plugins.library.db
+    replicas:
+      - path: /nfs/library
+  - path: /data/com.plexapp.plugins.library.blobs.db
+    replicas:
+      - path: /nfs/library-blobs
