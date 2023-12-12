@@ -1,0 +1,7 @@
+resources:
+  - Service.yaml
+  - StatefulSet.yaml
+configMapGenerator:
+  - name: postgres
+    envs:
+      - .env
