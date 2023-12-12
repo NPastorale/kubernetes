@@ -25,7 +25,7 @@ spec:
             server: 10.10.10.10
       containers:
         - name: bind-internal
-          image: npastorale/bind9:9.16.29-0
+          image: npastorale/bind9:9.18.19-r1
           resources:
             requests:
               memory: "56Mi"
