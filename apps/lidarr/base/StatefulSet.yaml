@@ -41,17 +41,17 @@ spec:
               value: "1000"
             - name: GUID
               value: "1000"
-          # readinessProbe:
-          #   httpGet:
-          #     port: 8686
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
-          # livenessProbe:
-          #   httpGet:
-          #     port: 8686
-          #   initialDelaySeconds: 15
-          #   periodSeconds: 5
-          #   failureThreshold: 20
+          readinessProbe:
+            httpGet:
+              port: 8686
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              port: 8686
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 3
           ports:
             - containerPort: 8686
               name: web
