@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapdrop
+  labels:
+    app: snapdrop
+spec:
+  selector:
+    matchLabels:
+      app: snapdrop
+  template:
+    metadata:
+      labels:
+        app: snapdrop
+    spec:
+      containers:
+        - name: snapdrop
+          image: lscr.io/linuxserver/snapdrop
+          resources:
+            requests:
+              memory: "56Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
