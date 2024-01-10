@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: esphome
+  labels:
+    app: esphome
+spec:
+  serviceName: esphome
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      volumes:
+        - name: config
+          nfs:
+            path: "/k8s-volumes/persistent/esphome/config"
+            server: 10.10.20.10
+      hostNetwork: true
+      containers:
+        - name: esphome
+          image: ghcr.io/esphome/esphome:2023.12.5
+          resources:
+            requests:
+              memory: "56Mi"
+              cpu: "100m"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          ports:
+            - containerPort: 6052
+          volumeMounts:
+            - name: config
+              mountPath: /config
