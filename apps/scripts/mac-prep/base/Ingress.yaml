@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - mac-prep.nahue.ar
-      secretName: archinstall
+      secretName: mac-prep
   rules:
     - host: mac-prep.nahue.ar
       http:

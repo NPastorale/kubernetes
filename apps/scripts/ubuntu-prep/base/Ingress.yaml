@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - ubuntu-prep.nahue.ar
-      secretName: archinstall
+      secretName: ubuntu-prep
   rules:
     - host: ubuntu-prep.nahue.ar
       http:
