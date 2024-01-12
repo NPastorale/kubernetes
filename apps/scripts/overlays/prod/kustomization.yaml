@@ -1,0 +1,3 @@
+resources:
+  - ../../mac-prep/overlays/prod
+  - ../../ubuntu-prep/overlays/prod

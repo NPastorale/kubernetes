@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ubuntu-prep
+  name: scripts
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: ubuntu-prep
+    namespace: scripts
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/ubuntu-prep/overlays/prod
+    path: apps/scripts/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
