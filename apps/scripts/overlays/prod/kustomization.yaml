@@ -1,3 +1,4 @@
 resources:
+  - ../../archinstall/overlays/prod
   - ../../mac-prep/overlays/prod
   - ../../ubuntu-prep/overlays/prod

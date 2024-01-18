@@ -4,7 +4,7 @@ metadata:
   name: archinstall
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/rewrite-target: /npastorale/arch_installation/master/autoinstall.sh
+    nginx.ingress.kubernetes.io/rewrite-target: /NPastorale/scripts/main/arch-installation/autoinstall.sh
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/upstream-vhost: "raw.githubusercontent.com"
 spec:
