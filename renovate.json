@@ -2,7 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard",
+    ":prConcurrentLimitNone",
+    ":prHourlyLimitNone",
+    ":rebaseStalePrs",
+    "docker:pinDigests"
   ],
   "kubernetes": {
     "fileMatch": [

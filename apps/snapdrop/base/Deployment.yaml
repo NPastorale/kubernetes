@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: snapdrop
-          image: lscr.io/linuxserver/snapdrop
+          image: lscr.io/linuxserver/snapdrop:eac78009-ls129
           resources:
             requests:
               memory: "56Mi"
