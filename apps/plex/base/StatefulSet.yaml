@@ -42,7 +42,7 @@ spec:
             path: /dev/dri
       initContainers:
         - name: init-litestream
-          image: litestream/litestream:0.3.13
+          image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           args:
             [
               "restore",
@@ -59,7 +59,7 @@ spec:
               mountPath: /etc/litestream.yml
               subPath: litestream.yaml
         - name: init-litestream-blobs
-          image: litestream/litestream:0.3.13
+          image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           args:
             [
               "restore",
@@ -78,7 +78,7 @@ spec:
       hostNetwork: true
       containers:
         - name: plex
-          image: lscr.io/linuxserver/plex:1.32.8.7639-fb6452ebf-ls202
+          image: lscr.io/linuxserver/plex:1.32.8.7639-fb6452ebf-ls202@sha256:476c057d677ff239d6b0b5c8e7efb2d572a705f69f9860bbe4221d5bbfdf2144
           securityContext:
             privileged: true
             runAsUser: 0
@@ -148,7 +148,7 @@ spec:
             - name: gpu
               mountPath: /dev/dri
         - name: litestream
-          image: litestream/litestream:0.3.13
+          image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           lifecycle:
             postStart:
               exec:

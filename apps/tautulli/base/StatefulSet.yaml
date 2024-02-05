@@ -22,7 +22,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: tautulli
-          image: lscr.io/linuxserver/tautulli:v2.13.4-ls117
+          image: lscr.io/linuxserver/tautulli:v2.13.4-ls117@sha256:51141894756ace888d91b0c9fa8e24e04d8d7e6e3fb1eb7c61937c612e80b228
           resources:
             requests:
               memory: "56Mi"
