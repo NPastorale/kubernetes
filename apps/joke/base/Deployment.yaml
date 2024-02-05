@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: joke
-          image: npastorale/joke
+          image: npastorale/joke@sha256:c33927f4258f1fbba96a0f19644f8ed8ee936496022a7667e69f1450ed45d766
           resources:
             requests:
               memory: "56Mi"
