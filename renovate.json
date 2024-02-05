@@ -1,12 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    ":disableDependencyDashboard",
-    ":prConcurrentLimitNone",
-    ":prHourlyLimitNone",
-    ":rebaseStalePrs",
-    "docker:pinDigests"
+    "github>npastorale/workflows//renovate/default"
   ],
   "kubernetes": {
     "fileMatch": [
