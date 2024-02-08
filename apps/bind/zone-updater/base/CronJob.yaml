@@ -25,7 +25,7 @@ spec:
           serviceAccountName: bind-kubectl
           containers:
             - name: bind-kubectl
-              image: ghcr.io/npastorale/kubectl:1.28.4-r0@sha256:df5e18d4de25c0e156e223b7f8c84683f23510b63123315d669457c3f6d3c0ea
+              image: ghcr.io/npastorale/kubectl:1.28.4-r0@sha256:109bfd05b3cf844b06eb97579e3ee323bed7708e478a2b86bdb8b536247f5262
               command: ["/main.bash"]
               volumeMounts:
                 - name: bind-external-updater
