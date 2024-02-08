@@ -6,6 +6,14 @@
   "kubernetes": {
     "fileMatch": [
       "apps/.+\\.yaml$"
+    ],
+    "packageRules": [
+      {
+        "matchSourceUrlPrefixes": [
+          "lscr.io/linuxserver/"
+        ],
+        "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]?(?<build>\\w*)?-?(?<commit>\\w{0,9})?-ls(?<revision>\\d+)-?(?<compatibility>\\w?)$"
+      }
     ]
   },
   "argocd": {
