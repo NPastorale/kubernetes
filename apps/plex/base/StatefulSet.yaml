@@ -78,7 +78,7 @@ spec:
       hostNetwork: true
       containers:
         - name: plex
-          image: lscr.io/linuxserver/plex:1.32.8.7639-fb6452ebf-ls204@sha256:a7df60838f8ae7f0dfb5e760467bcd0a27f7bcde6a9bce995f05213d66d87b8c
+          image: lscr.io/linuxserver/plex:1.40.0.7998-c29d4c0c8-ls206@sha256:3bc1444e7e8a91dfa0735b1878b4f0eb39c680e97ed419149f74ef24cd1c9222
           securityContext:
             privileged: true
             runAsUser: 0
