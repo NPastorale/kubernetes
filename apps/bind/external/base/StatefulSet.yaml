@@ -25,7 +25,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: bind-external
-          image: ghcr.io/npastorale/bind:9.18.19-r1@sha256:90faf5b5a2b7535350f0a99eea93adf374538e025d78430607bef83e32b2049e
+          image: ghcr.io/npastorale/bind:9.18.24-r1@sha256:f4aaa9d57a09d87a20ed574968d51ec2072c6a9317b1f8e161cca6e0c661c0d8
           resources:
             requests:
               memory: "56Mi"
