@@ -9,6 +9,9 @@
     ],
     "packageRules": [
       {
+        "matchDatasources": [
+          "docker"
+        ],
         "matchPackagePrefixes": [
           "lscr.io/linuxserver/"
         ],
