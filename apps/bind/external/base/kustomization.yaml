@@ -1,4 +1,5 @@
 resources:
+  - SealedSecret.yaml
   - Service.yaml
   - StatefulSet.yaml
 configMapGenerator:

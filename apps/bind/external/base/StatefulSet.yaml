@@ -19,6 +19,9 @@ spec:
         - name: bind-external
           configMap:
             name: bind-external
+        - name: ddns-key
+          secret:
+            secretName: ddns-key-external
         - name: data
           nfs:
             path: "/k8s-volumes/persistent/bind/external/data"
@@ -53,6 +56,9 @@ spec:
             - name: bind-external
               mountPath: /etc/bind/named.conf
               subPath: named.conf
+            - name: ddns-key
+              mountPath: /etc/bind/ddns-key.conf
+              subPath: ddns-key.conf
             - name: data
               mountPath: /etc/bind/master
               readOnly: false
