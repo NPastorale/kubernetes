@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: plausible-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - plausible.nahue.ar
+      secretName: plausible
+  rules:
+    - host: plausible.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: plausible
+                port:
+                  number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: script-plausible-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: external-nginx
+  tls:
+    - hosts:
+        - plausible.nahue.ar
+      secretName: script-plausible
+  rules:
+    - host: plausible.nahue.ar
+      http:
+        paths:
+          - path: /js/script.js
+            pathType: Prefix
+            backend:
+              service:
+                name: plausible
+                port:
+                  number: 80
