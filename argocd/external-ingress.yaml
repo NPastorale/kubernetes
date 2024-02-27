@@ -28,8 +28,12 @@ spec:
           value: "true"
         - name: controller.config.allow-snippet-annotations
           value: "true"
+        - name: controller.config.enable-real-ip
+          value: "true"
         - name: controller.service.loadBalancerIP
           value: "10.10.20.56"
+        - name: controller.service.externalTrafficPolicy
+          value: "Local"
     repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: 4.9.1
   syncPolicy:
