@@ -26,6 +26,8 @@ spec:
           value: "31536000"
         - name: controller.config.hsts-preload
           value: "true"
+        - name: controller.config.allow-snippet-annotations
+          value: "true"
         - name: controller.service.loadBalancerIP
           value: "10.10.20.56"
     repoURL: https://kubernetes.github.io/ingress-nginx
