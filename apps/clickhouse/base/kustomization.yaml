@@ -1,0 +1,8 @@
+resources:
+  - Service.yaml
+  - StatefulSet.yaml
+configMapGenerator:
+  - name: clickhouse
+    files:
+      - clickhouse-config.xml
+      - clickhouse-user-config.xml

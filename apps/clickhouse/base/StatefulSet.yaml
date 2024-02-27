@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: clickhouse
+  labels:
+    app: clickhouse
+spec:
+  serviceName: clickhouse
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clickhouse
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+    spec:
+      volumes:
+        - name: data
+          nfs:
+            path: "/k8s-volumes/persistent/clickhouse/data"
+            server: 10.10.20.10
+        - name: config
+          configMap:
+            name: clickhouse
+      containers:
+        - name: clickhouse
+          image: clickhouse/clickhouse-server:23.3.7.5-alpine
+          ports:
+            - containerPort: 8123
+              name: http
+            - containerPort: 9000
+              name: native
+          env:
+            - name: CLICKHOUSE_DB
+              value: plausible
+            - name: CLICKHOUSE_LISTEN_HOST
+              value: "0.0.0.0"
+            - name: CLICKHOUSE_USER
+              value: "test"
+            - name: CLICKHOUSE_PASSWORD
+              value: "temppassword"
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8123
+            initialDelaySeconds: 20
+            failureThreshold: 6
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8123
+            initialDelaySeconds: 30
+            failureThreshold: 3
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/clickhouse
+            - name: config
+              mountPath: /etc/clickhouse-server/config.d/logging.xml
+              subPath: clickhouse-config.xml
+              readOnly: true
+            - name: config
+              mountPath: /etc/clickhouse-server/users.d/logging.xml
+              subPath: clickhouse-user-config.xml
+              readOnly: true
