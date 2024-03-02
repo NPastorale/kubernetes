@@ -4,9 +4,6 @@ resources:
   - Role.yaml
   - ServiceAccount.yaml
 configMapGenerator:
-  - name: bind-external-updater
-    files:
-      - named.conf
   - name: zone-update
     files:
       - main.bash
