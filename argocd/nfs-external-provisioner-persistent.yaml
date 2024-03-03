@@ -13,17 +13,16 @@ spec:
   source:
     chart: nfs-subdir-external-provisioner
     helm:
-      parameters:
-        - name: storageClass.name
-          value: "nfs-persistent"
-        - name: storageClass.provisionerName
-          value: "k8s-sigs.io/nfs-external-provisioner-persistent"
-        - name: storageClass.reclaimPolicy
-          value: Retain
-        - name: nfs.server
-          value: "10.10.20.10"
-        - name: nfs.path
-          value: "/k8s-volumes/test"
+      valuesObject:
+        nfs:
+          path: "/k8s-volumes/test"
+          server: "10.10.20.10"
+        storageClass:
+          archiveOnDelete: false
+          name: "nfs-persistent"
+          onDelete: "retain"
+          pathPattern: "${.PVC.namespace}/${.PVC.name}"
+          provisionerName: "k8s-sigs.io/nfs-external-provisioner-persistent"
     repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
     targetRevision: 4.0.18
   syncPolicy:
