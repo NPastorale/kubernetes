@@ -1,0 +1,12 @@
+resources:
+  - Deployment.yaml
+  - HorizontalPodAutoscaler.yaml
+  - Ingress.yaml
+  - Service.yaml
+configMapGenerator:
+  - name: default-conf
+    files:
+      - default.conf
+  - name: nginx-conf
+    files:
+      - nginx.conf
