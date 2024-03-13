@@ -4,11 +4,13 @@ metadata:
   name: http-server-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   ingressClassName: external-nginx
   tls:
     - hosts:
         - podvader.com
+        - www.podvader.com
       secretName: podvader
   rules:
     - host: podvader.com
