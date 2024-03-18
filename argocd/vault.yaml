@@ -14,10 +14,8 @@ spec:
     chart: vault
     helm:
       parameters:
-        - name: dataStorage.storageClass
+        - name: server.dataStorage.storageClass
           value: "nfs-persistent"
-        - name: dataStorage.accessMode
-          value: "ReadWriteMany"
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.27.0
   syncPolicy:
