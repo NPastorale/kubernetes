@@ -14,6 +14,8 @@ spec:
     chart: vault
     helm:
       valuesObject:
+        global:
+          tlsDisable: false
         server:
           dataStorage:
             storageClass: "nfs-persistent"
