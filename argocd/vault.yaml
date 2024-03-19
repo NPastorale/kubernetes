@@ -13,11 +13,21 @@ spec:
   source:
     chart: vault
     helm:
-      parameters:
-        - name: server.dataStorage.storageClass
-          value: "nfs-persistent"
-        - name: injector.enabled
-          value: "false"
+      valuesObject::
+        server:
+          dataStorage:
+            storageClass: "nfs-persistent"
+          ingress:
+            enabled: true
+            ingressClassName: "internal-nginx"
+            tls:
+              - hosts:
+                  - vault.nahue.ar
+                secretName: vault
+        injector:
+          enabled: false
+        ui:
+          enabled: true
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.27.0
   syncPolicy:
