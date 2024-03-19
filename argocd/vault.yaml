@@ -19,6 +19,8 @@ spec:
             storageClass: "nfs-persistent"
           ingress:
             enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
             ingressClassName: "internal-nginx"
             hosts:
               - host: "vault.nahue.ar"
