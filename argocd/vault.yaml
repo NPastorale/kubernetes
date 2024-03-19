@@ -16,6 +16,8 @@ spec:
       parameters:
         - name: server.dataStorage.storageClass
           value: "nfs-persistent"
+        - name: injector.enabled
+          value: "false"
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.27.0
   syncPolicy:
