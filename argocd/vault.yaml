@@ -30,6 +30,7 @@ spec:
               - hosts:
                   - vault.nahue.ar
                 secretName: vault
+          updateStrategy: "RollingUpdate"
         injector:
           enabled: false
         ui:
