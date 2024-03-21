@@ -13,7 +13,7 @@ spec:
   source:
     path: manifests
     repoURL: https://github.com/argoproj/argo-cd
-    targetRevision: stable
+    targetRevision: v2.9.3
     directory:
       include: "install.yaml"
   syncPolicy:
