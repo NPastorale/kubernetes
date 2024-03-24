@@ -1,24 +1,11 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: patch-configmap-to-sa
+  name: restart-stateful-set-to-sa
 subjects:
   - kind: ServiceAccount
     name: bind-kubectl
 roleRef:
   kind: Role
-  name: patch-configmap
-  apiGroup: rbac.authorization.k8s.io
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: restart-deployment-to-sa
-subjects:
-  - kind: ServiceAccount
-    name: bind-kubectl
-roleRef:
-  kind: Role
-  name: restart-deployment
+  name: restart-stateful-set
   apiGroup: rbac.authorization.k8s.io
