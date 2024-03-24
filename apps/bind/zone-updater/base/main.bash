@@ -81,10 +81,10 @@ if ping -c 1 -n -q -s 4 -W 5 8.8.8.8 &>/dev/null; then
     done
 
     if [ "$modified" = true ]; then
-        log "Modifications detected. Restarting bind-external deployment."
-        kubectl rollout restart -n bind9 deployment bind-external
+        log "Modifications detected. Restarting bind-external statefulset."
+        kubectl rollout restart -n bind9 statefulsets bind-external
     else
-        log "No modifications detected. Skipping deployment restart."
+        log "No modifications detected. Skipping statefulset restart."
     fi
 
 else
