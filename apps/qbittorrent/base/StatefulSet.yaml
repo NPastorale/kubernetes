@@ -26,7 +26,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:4.6.3-r0-ls308@sha256:084cc284fe845af75697235978a6033b36353691fe9e14eec52119a402531dea
+          image: lscr.io/linuxserver/qbittorrent:4.6.4-r0-ls321@sha256:80f32c0b68e94ed6960d34b0f1844aa24e615aa53210f31e1d04cf0b332d1a2c
           resources:
             requests:
               memory: "56Mi"
