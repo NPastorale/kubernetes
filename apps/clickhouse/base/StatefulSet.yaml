@@ -25,7 +25,7 @@ spec:
             name: clickhouse
       containers:
         - name: clickhouse
-          image: clickhouse/clickhouse-server:23.3.7.5-alpine@sha256:181dea4c5e362916f5193c05762eeddafca93c21678ad9e95d4c33f92f3f8b42
+          image: clickhouse/clickhouse-server:24.3.1.2672-alpine@sha256:38c9b03897affa1d535fba2f79361fa18945a95e3d4a33818ef32991de0e91a2
           ports:
             - containerPort: 8123
               name: http
