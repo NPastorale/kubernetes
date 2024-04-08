@@ -5,8 +5,6 @@ metadata:
 spec:
   secretName: vault-tls
   commonName: vault.nahue.ar
-  ipAddresses:
-    - 127.0.0.1
   dnsNames:
     - vault.nahue.ar
   issuerRef:
