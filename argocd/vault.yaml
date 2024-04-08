@@ -29,6 +29,7 @@ spec:
           standalone:
             enabled: true
             config: |
+              ui = true
               listener "tcp" {
                 address = "vault.nahue.ar:8200"
                 cluster_address = "vault.nahue.ar:8201"
