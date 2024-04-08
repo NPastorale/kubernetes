@@ -43,7 +43,8 @@ spec:
           ingress:
             enabled: true
             annotations:
-              cert-manager.io/cluster-issuer: letsencrypt-prod
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             ingressClassName: "internal-nginx"
             hosts:
               - host: "vault.nahue.ar"
