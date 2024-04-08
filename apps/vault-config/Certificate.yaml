@@ -4,7 +4,7 @@ metadata:
   name: vault-tls
 spec:
   secretName: vault-tls
-  commonName: nahue.ar
+  commonName: vault.nahue.ar
   dnsNames:
     - vault.nahue.ar
   issuerRef:
