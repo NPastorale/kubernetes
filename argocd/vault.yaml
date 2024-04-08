@@ -31,6 +31,9 @@ spec:
                 tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
                 tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
               }
+              storage "file" {
+                path = "/vault/data"
+              }
           dataStorage:
             storageClass: "nfs-persistent"
           ingress:
