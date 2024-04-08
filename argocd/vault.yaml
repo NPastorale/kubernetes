@@ -30,8 +30,8 @@ spec:
             enabled: true
             config: |
               listener "tcp" {
-                address = "[::]:8200"
-                cluster_address = "[::]:8201"
+                address = "vault.nahue.ar:8200"
+                cluster_address = "vault.nahue.ar:8201"
                 tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
                 tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
               }
