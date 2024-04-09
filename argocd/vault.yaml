@@ -21,7 +21,7 @@ spec:
             - name: vault-tls
               secret:
                 defaultMode: 420
-                secretName: vault-tls
+                secretName: vault
           volumeMounts:
             - mountPath: /vault/userconfig/vault-tls/
               name: vault-tls
