@@ -28,7 +28,7 @@ spec:
           emptyDir: {}
       containers:
         - name: http-server
-          image: ghcr.io/npastorale/podvader:0.0.1@sha256:4f4bff0d8a351a9a99f327596432ec91232de5b39544d21806ec99892c605d1d
+          image: ghcr.io/npastorale/podvader:0.0.1@sha256:51c4b9c88fa8cc75d2817adcfbcdffbd045e0afde6c27084a87d85734fe984c1
           resources:
             requests:
               memory: "56Mi"
