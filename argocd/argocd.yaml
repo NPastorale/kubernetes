@@ -11,11 +11,55 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: manifests
-    repoURL: https://github.com/argoproj/argo-cd
-    targetRevision: stable
-    directory:
-      include: "install.yaml"
+    chart: argo-cd
+    helm:
+      valuesObject:
+        global:
+          domain: argocd.nahue.ar
+        configs:
+          params:
+            server.insecure: true
+        server:
+          ingress:
+            enabled: true
+            ingressClassName: internal-nginx
+            tls: true
+          ingressGrpc:
+            enabled: true
+            ingressClassName: internal-nginx
+            tls: true
+          certificate:
+            enabled: "true"
+            issuer:
+              group: "cert-manager.io"
+              kind: "ClusterIssuer"
+              name: "letsencrypt-prod"
+        extraObjects:
+          - apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              name: argocd-server-webhook-ingress
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            spec:
+              ingressClassName: external-nginx
+              tls:
+                - hosts:
+                    - argocd.nahue.ar
+                  secretName: argocd-ingress-webhook
+              rules:
+                - host: argocd.nahue.ar
+                  http:
+                    paths:
+                      - path: /api/webhook
+                        pathType: Prefix
+                        backend:
+                          service:
+                            name: argocd-server
+                            port:
+                              name: http
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 6.7.14
   syncPolicy:
     automated:
       prune: true
