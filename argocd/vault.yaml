@@ -20,7 +20,7 @@ spec:
           volumes:
             - name: vault-tls
               secret:
-                defaultMode: 420
+                defaultMode: 400
                 secretName: vault
           volumeMounts:
             - mountPath: /vault/userconfig/vault-tls/
@@ -30,6 +30,7 @@ spec:
             enabled: true
             config: |
               ui = true
+              api_addr = "https://vault.nahue.ar"
               listener "tcp" {
                 address = "[::]:8200"
                 cluster_address = "[::]:8201"
@@ -57,7 +58,7 @@ spec:
         injector:
           enabled: false
         ui:
-          enabled: true
+          enabled: false
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.28.0
   syncPolicy:
