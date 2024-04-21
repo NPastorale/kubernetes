@@ -58,6 +58,7 @@ metadata:
   name: argocd-server-webhook-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: external-nginx
   tls:
