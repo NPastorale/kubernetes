@@ -30,16 +30,19 @@ spec:
             enabled: true
             config: |
               ui = true
+              disable_mlock = true
               api_addr = "https://vault.nahue.ar"
+              cluster_addr = "https://vault.nahue.ar:8201"
               listener "tcp" {
                 address = "[::]:8200"
-                cluster_address = "[::]:8201"
                 tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
                 tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
               }
-              storage "file" {
+              storage "raft" {
                 path = "/vault/data"
+                node_id = "vault-raft-0"
               }
+              ui = true
           dataStorage:
             storageClass: "nfs-persistent"
           ingress:
