@@ -44,7 +44,7 @@ spec:
               }
               ui = true
           dataStorage:
-            storageClass: "nfs-persistent"
+            storageClass: "nfs-csi-persistent"
           ingress:
             enabled: true
             annotations:
