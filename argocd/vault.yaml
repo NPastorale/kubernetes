@@ -40,9 +40,8 @@ spec:
               }
               storage "raft" {
                 path = "/vault/data"
-                node_id = "vault-raft-0"
               }
-              ui = true
+              service_registration "kubernetes" {}
           dataStorage:
             storageClass: "nfs-csi-persistent"
           ingress:
