@@ -15,9 +15,9 @@ spec:
     helm:
       parameters:
         - name: controller.ingressClassResource.controllerValue
-          value: k8s.io/external-nginx
+          value: "k8s.io/external-nginx"
         - name: controller.ingressClassResource.name
-          value: external-nginx
+          value: "external-nginx"
         - name: controller.ingressClassResource.default
           value: "true"
         - name: controller.ingressClassByName
