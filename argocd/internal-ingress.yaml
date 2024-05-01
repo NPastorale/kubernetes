@@ -18,6 +18,8 @@ spec:
           value: k8s.io/internal-nginx
         - name: controller.ingressClassResource.name
           value: internal-nginx
+        - name: controller.replicaCount
+          value: "3"
         - name: controller.ingressClassByName
           value: "true"
         - name: controller.service.loadBalancerIP
