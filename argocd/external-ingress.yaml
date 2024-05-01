@@ -18,6 +18,8 @@ spec:
           value: "k8s.io/external-nginx"
         - name: controller.ingressClassResource.name
           value: "external-nginx"
+        - name: controller.replicaCount
+          value: "3"
         - name: controller.ingressClassResource.default
           value: "true"
         - name: controller.ingressClassByName
