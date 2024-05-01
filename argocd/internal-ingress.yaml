@@ -15,9 +15,9 @@ spec:
     helm:
       parameters:
         - name: controller.ingressClassResource.controllerValue
-          value: k8s.io/internal-nginx
+          value: "k8s.io/internal-nginx"
         - name: controller.ingressClassResource.name
-          value: internal-nginx
+          value: "internal-nginx"
         - name: controller.replicaCount
           value: "3"
         - name: controller.ingressClassByName
