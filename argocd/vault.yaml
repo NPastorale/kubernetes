@@ -22,9 +22,16 @@ spec:
               secret:
                 defaultMode: 400
                 secretName: vault
+            - name: kms-auth
+              secret:
+                defaultMode: 400
+                secretName: kms-auth
           volumeMounts:
             - mountPath: /vault/userconfig/vault-tls/
               name: vault-tls
+              readOnly: true
+            - mountPath: /vault/userconfig/kms-auth/
+              name: kms-auth
               readOnly: true
           standalone:
             enabled: true
@@ -40,6 +47,13 @@ spec:
               }
               storage "raft" {
                 path = "/vault/data"
+              }
+              seal "gcpckms" {
+                credentials = "/vault/userconfig/sa-credentials.json"
+                project     = "podhub-e6f2d31e0650c5b3"
+                region      = "europe-southwest1"
+                key_ring    = "Vault"
+                crypto_key  = "unseal-key"
               }
               service_registration "kubernetes" {}
           dataStorage:
