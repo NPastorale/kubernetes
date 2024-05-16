@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ddclient
+  labels:
+    app: ddclient
+spec:
+  selector:
+    matchLabels:
+      app: ddclient
+  template:
+    metadata:
+      labels:
+        app: ddclient
+    spec:
+      volumes:
+        - name: ddclient-conf
+          nfs:
+            path: "/k8s-volumes/persistent/ddclient/config"
+            server: 10.10.20.10
+      containers:
+        - name: ddclient
+          image: lscr.io/linuxserver/ddclient:3.11.2
+          resources:
+            requests:
+              memory: "52Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: DYNU_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: ddclient
+                  key: dynu-login
+            - name: DYNU_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ddclient
+                  key: dynu-password
+            - name: CHANGEIP_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: ddclient
+                  key: changeip-login
+            - name: CHANGEIP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ddclient
+                  key: changeip-password
+          volumeMounts:
+            - name: ddclient-conf
+              mountPath: /config/ddclient.conf
+              subPath: ddclient.conf
