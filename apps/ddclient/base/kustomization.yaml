@@ -1,4 +1,3 @@
 resources:
   - Deployment.yaml
   - ExternalSecret.yaml
-  - Service.yaml
