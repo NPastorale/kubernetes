@@ -55,7 +55,6 @@ spec:
                 key_ring    = "Vault"
                 crypto_key  = "unseal-key"
               }
-              service_registration "kubernetes" {}
           dataStorage:
             storageClass: "nfs-csi-persistent"
           ingress:
