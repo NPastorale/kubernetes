@@ -36,7 +36,7 @@ spec:
           emptyDir: {}
       containers:
         - name: http-server
-          image: nginx:1.26.0-alpine-slim@sha256:be13c98f606eef87521627d5c794a98ac1e5a8fcb085e75acdc0c9d66a28666c
+          image: nginx:1.26.1-alpine-slim@sha256:182cd121d15bb6c89f580619252692c2495f0fad399776810c1bd3e0afa44c8b
           resources:
             requests:
               memory: "56Mi"
