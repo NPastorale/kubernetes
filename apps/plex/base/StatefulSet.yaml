@@ -139,10 +139,8 @@ spec:
               mountPath: /config
             - name: persistent-data
               mountPath: /persistent-data
-              readOnly: true
             - name: ephemeral-data
               mountPath: /ephemeral-data
-              readOnly: true
             - name: plex-database
               mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
             - name: gpu
