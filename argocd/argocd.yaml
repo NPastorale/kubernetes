@@ -46,7 +46,7 @@ spec:
               tls:
                 - hosts:
                     - argocd.nahue.ar
-                  secretName: argocd-server-tls
+                  secretName: argocd-ingress-webhook
               rules:
                 - host: argocd.nahue.ar
                   http:
