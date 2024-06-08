@@ -8,7 +8,6 @@
 - Loki
 - Datree
 - Argocd-autopilot
-- Bitnami sealed secrets
 - Cilium
 - Cilium Service Mesh
 - MetalLB por BGP
