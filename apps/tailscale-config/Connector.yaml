@@ -1,0 +1,16 @@
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: catalunsha
+spec:
+  hostname: catalunsha
+  exitNode: true
+  subnetRouter:
+    advertiseRoutes:
+      - "10.10.0.0/24"
+      - "10.10.10.0/24"
+      - "10.10.20.0/24"
+      - "10.10.30.0/24"
+      - "10.10.40.0/24"
+      - "10.20.0.0/24"
+      - "10.30.0.0/24"
