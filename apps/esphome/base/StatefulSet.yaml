@@ -23,7 +23,7 @@ spec:
       hostNetwork: true
       containers:
         - name: esphome
-          image: ghcr.io/esphome/esphome:2024.6.0@sha256:d9780179553347a0b736f812c60a25c098ed3193064766ece1be9e2e74448a2c
+          image: ghcr.io/esphome/esphome:2024.6.1@sha256:1fc2667fa912cfcadec65c0a9d90f4ef3492552bed6752ca795ceca65f7651a2
           resources:
             requests:
               memory: "56Mi"
