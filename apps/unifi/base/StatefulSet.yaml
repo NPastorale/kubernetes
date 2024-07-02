@@ -22,7 +22,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: unifi
-          image: lscr.io/linuxserver/unifi-controller:8.0.24-ls221@sha256:0ae315a3a45635e443899e30e86bd507c2c48922cb27f4bc7241777885f4650e
+          image: lscr.io/linuxserver/unifi-network-application
           resources:
             requests:
               memory: "56Mi"
@@ -36,6 +36,19 @@ spec:
               value: "65534"
             - name: GUID
               value: "65534"
+            - name: MONGO_USER
+              value: "unifi"
+            - name: MONGO_HOST
+              value: "mongo-prod-0.mongo-prod-svc.mongodb.svc.cluster.local"
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_DBNAME
+              value: "unifi"
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-mongodb
+                  key: password
           ports:
             - containerPort: 3478
               protocol: UDP
