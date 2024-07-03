@@ -97,12 +97,12 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 32400
-            initialDelaySeconds: 30
+            initialDelaySeconds: 10
             periodSeconds: 5
           livenessProbe:
             tcpSocket:
               port: 32400
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 5
           ports:
             - containerPort: 32400
