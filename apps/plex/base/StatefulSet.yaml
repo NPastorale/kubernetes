@@ -37,9 +37,6 @@ spec:
             name: plex-litestream
         - name: "plex-database"
           emptyDir: {}
-        - name: gpu
-          hostPath:
-            path: /dev/dri
       initContainers:
         - name: init-litestream
           image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
@@ -137,8 +134,6 @@ spec:
               mountPath: /ephemeral-data
             - name: plex-database
               mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
-            - name: gpu
-              mountPath: /dev/dri
         - name: litestream
           image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           lifecycle:
