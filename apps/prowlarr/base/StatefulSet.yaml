@@ -22,7 +22,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:1.20.1.4603-ls78@sha256:c43dc0311d4381395b60b3a6068e82226eddb213278bfe886bebabe67eb0f762
+          image: lscr.io/linuxserver/prowlarr:1.20.1.4603-ls79@sha256:7c3e7840c726828643131583514b66f38e7af29021d5a7b05ed8ed5c8ec0b596
           resources:
             requests:
               memory: "56Mi"
