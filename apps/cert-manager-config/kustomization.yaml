@@ -1,3 +1,5 @@
 resources:
+  - Certificate.yaml
   - ClusterIssuer.yaml
   - ExternalSecret.yaml
+  - Issuer.yaml
