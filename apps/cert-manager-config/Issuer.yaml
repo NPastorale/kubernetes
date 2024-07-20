@@ -14,4 +14,4 @@ metadata:
   namespace: vault
 spec:
   ca:
-    secretName: vault-ca-root-secret
+    secretName: vault-ca-secret
