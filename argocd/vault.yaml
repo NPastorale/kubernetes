@@ -21,14 +21,14 @@ spec:
             - name: vault-tls
               secret:
                 defaultMode: 400
-                secretName: vault
+                secretName: vault-selfsigned
             - name: kms-auth
               secret:
                 defaultMode: 400
                 secretName: kms-auth
           volumeMounts:
             - mountPath: /vault/userconfig/vault-tls/
-              name: vault-selfsigned
+              name: vault-tls
               readOnly: true
             - mountPath: /vault/userconfig/kms-auth/
               name: kms-auth
