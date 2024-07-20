@@ -28,7 +28,7 @@ spec:
                 secretName: kms-auth
           volumeMounts:
             - mountPath: /vault/userconfig/vault-tls/
-              name: vault-tls
+              name: vault-selfsigned
               readOnly: true
             - mountPath: /vault/userconfig/kms-auth/
               name: kms-auth
