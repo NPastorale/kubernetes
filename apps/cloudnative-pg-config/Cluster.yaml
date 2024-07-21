@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-14
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.11-16
+  storage:
+    size: 10Gi
+    storageClass: nfs-csi-persistent
