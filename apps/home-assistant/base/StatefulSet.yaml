@@ -23,7 +23,7 @@ spec:
       hostNetwork: true
       containers:
         - name: home-assistant
-          image: lscr.io/linuxserver/homeassistant:2024.8.0-ls14@sha256:1ba2acbbacc7979656d42d251af7905db8a930675715327fa16f2ea2f77e3115
+          image: lscr.io/linuxserver/homeassistant:2024.8.1-ls15@sha256:3a27beccbf78eaaa1d4f6c8f893c6790e0d63004366ea9e09e20ed1ee0e4dd6e
           resources:
             requests:
               memory: "56Mi"
