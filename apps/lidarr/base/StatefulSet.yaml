@@ -26,7 +26,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: lidarr
-          image: lscr.io/linuxserver/lidarr:2.4.3.4248-ls6@sha256:e504ab630ab456a4a39a6801f760975ff84fe53a0e542439d80aa8da27773a6e
+          image: lscr.io/linuxserver/lidarr:2.4.3.4248-ls7@sha256:d30f42dc071f77ae833d094083263d38be2dd0ddfff3c234ede29a36673a8603
           resources:
             requests:
               memory: "56Mi"
