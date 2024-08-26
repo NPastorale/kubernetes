@@ -30,7 +30,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: sonarr
-          image: lscr.io/linuxserver/sonarr:4.0.8.1874-ls251@sha256:0777b308a414000505651059a95af373ded6aba8ce5a40b50d7aad333dc912e2
+          image: lscr.io/linuxserver/sonarr:4.0.9.2244-ls252@sha256:879f5f35b05566f71296bad0f3704709103568a6b4f42f5959543f5322728723
           resources:
             requests:
               memory: "56Mi"
