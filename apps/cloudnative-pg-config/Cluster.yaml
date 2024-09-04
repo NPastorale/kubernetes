@@ -8,3 +8,14 @@ spec:
   storage:
     size: 10Gi
     storageClass: nfs-csi-persistent
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-gitlab
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:15.8-5
+  storage:
+    size: 10Gi
+    storageClass: nfs-csi-persistent
