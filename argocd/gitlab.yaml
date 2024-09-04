@@ -20,7 +20,7 @@ spec:
           minio:
             enabled: true
             storageClass: nfs-csi-ephemeral
-          edition: ce
+          edition: ee
           hosts:
             domain: nahue.ar
             https: true
