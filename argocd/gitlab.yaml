@@ -59,21 +59,21 @@ spec:
             host: postgres-gitlab-rw
           appConfig:
             terraformState:
-              enabled: false
+              enabled: true
             lfs:
-              enabled: false
+              enabled: true
             artifacts:
-              enabled: false
+              enabled: true
             uploads:
-              enabled: false
+              enabled: true
             packages:
-              enabled: false
+              enabled: true
             externalDiffs:
-              enabled: false
+              enabled: true
             dependencyProxy:
-              enabled: false
+              enabled: true
             ciSecureFiles:
-              enabled: false
+              enabled: true
             omniauth:
               enabled: false
           smtp:
