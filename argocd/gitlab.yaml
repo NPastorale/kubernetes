@@ -21,6 +21,7 @@ spec:
           #   bucket: codurance-gitlab-registry
           minio:
             enabled: true
+            storageClass: nfs-csi-ephemeral
           edition: ce
           hosts:
             domain: nahue.ar
