@@ -1,0 +1,207 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitlab
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: gitlab
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: gitlab
+    repoURL: https://charts.gitlab.io/
+    targetRevision: v8.3.1
+    helm:
+      values: |
+        global:
+          # registry:
+          #   bucket: codurance-gitlab-registry
+          minio:
+            enabled: true
+          edition: ce
+          hosts:
+            domain: nahue.ar
+            hostSuffix:
+            https: true
+            externalIP:
+            ssh: gitlab.nahue.ar
+            gitlab: {}
+            registry:
+              name: registry.nahue.ar
+              https: false
+            tls: {}
+            smartcard: {}
+            kas:
+              name: kas.gitlab.nahue.ar
+              https: false
+            pages:
+              name: pages.gitlab.nahue.ar
+              https: true
+          ingress:
+            apiVersion: ""
+            configureCertmanager: false
+            provider: nginx
+            class: external-nginx
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            enabled: true
+            tls:
+              enabled: true
+            path: /
+            pathType: Prefix
+
+          psql:
+            database: app
+            username: app
+            password:
+              useSecret: true
+              secret: postgres-gitlab-app
+              key: password
+            host: postgres-gitlab-rw
+          appConfig:
+            terraformState:
+              enabled: false
+              bucket: codurance-gitlab-terraform-state
+              connection:
+                secret: storage-rails-config
+                key: config
+            lfs:
+              enabled: false
+              bucket: codurance-gitlab-lfs
+              connection:
+                secret: storage-rails-config
+                key: config
+            artifacts:
+              enabled: false
+              bucket: codurance-gitlab-artifacts
+              connection:
+                secret: storage-rails-config
+                key: config
+            uploads:
+              enabled: false
+              bucket: codurance-gitlab-uploads
+              connection:
+                secret: storage-rails-config
+                key: config
+            packages:
+              enabled: false
+              bucket: codurance-gitlab-packages
+              connection:
+                secret: storage-rails-config
+                key: config
+            externalDiffs:
+              enabled: false
+              bucket: codurance-gitlab-external-diffs
+              connection:
+                secret: storage-rails-config
+                key: config
+            dependencyProxy:
+              enabled: false
+              bucket: codurance-gitlab-dependency-proxy
+              connection:
+                secret: storage-rails-config
+                key: config
+            ciSecureFiles:
+              enabled: false
+              bucket: codurance-gitlab-ci-secure-files
+              connection:
+                secret: storage-rails-config
+                key: config
+            # backups:
+            #   bucket: codurance-gitlab-backup
+            #   tmpBucket: codurance-gitlab-backup-tmp
+            omniauth:
+              enabled: false
+              autoSignInWithProvider:
+              syncProfileFromProvider: []
+              syncProfileAttributes: [email]
+              allowSingleSignOn: [saml]
+              blockAutoCreatedUsers: false
+              autoLinkLdapUser: false
+              autoLinkSamlUser: true
+              autoLinkUser: []
+              externalProviders: []
+              allowBypassTwoFactor: []
+              providers:
+                - secret: gitlab-saml
+                  key: provider
+          smtp:
+            enabled: false
+            address: 'email-smtp.eu-west-1.amazonaws.com'
+            port: 587
+            starttls_auto: true
+            authentication: 'login'
+            user_name: 'AKIA6HPAZYAX735P562A'
+            password:
+              secret: 'smtp-password'
+              key: 'password'
+        upgradeCheck:
+          enabled: false
+        certmanager:
+          install: false
+        nginx-ingress:
+          enabled: false
+        postgresql:
+          install: false
+        gitlab-runner:
+          install: true
+          gitlabUrl: "https://gitlab.nahue.ar"
+          rbac:
+            create: true
+          checkInterval: 3
+          runners:
+            locked: false
+            config: |
+              [[runners]]
+                url = "https://gitlab.nahue.ar"
+                clone_url = "https://gitlab.nahue.ar"
+                [runners.kubernetes]
+                privileged = true
+                image = "alpine:latest"
+          podAnnotations:
+            gitlab.com/prometheus_scrape: "true"
+            gitlab.com/prometheus_port: 9252
+        gitlab:
+          sidekiq:
+            resources:
+              requests:
+                cpu: 450m
+          webservice:
+            resources:
+              requests:
+                cpu: 150m
+            ingress:
+              tls:
+                secretName: gitlab-tls
+          kas:
+            ingress:
+              tls:
+                secretName: kas-tls
+          toolbox:
+            backups:
+              objectStorage:
+                config:
+                  secret: storage-backups-config
+                  key: config
+              cron:
+                enabled: true
+                schedule: "0 2 * * *"
+                extraArgs: "--s3tool awscli"
+        registry:
+          ingress:
+            tls:
+              secretName: registry-tls
+          storage:
+            secret: storage-registry-config
+            key: config
+            redirect:
+              disable: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
