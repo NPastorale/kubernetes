@@ -86,6 +86,8 @@ spec:
           enabled: false
         postgresql:
           install: false
+        prometheus:
+          install: false
         gitlab-runner:
           install: true
           gitlabUrl: "https://gitlab.nahue.ar"
