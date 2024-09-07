@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: audiobookshelf
+  labels:
+    app: audiobookshelf
+spec:
+  serviceName: audiobookshelf
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audiobookshelf
+  template:
+    metadata:
+      labels:
+        app: audiobookshelf
+    spec:
+      volumes:
+        - name: config
+          nfs:
+            path: "/k8s-volumes/persistent/audiobookshelf/config"
+            server: 10.10.20.10
+        - name: data
+          nfs:
+            path: "/k8s-volumes/ephemeral/audiobookshelf/data"
+            server: 10.10.20.10
+      containers:
+        - name: audiobookshelf
+          image: ghcr.io/advplyr/audiobookshelf
+          resources:
+            requests:
+              memory: "56Mi"
+              cpu: "100m"
+            limits:
+              memory: "4Gi"
+              cpu: "1"
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          readinessProbe:
+            httpGet:
+              port: 13378
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              port: 13378
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 3
+          ports:
+            - containerPort: 13378
+              name: web
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+            - name: data
+              mountPath: /data
+              readOnly: false
