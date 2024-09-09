@@ -20,9 +20,13 @@ spec:
           nfs:
             path: "/k8s-volumes/persistent/audiobookshelf/config"
             server: 10.10.20.10
-        - name: data
+        - name: books
           nfs:
-            path: "/k8s-volumes/ephemeral/audiobookshelf/data"
+            path: "/k8s-volumes/ephemeral/audiobookshelf/data/books"
+            server: 10.10.20.10
+        - name: metadata
+          nfs:
+            path: "/k8s-volumes/ephemeral/audiobookshelf/data/metadata"
             server: 10.10.20.10
       containers:
         - name: audiobookshelf
@@ -56,6 +60,9 @@ spec:
             - name: config
               mountPath: /config
               readOnly: false
-            - name: data
-              mountPath: /data
+            - name: books
+              mountPath: /books
+              readOnly: false
+            - name: metadata
+              mountPath: /metadata
               readOnly: false
