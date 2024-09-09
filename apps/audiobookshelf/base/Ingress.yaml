@@ -4,6 +4,7 @@ metadata:
   name: audiobookshelf-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "5G"
 spec:
   ingressClassName: internal-nginx
   tls:
