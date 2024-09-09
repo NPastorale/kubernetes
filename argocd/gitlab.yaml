@@ -16,70 +16,26 @@ spec:
     targetRevision: v8.3.1
     helm:
       values: |
+        upgradeCheck:
+            enabled: false
         global:
-          minio:
-            enabled: true
-            storageClass: nfs-csi-ephemeral
           edition: ee
           hosts:
             domain: nahue.ar
-            https: true
-            ssh: gitlab.nahue.ar
-            gitlab: {}
-            registry:
-              name: registry.nahue.ar
-              https: false
-            tls: {}
-            smartcard: {}
-            kas:
-              name: kas.gitlab.nahue.ar
-              https: false
-            pages:
-              name: pages.gitlab.nahue.ar
-              https: true
           ingress:
-            apiVersion: ""
             configureCertmanager: false
-            provider: nginx
             class: external-nginx
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-prod"
-            enabled: true
-            tls:
-              enabled: true
-            path: /
-            pathType: Prefix
           psql:
             database: app
             username: app
+            host: postgres-gitlab-rw
             password:
-              useSecret: true
               secret: postgres-gitlab-app
               key: password
-            host: postgres-gitlab-rw
-          appConfig:
-            terraformState:
-              enabled: true
-            lfs:
-              enabled: true
-            artifacts:
-              enabled: true
-            uploads:
-              enabled: true
-            packages:
-              enabled: true
-            externalDiffs:
-              enabled: true
-            dependencyProxy:
-              enabled: true
-            ciSecureFiles:
-              enabled: true
-            omniauth:
-              enabled: false
-          smtp:
-            enabled: false
-        upgradeCheck:
-          enabled: false
+          minio:
+            enabled: true
         certmanager:
           install: false
         nginx-ingress:
@@ -108,13 +64,59 @@ spec:
             gitlab.com/prometheus_port: 9252
         gitlab:
           sidekiq:
-            resources:
-              requests:
-                cpu: 450m
+            extraInitContainers: |
+              - name: init-public-key-sidekiq
+                image: busybox
+                command: ['sh', '-c', 'echo "$PUBLIC_KEY" > /mnt/public.key']
+                env:
+                  - name: PUBLIC_KEY
+                    value: |
+                      -----BEGIN PUBLIC KEY-----
+                      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAreEfP/ncA1A5cuxBz7rS
+                      0Z9DDxdSymLwt2OUSM5WJa+dVB3zSpQjinifdNZq+iHVt8toZBZZ02H3unbn8td0
+                      rIifoj4oVpLhvnOAVjUn5tZeUX17tWMA+yyBpf6w6IFxeYBXFd14WOKEarS05U9B
+                      59DjBxNqSm+GzhljHO7vvTKy2xXQQ7Fa702DZ7jwr4DJnL87bDXfarnYksuawqtK
+                      wQbFHAOvxFj8ghBh1Gshap1abExD4l7QWxFMTCVOkLJmXiqfOi5KuMiaMsSUsCBN
+                      QDE3A5aKvpwLGozsvpGRMy5Tt4SgHC7ZbgerBNe75olOoPDxZf7bBt0+O5A/UjK/
+                      HwIDAQAB
+                      -----END PUBLIC KEY-----
+                volumeMounts:
+                  - name: public-key
+                    mountPath: /mnt
+            extraVolumes: |
+              - name: public-key
+                emptyDir: {}
+            extraVolumeMounts: |
+              - name: public-key
+                mountPath: /srv/gitlab/.license_encryption_key.pub
+                subPath: public.key
           webservice:
-            resources:
-              requests:
-                cpu: 150m
+            extraInitContainers: |
+              - name: init-public-key-webservice
+                image: busybox
+                command: ['sh', '-c', 'echo "$PUBLIC_KEY" > /mnt/public.key']
+                env:
+                  - name: PUBLIC_KEY
+                    value: |
+                      -----BEGIN PUBLIC KEY-----
+                      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAreEfP/ncA1A5cuxBz7rS
+                      0Z9DDxdSymLwt2OUSM5WJa+dVB3zSpQjinifdNZq+iHVt8toZBZZ02H3unbn8td0
+                      rIifoj4oVpLhvnOAVjUn5tZeUX17tWMA+yyBpf6w6IFxeYBXFd14WOKEarS05U9B
+                      59DjBxNqSm+GzhljHO7vvTKy2xXQQ7Fa702DZ7jwr4DJnL87bDXfarnYksuawqtK
+                      wQbFHAOvxFj8ghBh1Gshap1abExD4l7QWxFMTCVOkLJmXiqfOi5KuMiaMsSUsCBN
+                      QDE3A5aKvpwLGozsvpGRMy5Tt4SgHC7ZbgerBNe75olOoPDxZf7bBt0+O5A/UjK/
+                      HwIDAQAB
+                      -----END PUBLIC KEY-----
+                volumeMounts:
+                  - name: public-key
+                    mountPath: /mnt
+            extraVolumes: |
+              - name: public-key
+                emptyDir: {}
+            extraVolumeMounts: |
+              - name: public-key
+                mountPath: /srv/gitlab/.license_encryption_key.pub
+                subPath: public.key
             ingress:
               tls:
                 secretName: gitlab-tls
@@ -122,7 +124,6 @@ spec:
             ingress:
               tls:
                 secretName: kas-tls
-          toolbox:
         registry:
           ingress:
             tls:
