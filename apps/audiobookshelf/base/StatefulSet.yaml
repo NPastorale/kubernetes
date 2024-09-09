@@ -39,17 +39,17 @@ spec:
               value: "Europe/Madrid"
           readinessProbe:
             httpGet:
-              port: 13378
+              port: 80
             initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              port: 13378
+              port: 80
             initialDelaySeconds: 15
             periodSeconds: 5
             failureThreshold: 3
           ports:
-            - containerPort: 13378
+            - containerPort: 80
               name: web
               protocol: TCP
           volumeMounts:
