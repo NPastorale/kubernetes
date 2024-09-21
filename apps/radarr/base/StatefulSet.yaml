@@ -34,7 +34,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: radarr
-          image: lscr.io/linuxserver/radarr:5.9.1.9070-ls237@sha256:3bee8fb8eb4bb93b77eb4e0c5d755f25649223965af59f5f0363ddda03c6d10c
+          image: lscr.io/linuxserver/radarr:5.10.4.9218-ls238@sha256:dfbce5095045fc1c15058318342ee590ab50379854b13464dd2ca17b10c4beb4
           resources:
             requests:
               memory: "56Mi"
