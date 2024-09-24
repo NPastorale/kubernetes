@@ -20,7 +20,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: ddclient
-          image: lscr.io/linuxserver/ddclient:3.11.2@sha256:f0dfd9aee0f39fda310afd31026c03db64bdc908a34571c51b0d5a92ae1539a8
+          image: lscr.io/linuxserver/ddclient:3.11.2@sha256:8626cee213d5d91e51612f2f5bf090aec56c3cde8a5ad2d93c976262800b3740
           resources:
             requests:
               memory: "52Mi"
