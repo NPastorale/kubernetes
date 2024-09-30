@@ -13,7 +13,7 @@ spec:
   source:
     chart: intel-device-plugins-gpu
     repoURL: "https://intel.github.io/helm-charts"
-    targetRevision: 0.30.0
+    targetRevision: 0.31.0
     helm:
       parameters:
         - name: name
