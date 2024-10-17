@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: open-webui
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: gpt
+    server: https://kubernetes.default.svc
+    project: default
+    source:
+      repoURL: https://helm.openwebui.com/
+      targetRevision: 3.3.2
+      helm:
+        parameters:
+          - name: ollama.enabled
+            value: "false"
+          - name: pipelines.enabled
+            value: "false"
+          - name: ingress.class
+            value: internal-nginx
+          - name: ingress.enabled
+            value: "true"
+          - name: ingress.host
+            value: gpt.nahue.ar
+          - name: ingress.tls
+            value: "true"
+      chart: open-webui
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: default
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
