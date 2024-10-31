@@ -17,7 +17,7 @@ spec:
         - name: runtimeClassName
           value: "nvidia"
     repoURL: https://nvidia.github.io/k8s-device-plugin
-    targetRevision: 0.16.2
+    targetRevision: 0.17.0
   syncPolicy:
     automated:
       prune: true
