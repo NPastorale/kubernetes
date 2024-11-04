@@ -13,9 +13,21 @@ spec:
   source:
     chart: nvidia-device-plugin
     helm:
-      parameters:
-        - name: runtimeClassName
-          value: "nvidia"
+      valuesObject:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: feature.node.kubernetes.io/pci-0300_10de.present
+                      operator: In
+                      values:
+                        - "true"
+        nfd:
+          enabled: false
+        gfd:
+          enabled: true
+        runtimeClassName: nvidia
     repoURL: https://nvidia.github.io/k8s-device-plugin
     targetRevision: 0.17.0
   syncPolicy:
