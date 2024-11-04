@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: generic-device-plugin
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: generic-device-plugin
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: apps/generic-device-plugin/overlays/prod
+    repoURL: https://github.com/NPastorale/kubernetes
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
