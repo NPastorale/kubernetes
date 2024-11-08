@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: https://helm.openwebui.com/
-    targetRevision: 3.5.1
+    targetRevision: 3.6.0
     helm:
       parameters:
         - name: ollama.enabled
