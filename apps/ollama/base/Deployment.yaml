@@ -23,7 +23,7 @@ spec:
       runtimeClassName: "nvidia"
       containers:
         - name: ollama
-          image: ollama/ollama:0.4.5@sha256:bb26c2494105072339ee44e9b1d99df926fb20b5553393926cf98f8dd4b103af
+          image: ollama/ollama:0.4.6@sha256:5fc218daa2c02481f724df115fa4fdd7b45ceeb06a291ae700e582eea15d4332
           resources:
             limits:
               nvidia.com/gpu: 1
