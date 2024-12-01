@@ -30,7 +30,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: audiobookshelf
-          image: ghcr.io/advplyr/audiobookshelf@sha256:9e0a204b39212726cd6739a05bb81ce1b4f48a0d238c8a977a6192adf59cc55f
+          image: ghcr.io/advplyr/audiobookshelf@sha256:88afb2bfbada78c1084ea7e3a5c0c51512ecb547c5ca9ad264d83754b413eb99
           resources:
             requests:
               memory: "56Mi"
