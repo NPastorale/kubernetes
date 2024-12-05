@@ -21,7 +21,7 @@ spec:
             name: bind-internal
         - name: data
           nfs:
-            path: "/k8s-volumes/persistent/bind/internal/data"
+            path: "/mnt/NAS-T/k8s-volumes/persistent/bind/internal/data"
             server: 10.10.20.10
       containers:
         - name: bind-internal

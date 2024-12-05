@@ -18,19 +18,19 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/k8s-volumes/persistent/sonarr/config"
+            path: "/mnt/NAS-T/k8s-volumes/persistent/sonarr/config"
             server: 10.10.20.10
         - name: persistent-data
           nfs:
-            path: "/k8s-volumes/persistent/plex/data"
+            path: "/mnt/NAS-T/k8s-volumes/persistent/plex/data"
             server: 10.10.20.10
         - name: ephemeral-data
           nfs:
-            path: "/k8s-volumes/ephemeral/plex/data"
+            path: "/mnt/NAS-T/k8s-volumes/ephemeral/plex/data"
             server: 10.10.20.10
         - name: qbittorrent-data
           nfs:
-            path: "/k8s-volumes/ephemeral/qbittorrent/data"
+            path: "/mnt/NAS-T/k8s-volumes/ephemeral/qbittorrent/data"
             server: 10.10.20.10
       containers:
         - name: sonarr

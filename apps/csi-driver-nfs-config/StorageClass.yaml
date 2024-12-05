@@ -5,9 +5,9 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 10.10.20.10
-  share: /k8s-volumes/test
+  share: /mnt/NAS-T/k8s-volumes/test
   subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 mountOptions:
   - nfsvers=4.1
 
@@ -19,9 +19,9 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 10.10.20.10
-  share: /k8s-volumes/ephemeral
+  share: /mnt/NAS-T/k8s-volumes/ephemeral
   subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 mountOptions:
   - nfsvers=4.1
 
@@ -33,8 +33,8 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 10.10.20.10
-  share: /k8s-volumes/persistent
+  share: /mnt/NAS-T/k8s-volumes/persistent
   subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 mountOptions:
   - nfsvers=4.1

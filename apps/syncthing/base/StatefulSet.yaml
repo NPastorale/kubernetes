@@ -18,11 +18,11 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/k8s-volumes/persistent/syncthing/config"
+            path: "/mnt/NAS-T/k8s-volumes/persistent/syncthing/config"
             server: 10.10.20.10
         - name: data
           nfs:
-            path: "/k8s-volumes/persistent/syncthing/data"
+            path: "/mnt/NAS-T/k8s-volumes/persistent/syncthing/data"
             server: 10.10.20.10
       containers:
         - name: syncthing

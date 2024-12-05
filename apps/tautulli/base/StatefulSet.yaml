@@ -18,7 +18,7 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/k8s-volumes/persistent/tautulli/config"
+            path: "/mnt/NAS-T/k8s-volumes/persistent/tautulli/config"
             server: 10.10.20.10
       containers:
         - name: tautulli
