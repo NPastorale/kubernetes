@@ -27,6 +27,8 @@ spec:
           value: gpt.nahue.ar
         - name: ingress.tls
           value: "true"
+        - name: persistence.storageClass
+          value: nfs-csi-ephemeral
     chart: open-webui
   syncPolicy:
     automated:
