@@ -23,7 +23,7 @@ spec:
       runtimeClassName: "nvidia"
       containers:
         - name: ollama
-          image: ollama/ollama:0.5.3@sha256:4142ae57a03f4d9e9b9b60b6db11d197341c25e2ba7942a3cb4b94fb722676d0
+          image: ollama/ollama:0.5.4@sha256:18bfb1d605604fd53dcad20d0556df4c781e560ebebcd923454d627c994a0e37
           lifecycle:
             postStart:
               exec:
