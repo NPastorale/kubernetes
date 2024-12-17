@@ -24,6 +24,19 @@ spec:
       containers:
         - name: ollama
           image: ollama/ollama:0.5.2@sha256:2a45c0526f194d6f5f55f31c603585f6e8cf3375f4a02dba1ab4e6e5b7218adf
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/bash
+                  - -c
+                  - |
+                    sleep 5
+                    exec 3<>/dev/tcp/localhost/11434
+                    echo -e "POST /api/generate HTTP/1.1\r\nHost: localhost:11434\r\nContent-Type: application/json\r\nContent-Length: 22\r\nConnection: close\r\n\r\n{\"model\": \"llama3.2\"}" >&3
+                    cat <&3
+                    exec 3<&-
+                    exec 3>&-
           resources:
             limits:
               nvidia.com/gpu: 1
