@@ -16,6 +16,15 @@
         "matchPackageNames": [
           "lscr.io/linuxserver/{/,}**"
         ]
+      },
+      {
+        "matchDatasources": [
+          "docker"
+        ],
+        "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]?(?<build>\\w*)?-?(?<commit>\\w{0,9})?$",
+        "matchPackageNames": [
+          "ghcr.io/npastorale/{/,}**"
+        ]
       }
     ]
   },
