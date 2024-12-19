@@ -22,3 +22,28 @@ spec:
                 name: nas-t
                 port:
                   number: 443
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: files-nas-t
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - files.nas-t.nahue.ar
+      secretName: files-nas-t
+  rules:
+    - host: files.nas-t.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: files-nas-t
+                port:
+                  number: 443
