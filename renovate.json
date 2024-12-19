@@ -34,7 +34,7 @@
     ],
     "packageRules": [
       {
-        "matchCurrentValue": "^HEAD$",
+        "matchCurrentValue": "/^HEAD$/",
         "enabled": false
       }
     ]
