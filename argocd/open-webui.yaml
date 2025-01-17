@@ -29,6 +29,10 @@ spec:
           value: "true"
         - name: persistence.storageClass
           value: nfs-csi-ephemeral
+      values: |
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
     chart: open-webui
   syncPolicy:
     automated:
