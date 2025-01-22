@@ -29,8 +29,8 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:5.0.3-r0-ls368@sha256:74e1681bb20e8092c9fcaf4c261d0810f5182b8e361311a51b88727f8755db55
           resources:
             requests:
-              memory: "1024Mi"
-              cpu: "500m"
+              memory: "6Gi"
+              cpu: "1"
             limits:
               memory: "8Gi"
               cpu: "4"
