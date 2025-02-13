@@ -22,3 +22,29 @@ spec:
                 name: plex
                 port:
                   number: 32400
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flix-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/upstream-vhost: "app.plex.tv"
+spec:
+  ingressClassName: external-nginx
+  tls:
+    - hosts:
+        - flix.nahue.ar
+      secretName: nahueflix
+  rules:
+    - host: flix.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nahueflix
+                port:
+                  number: 443

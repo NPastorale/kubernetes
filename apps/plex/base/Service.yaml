@@ -44,3 +44,11 @@ spec:
       protocol: UDP
       port: 32414
       targetPort: 32414
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nahueflix
+spec:
+  type: ExternalName
+  externalName: app.plex.tv
