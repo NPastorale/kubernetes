@@ -22,7 +22,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: postgres
-          image: postgres:16.8-alpine@sha256:40ce88fbbbaf480fb2262bef15504dea50c425bdc0bfa1bcf576478a390cac6f
+          image: postgres:16.8-alpine@sha256:43d7ff0cb28bdd6dd9190c306d09f7f7c9f83ed9cdcf12c5caf4be53fb24b714
           ports:
             - containerPort: 5432
           env:
