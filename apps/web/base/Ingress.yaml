@@ -5,10 +5,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_set_headers "Content-Security-Policy: script-src 'self' https://plausible.nahue.ar";
-      sub_filter '</head>' '<script defer data-domain="nahue.ar" src="https://plausible.nahue.ar/js/script.js"></script></head>';
-      sub_filter_once off;
 spec:
   ingressClassName: external-nginx
   tls:
