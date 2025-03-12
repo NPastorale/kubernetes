@@ -19,9 +19,10 @@ spec:
         upgradeCheck:
             enabled: false
         global:
-          defaultColorMode: 3
-          defaultTheme: 2
-          defaultSyntaxHighlightingTheme: 5
+          appConfig:
+            defaultColorMode: 3
+            defaultTheme: 2
+            defaultSyntaxHighlightingTheme: 5
           edition: ee
           hosts:
             domain: nahue.ar
