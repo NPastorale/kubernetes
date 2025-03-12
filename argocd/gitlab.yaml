@@ -24,7 +24,7 @@ spec:
             domain: nahue.ar
           ingress:
             configureCertmanager: false
-            class: external-nginx
+            class: internal-nginx
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-prod"
           psql:
