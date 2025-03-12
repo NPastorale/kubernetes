@@ -36,6 +36,16 @@ spec:
               key: password
           minio:
             enabled: true
+        minio:
+          persistence:
+            enabled: true
+            storageClass: "nfs-csi-persistent"
+            size: 100Gi
+        redis:
+          master:
+            persistence:
+              storageClass: "nfs-csi-persistent"
+              size: 50Gi
         certmanager:
           install: false
         nginx-ingress:
@@ -63,6 +73,10 @@ spec:
             gitlab.com/prometheus_scrape: "true"
             gitlab.com/prometheus_port: 9252
         gitlab:
+          gitaly:
+            persistence:
+              storageClass: "nfs-csi-persistent"
+              size: 500Gi
           sidekiq:
             extraInitContainers: |
               - name: init-public-key-sidekiq
