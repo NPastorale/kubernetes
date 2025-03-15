@@ -15,6 +15,30 @@ spec:
       labels:
         app: plex
     spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: gpu.intel.com/device-id.0300-46d1.present #N100 iGPU
+                    operator: In
+                    values:
+                      - "true"
+            - weight: 80
+              preference:
+                matchExpressions:
+                  - key: gpu.intel.com/device-id.0300-3e9b.present #i7-9750H iGPU
+                    operator: In
+                    values:
+                      - "true"
+            - weight: 60
+              preference:
+                matchExpressions:
+                  - key: intel.feature.node.kubernetes.io/gpu
+                    operator: In
+                    values:
+                      - "true"
       volumes:
         - name: config
           nfs:
