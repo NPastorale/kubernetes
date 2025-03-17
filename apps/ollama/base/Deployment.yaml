@@ -67,7 +67,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /root/.ollama
-          tolerations:
-            - key: "nvidia.com/gpu"
-              operator: "Exists"
-              effect: "NoSchedule"
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Exists"
+          effect: "NoSchedule"
