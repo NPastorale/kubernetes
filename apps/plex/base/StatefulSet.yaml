@@ -25,14 +25,14 @@ spec:
                     operator: In
                     values:
                       - "true"
-            - weight: 80
+            - weight: 50
               preference:
                 matchExpressions:
                   - key: gpu.intel.com/device-id.0300-3e9b.present #i7-9750H iGPU
                     operator: In
                     values:
                       - "true"
-            - weight: 60
+            - weight: 25
               preference:
                 matchExpressions:
                   - key: intel.feature.node.kubernetes.io/gpu
@@ -106,7 +106,6 @@ spec:
               cpu: "100m"
             limits:
               memory: "4Gi"
-              cpu: "2"
               gpu.intel.com/i915: 1
           env:
             - name: hostname
