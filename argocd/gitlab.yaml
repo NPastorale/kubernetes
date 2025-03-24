@@ -31,6 +31,8 @@ spec:
             class: internal-nginx
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          kas:
+            enabled: false
           psql:
             database: app
             username: app
@@ -138,10 +140,6 @@ spec:
             ingress:
               tls:
                 secretName: gitlab-tls
-          kas:
-            ingress:
-              tls:
-                secretName: kas-tls
         registry:
           ingress:
             tls:
