@@ -15,17 +15,20 @@ spec:
     repoURL: https://charts.gitlab.io/
     targetRevision: 8.10.0
     helm:
-      values: |
+      valuesObject:
         upgradeCheck:
-            enabled: false
+          enabled: false
         global:
           appConfig:
             defaultColorMode: 3
             defaultTheme: 2
             defaultSyntaxHighlightingTheme: 5
+            terraformState:
+              enabled: true
           edition: ee
           hosts:
             domain: nahue.ar
+            https: true
           ingress:
             configureCertmanager: false
             class: internal-nginx
@@ -33,6 +36,8 @@ spec:
               cert-manager.io/cluster-issuer: "letsencrypt-prod"
           kas:
             enabled: false
+          pages:
+            enabled: true
           psql:
             database: app
             username: app
@@ -83,6 +88,10 @@ spec:
             persistence:
               storageClass: "nfs-csi-persistent"
               size: 500Gi
+          gitlab-pages:
+            ingress:
+              tls:
+                secretName: pages-tls
           sidekiq:
             extraInitContainers: |
               - name: init-public-key-sidekiq
