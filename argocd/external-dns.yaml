@@ -18,7 +18,7 @@ spec:
       values: |
         provider:
           name: rfc2136
-        txtPrefix: "edns."
+        txtSuffix: "edns."
         extraArgs:
           - --rfc2136-host=bind-internal.bind9.svc.cluster.local
           - --rfc2136-port=53
