@@ -19,7 +19,7 @@ spec:
         provider:
           name: rfc2136
         extraArgs:
-          - --rfc2136-host=10.10.20.52
+          - --rfc2136-host=bind-internal.bind.svc.cluster.local
           - --rfc2136-port=53
           - --rfc2136-zone=nahue.ar
           - --rfc2136-tsig-keyname=ddns-key
