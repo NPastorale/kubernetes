@@ -19,6 +19,9 @@ spec:
         - name: bind-internal
           configMap:
             name: bind-internal
+        - name: ddns-key
+          secret:
+            secretName: ddns-key-internal
         - name: data
           nfs:
             path: "/mnt/NAS-T/k8s-volumes/persistent/bind/internal/data"
@@ -53,6 +56,9 @@ spec:
             - name: bind-internal
               mountPath: /etc/bind/named.conf
               subPath: named.conf
+            - name: ddns-key
+              mountPath: /etc/bind/ddns-key.conf
+              subPath: ddns-key.conf
             - name: data
               mountPath: /etc/bind/master
               readOnly: false

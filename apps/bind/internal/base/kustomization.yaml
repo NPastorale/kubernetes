@@ -1,4 +1,5 @@
 resources:
+  - ExternalSecret.yaml
   - Service.yaml
   - StatefulSet.yaml
 configMapGenerator:
