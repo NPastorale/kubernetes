@@ -27,7 +27,7 @@ spec:
           - --rfc2136-tsig-secret-alg=hmac-sha512
           - --rfc2136-tsig-axfr
           - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)
-          - --txt-suffix=-edns
+          - --txt-suffix=-edns.verify
         env:
           - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
             valueFrom:
