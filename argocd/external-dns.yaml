@@ -18,6 +18,7 @@ spec:
       values: |
         provider:
           name: rfc2136
+        txtPrefix: "edns."
         extraArgs:
           - --rfc2136-host=bind-internal.bind9.svc.cluster.local
           - --rfc2136-port=53
@@ -27,7 +28,6 @@ spec:
           - --rfc2136-tsig-secret-alg=hmac-sha512
           - --rfc2136-tsig-axfr
           - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)
-          - --txt-prefix=edns.verify
         env:
           - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
             valueFrom:
