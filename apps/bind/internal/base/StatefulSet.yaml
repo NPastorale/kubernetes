@@ -29,6 +29,16 @@ spec:
       containers:
         - name: bind-internal
           image: ghcr.io/npastorale/bind:9.18.35-r0@sha256:9a96654ca5ac5ce06afc179ce0e7814fe9986da31d2f1746ba77050d70b89361
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - |
+                    rndc -s localhost -k /etc/bind/ddns-key.conf freeze && \
+                    rndc -s localhost -k /etc/bind/ddns-key.conf sync -clean && \
+                    rndc -s localhost -k /etc/bind/ddns-key.conf thaw
           resources:
             requests:
               memory: "56Mi"
