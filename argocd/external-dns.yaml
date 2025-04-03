@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: external-dns
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/external-dns/
+    chart: external-dns
+    targetRevision: 1.16.0
+    helm:
+      values: |
+        provider:
+          name: rfc2136
+        extraArgs:
+          - --rfc2136-host=10.10.20.52
+          - --rfc2136-port=53
+          - --rfc2136-zone=nahue.ar
+          - --rfc2136-tsig-keyname=ddns-key
+          - --rfc2136-tsig-secret-alg=hmac-sha512
+          - --rfc2136-tsig-axfr
+        env:
+          - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: ddns-key
+                key: ddns-key
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
