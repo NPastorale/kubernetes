@@ -18,14 +18,15 @@ spec:
       values: |
         provider:
           name: rfc2136
-        domainFilters:
-          - nahue.ar
         extraArgs:
           - --rfc2136-host=bind-internal.bind9.svc.cluster.local
           - --rfc2136-port=53
+          - --rfc2136-zone=nahue.ar
+          - --rfc2136-zone=podvader.com
           - --rfc2136-tsig-keyname=ddns-key
           - --rfc2136-tsig-secret-alg=hmac-sha512
           - --rfc2136-tsig-axfr
+          - --txt-suffix=.edns.
           - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)
         env:
           - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
