@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: satisfactory
-          image: wolveix/satisfactory-server:latest
+          image: wolveix/satisfactory-server:v1.9.7@sha256:b6ba3261c93068edc298847e4916a9345e17c0bdb1d9b6f7452ecdd1e1569fff
           env:
             - name: DEBUG
               value: "false"
