@@ -29,7 +29,7 @@ spec:
             - name: SKIPUPDATE
               value: "false"
             - name: STEAMBETA
-              value: "true"
+              value: "false"
           ports:
             - name: "api"
               containerPort: 7777
