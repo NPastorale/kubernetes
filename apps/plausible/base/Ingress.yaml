@@ -29,6 +29,7 @@ metadata:
   name: script-plausible-ingress
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/exclude: "true"
 spec:
   ingressClassName: external-nginx
   tls:
