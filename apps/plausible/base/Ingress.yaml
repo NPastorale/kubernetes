@@ -40,7 +40,7 @@ spec:
     - host: plausible.nahue.ar
       http:
         paths:
-          - path: /js/script.js
+          - path: /js/
             pathType: Prefix
             backend:
               service:
