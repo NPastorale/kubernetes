@@ -22,7 +22,7 @@ spec:
             - "/bin/sh"
             - "-c"
           args:
-            - /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh db init-admin
+            - /entrypoint.sh db createdb && /entrypoint.sh db migrate
           env:
             - name: BASE_URL
               value: "https://plausible.nahue.ar"
