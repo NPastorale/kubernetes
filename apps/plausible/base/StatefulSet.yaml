@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
         - name: plausible-init
-          image: plausible/analytics:v2.0.0@sha256:cd5f75e1399073669b13b4151cc603332a825324d0b8f13dfc9de9112a3c68a1
+          image: ghcr.io/plausible/community-edition:v3.0.1
           command:
             - "/bin/sh"
             - "-c"
