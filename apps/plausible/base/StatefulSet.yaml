@@ -43,7 +43,7 @@ spec:
               cpu: 10m
       containers:
         - name: plausible
-          image: plausible/community-edition:v2.1.4
+          image: plausible/community-edition:v2.1.4@sha256:6f4aaac12534235c66dc56aa235f897245b83ef0ad00c4addc05f4eddafdc431
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
