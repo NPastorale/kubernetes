@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
         - name: plausible-init
-          image: ghcr.io/plausible/community-edition:v3.0.1
+          image: ghcr.io/plausible/community-edition:v3.0.1@sha256:14c1afde21d6555a41fad0e8db9445d835f5722238f7d58bbc4dc8c76d7aa499
           command:
             - "/bin/sh"
             - "-c"
@@ -43,7 +43,7 @@ spec:
               cpu: 10m
       containers:
         - name: plausible
-          image: ghcr.io/plausible/community-edition:v3.0.1
+          image: ghcr.io/plausible/community-edition:v3.0.1@sha256:14c1afde21d6555a41fad0e8db9445d835f5722238f7d58bbc4dc8c76d7aa499
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
