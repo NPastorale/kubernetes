@@ -4,8 +4,8 @@
     "github>npastorale/workflows//renovate/default"
   ],
   "kubernetes": {
-    "fileMatch": [
-      "apps/.+\\.yaml$"
+    "managerFilePatterns": [
+      "/apps/.+\\.yaml$/"
     ],
     "packageRules": [
       {
@@ -29,8 +29,8 @@
     ]
   },
   "argocd": {
-    "fileMatch": [
-      "argocd/.+\\.yaml$"
+    "managerFilePatterns": [
+      "/argocd/.+\\.yaml$/"
     ],
     "packageRules": [
       {
