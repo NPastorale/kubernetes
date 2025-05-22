@@ -16,7 +16,7 @@ metadata:
   namespace: gitlab
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:15.8-5
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.8-12
   storage:
     size: 10Gi
     storageClass: nfs-csi-persistent
