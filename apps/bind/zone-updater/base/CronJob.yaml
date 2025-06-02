@@ -25,7 +25,7 @@ spec:
           serviceAccountName: bind-kubectl
           containers:
             - name: bind-kubectl
-              image: ghcr.io/npastorale/kubectl:1.33.1-r0@sha256:ea3d13ed9e815b4261b72ca01df58d1587a48a02acc5152ceba02574b1a7be4e
+              image: ghcr.io/npastorale/kubectl:1.33.1-r0@sha256:20d3cca9b66b834e9dee498818c2e94b059205cc3e22a3ab0a36454e24faef11
               command: ["/main.bash"]
               volumeMounts:
                 - name: data
