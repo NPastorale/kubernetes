@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: factorio
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: factorio
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://sqljames.github.io/factorio-server-charts
+    chart: factorio-server-charts
+    helm:
+      valuesObject:
+        hostNetworkEnabled: false
+
+        image:
+          repository: "factoriotools/factorio"
+          pullPolicy: Always
+          tag: "stable"
+
+        service:
+          type: LoadBalancer
+
+        resources:
+          requests:
+            memory: 2048Mi
+            cpu: 1000m
+
+        persistence:
+          enabled: true
+          dataDir:
+            Size: "10Gi"
+          storageClassName: "nfs-csi-persistent"
+
+        factorioServer:
+          save_name: "Factindra"
+          generate_new_save: false
+
+        server_settings:
+          name: Factindra
+          description: "Factorio running on Kubernetes"
+          require_user_verification: true
+
+        rcon:
+          external: false
+        rconAPI:
+          enabled: false
+
+        admin_list:
+          - "adanethel"
+          - "xrovertox"
+
+        white_list:
+          - "adanethel"
+          - "xrovertox"
+
+    targetRevision: 2.5.2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
