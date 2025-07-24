@@ -12,6 +12,13 @@ spec:
   project: default
   source:
     chart: node-feature-discovery
+    helm:
+      valuesObject:
+        worker:
+          tolerations:
+            - effect: NoSchedule
+              key: nvidia.com/gpu
+              operator: Equal
     repoURL: "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
     targetRevision: 0.17.3
   syncPolicy:
