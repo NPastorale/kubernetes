@@ -99,7 +99,7 @@ spec:
       hostNetwork: true
       containers:
         - name: plex
-          image: lscr.io/linuxserver/plex:1.41.9.9961-46083195d-ls273@sha256:27303d7568496ba2faa1951d219940f00a1cd96c1d25ca204789d9fbd0153d3e
+          image: lscr.io/linuxserver/plex:1.41.9.9961-46083195d-ls274@sha256:f8ed359f87f1becab37c2586af9f3414bd5c604d031d47f75e8422baf5224ef5
           resources:
             requests:
               memory: "1Gi"
