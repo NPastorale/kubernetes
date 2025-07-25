@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ripe-atlas
+spec:
+  serviceName: "ripe-atlas"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ripe-atlas
+  template:
+    metadata:
+      labels:
+        app: ripe-atlas
+    spec:
+      hostNetwork: true
+      securityContext:
+        seccompProfile:
+          type: Unconfined
+      containers:
+        - name: ripe-atlas
+          image: docker.io/jamesits/ripe-atlas:latest
+          imagePullPolicy: Always
+          env:
+            - name: RXTXRPT
+              value: "yes"
+          resources:
+            requests:
+              memory: "64Mi"
+            limits:
+              memory: "2G"
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_RAW
+                - KILL
+                - SETUID
+                - SETGID
+                - CHOWN
+                - FOWNER
+                - DAC_OVERRIDE
+          volumeMounts:
+            - name: ripe-atlas-etc-storage
+              mountPath: /etc/ripe-atlas
+            - name: ripe-atlas-run-storage
+              mountPath: /run/ripe-atlas
+            - name: ripe-atlas-var-storage
+              mountPath: /var/spool/ripe-atlas
+      volumes:
+        - name: ripe-atlas-etc-storage
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/persistent/ripe/etc"
+            server: 10.10.20.10
+            readOnly: false
+        - name: ripe-atlas-run-storage
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/persistent/ripe/run"
+            server: 10.10.20.10
+            readOnly: false
+        - name: ripe-atlas-var-storage
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/persistent/ripe/var"
+            server: 10.10.20.10
+            readOnly: false
