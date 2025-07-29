@@ -75,7 +75,7 @@ spec:
         ui:
           enabled: false
     repoURL: https://helm.releases.hashicorp.com
-    targetRevision: 0.30.0
+    targetRevision: 0.30.1
   syncPolicy:
     automated:
       prune: true
