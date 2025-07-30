@@ -16,6 +16,8 @@ spec:
       valuesObject:
         global:
           domain: argocd.nahue.ar
+        dex:
+          enabled: false
         configs:
           params:
             server.insecure: true
