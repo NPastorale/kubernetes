@@ -26,7 +26,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: syncthing
-          image: lscr.io/linuxserver/syncthing:v1.30.0-ls185@sha256:0b070867ffa8569c219a2e0d45d998ccfad53ad874731e028584eb002fd4bd74
+          image: lscr.io/linuxserver/syncthing:v2.0.7-ls194@sha256:1646e5a211841b9a93552b5d3aeb642f4a5dcb07e1d4b19f609bf497d0b83f52
           resources:
             requests:
               memory: "56Mi"
