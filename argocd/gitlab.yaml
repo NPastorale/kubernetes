@@ -57,8 +57,7 @@ spec:
             persistence:
               storageClass: "nfs-csi-persistent"
               size: 50Gi
-        certmanager:
-          install: false
+        installCertmanager: false
         nginx-ingress:
           enabled: false
         postgresql:
