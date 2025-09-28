@@ -31,9 +31,6 @@ spec:
             requests:
               memory: "6Gi"
               cpu: "100m"
-            limits:
-              memory: "8Gi"
-              cpu: "4"
           ports:
             - containerPort: 8080
             - containerPort: 53957
