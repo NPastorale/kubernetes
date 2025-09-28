@@ -52,12 +52,10 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 53957
-            initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:
             tcpSocket:
               port: 53957
-            initialDelaySeconds: 30
             periodSeconds: 5
           volumeMounts:
             - name: config
