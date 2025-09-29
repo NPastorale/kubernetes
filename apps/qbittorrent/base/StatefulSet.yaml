@@ -47,11 +47,12 @@ spec:
           startupProbe:
             tcpSocket:
               port: 53957
-            failureThreshold: 30
+            failureThreshold: 120
             periodSeconds: 5
           readinessProbe:
-            tcpSocket:
-              port: 53957
+            httpGet:
+              path: /
+              port: 8080
             periodSeconds: 5
           livenessProbe:
             tcpSocket:
