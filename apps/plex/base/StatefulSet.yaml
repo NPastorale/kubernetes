@@ -63,7 +63,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: init-litestream
-          image: litestream/litestream:0.5.1@sha256:b6b174e740f00e624fe15053f65348ab7e42daa3cc3ce1fa4cf6b89db5e3788d
+          image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           args:
             [
               "restore",
@@ -80,7 +80,7 @@ spec:
               mountPath: /etc/litestream.yml
               subPath: litestream.yaml
         - name: init-litestream-blobs
-          image: litestream/litestream:0.5.1@sha256:b6b174e740f00e624fe15053f65348ab7e42daa3cc3ce1fa4cf6b89db5e3788d
+          image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           args:
             [
               "restore",
@@ -158,7 +158,7 @@ spec:
             - name: plex-database
               mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
         - name: litestream
-          image: litestream/litestream:0.5.1@sha256:b6b174e740f00e624fe15053f65348ab7e42daa3cc3ce1fa4cf6b89db5e3788d
+          image: litestream/litestream:0.3.13@sha256:027eda2a89a86015b9797d2129d4dd447e8953097b4190e1d5a30b73e76d8d58
           lifecycle:
             postStart:
               exec:
