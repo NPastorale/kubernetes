@@ -12,6 +12,10 @@ spec:
   project: default
   source:
     chart: metallb
+    helm:
+      parameters:
+        - name: speaker.frr.enabled
+          value: "false"
     repoURL: https://metallb.github.io/metallb
     targetRevision: 0.15.2
   syncPolicy:
