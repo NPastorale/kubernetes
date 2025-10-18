@@ -76,9 +76,5 @@ spec:
           enabled: false
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.31.0
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true

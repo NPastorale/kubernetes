@@ -36,9 +36,5 @@ spec:
               secretKeyRef:
                 name: ddns-key
                 key: ddns-key
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true

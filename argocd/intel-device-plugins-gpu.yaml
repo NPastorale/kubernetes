@@ -22,10 +22,6 @@ spec:
           value: "false"
         - name: sharedDevNum
           value: "1"
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true
   ignoreDifferences:
