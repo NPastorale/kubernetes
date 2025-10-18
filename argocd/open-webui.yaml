@@ -34,3 +34,7 @@ spec:
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-staging
     chart: open-webui
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

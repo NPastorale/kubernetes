@@ -59,3 +59,7 @@ spec:
           - "xrovertox"
 
     targetRevision: 2.5.2
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
