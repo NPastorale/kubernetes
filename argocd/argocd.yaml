@@ -63,9 +63,5 @@ spec:
                               name: http
     repoURL: https://argoproj.github.io/argo-helm
     targetRevision: 8.6.3
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true
