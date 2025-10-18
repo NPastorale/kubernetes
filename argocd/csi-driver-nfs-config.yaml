@@ -15,7 +15,7 @@ spec:
   source:
     path: apps/csi-driver-nfs-config
     repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+    targetRevision: feature/cluster-bootstrap
   syncPolicy:
     automated:
       prune: false
