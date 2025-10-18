@@ -30,5 +30,3 @@ spec:
           value: gitlab/gitlab-gitlab-shell:22
     repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: 4.13.3
-    syncOptions:
-      - CreateNamespace=true

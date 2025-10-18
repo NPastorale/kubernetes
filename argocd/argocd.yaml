@@ -63,5 +63,3 @@ spec:
                               name: http
     repoURL: https://argoproj.github.io/argo-helm
     targetRevision: 8.6.3
-    syncOptions:
-      - CreateNamespace=true

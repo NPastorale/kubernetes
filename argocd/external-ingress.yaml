@@ -38,5 +38,3 @@ spec:
           value: "Local"
     repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: 4.13.3
-    syncOptions:
-      - CreateNamespace=true

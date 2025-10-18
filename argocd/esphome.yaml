@@ -14,5 +14,3 @@ spec:
     path: apps/esphome/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: feature/cluster-bootstrap
-    syncOptions:
-      - CreateNamespace=true

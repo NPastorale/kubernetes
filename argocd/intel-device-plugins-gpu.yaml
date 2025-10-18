@@ -22,8 +22,6 @@ spec:
           value: "false"
         - name: sharedDevNum
           value: "1"
-    syncOptions:
-      - CreateNamespace=true
   ignoreDifferences:
     - group: deviceplugin.intel.com
       kind: GpuDevicePlugin

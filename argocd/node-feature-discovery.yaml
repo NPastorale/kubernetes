@@ -21,5 +21,3 @@ spec:
               operator: Equal
     repoURL: "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
     targetRevision: 0.18.1
-    syncOptions:
-      - CreateNamespace=true

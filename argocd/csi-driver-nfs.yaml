@@ -16,5 +16,3 @@ spec:
     chart: csi-driver-nfs
     repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
     targetRevision: 4.11.0
-    syncOptions:
-      - CreateNamespace=true
