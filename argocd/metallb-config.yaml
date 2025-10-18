@@ -18,5 +18,8 @@ spec:
     targetRevision: feature/cluster-bootstrap
 
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
