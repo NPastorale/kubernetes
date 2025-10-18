@@ -24,3 +24,7 @@ spec:
       kind: ValidatingWebhookConfiguration
       jqPathExpressions:
         - .webhooks[].clientConfig.caBundle
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

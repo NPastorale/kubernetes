@@ -152,3 +152,7 @@ spec:
           ingress:
             tls:
               secretName: registry-tls
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

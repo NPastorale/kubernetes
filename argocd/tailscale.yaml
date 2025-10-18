@@ -14,3 +14,7 @@ spec:
     chart: tailscale-operator
     repoURL: "https://pkgs.tailscale.com/helmcharts"
     targetRevision: 1.88.4
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

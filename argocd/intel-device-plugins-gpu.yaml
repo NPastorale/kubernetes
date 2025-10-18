@@ -27,3 +27,7 @@ spec:
       kind: GpuDevicePlugin
       jsonPointers:
         - /spec/resourceManager
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

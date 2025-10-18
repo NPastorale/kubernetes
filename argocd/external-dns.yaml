@@ -36,3 +36,7 @@ spec:
               secretKeyRef:
                 name: ddns-key
                 key: ddns-key
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

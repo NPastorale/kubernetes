@@ -16,3 +16,7 @@ spec:
     path: apps/vault-config
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: feature/cluster-bootstrap
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

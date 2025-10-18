@@ -24,3 +24,7 @@ spec:
           value: "true"
     repoURL: https://charts.jetstack.io
     targetRevision: v1.19.0
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
