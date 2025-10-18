@@ -32,5 +32,8 @@ spec:
     targetRevision: 4.13.3
 
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
