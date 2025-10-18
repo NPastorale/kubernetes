@@ -14,7 +14,3 @@ spec:
     path: apps/nas-t/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: feature/cluster-bootstrap
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false

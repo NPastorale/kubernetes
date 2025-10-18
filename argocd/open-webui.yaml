@@ -34,7 +34,3 @@ spec:
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-staging
     chart: open-webui
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false

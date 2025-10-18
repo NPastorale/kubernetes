@@ -14,9 +14,5 @@ spec:
     path: apps/ddclient/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: feature/cluster-bootstrap
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true

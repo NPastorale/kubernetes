@@ -59,9 +59,5 @@ spec:
           - "xrovertox"
 
     targetRevision: 2.5.2
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true

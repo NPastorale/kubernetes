@@ -18,9 +18,5 @@ spec:
           value: "--kubelet-insecure-tls"
     repoURL: https://kubernetes-sigs.github.io/metrics-server
     targetRevision: 3.13.0
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
     syncOptions:
       - CreateNamespace=true
