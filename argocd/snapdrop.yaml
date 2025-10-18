@@ -14,5 +14,3 @@ spec:
     path: apps/snapdrop/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: feature/cluster-bootstrap
-    syncOptions:
-      - CreateNamespace=true
