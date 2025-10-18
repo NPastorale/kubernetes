@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: nas-t
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: internal-nginx
@@ -28,7 +28,12 @@ kind: Ingress
 metadata:
   name: files-nas-t
   annotations:
+<<<<<<< HEAD
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+=======
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+>>>>>>> 1b868500 (branch test)
 spec:
   ingressClassName: internal-nginx
   tls:

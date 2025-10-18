@@ -18,7 +18,7 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/prowlarr/config"
+            path: "/mnt/NAS-T/k8s-volumes/test/prowlarr/config"
             server: 10.10.20.10
       containers:
         - name: prowlarr
