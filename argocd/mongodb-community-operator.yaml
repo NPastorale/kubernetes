@@ -14,5 +14,3 @@ spec:
     chart: community-operator
     repoURL: "https://mongodb.github.io/helm-charts"
     targetRevision: 0.13.0
-    syncOptions:
-      - CreateNamespace=true

@@ -16,5 +16,3 @@ spec:
     path: apps/metallb-config
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: feature/cluster-botstrap
-    syncOptions:
-      - CreateNamespace=true

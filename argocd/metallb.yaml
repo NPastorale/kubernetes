@@ -20,5 +20,3 @@ spec:
           value: "false"
     repoURL: https://metallb.github.io/metallb
     targetRevision: 0.15.2
-    syncOptions:
-      - CreateNamespace=true
