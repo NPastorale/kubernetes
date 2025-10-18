@@ -24,7 +24,7 @@ spec:
             secretName: ddns-key-external
         - name: data
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/bind/external/data"
+            path: "/mnt/NAS-T/k8s-volumes/test/bind/external/data"
             server: 10.10.20.10
       containers:
         - name: bind-external

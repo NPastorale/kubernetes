@@ -33,7 +33,7 @@ spec:
             configureCertmanager: false
             class: internal-nginx
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              cert-manager.io/cluster-issuer: "letsencrypt-staging"
           kas:
             enabled: false
           pages:
@@ -154,7 +154,7 @@ spec:
               secretName: registry-tls
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: false
+      selfHeal: false
     syncOptions:
       - CreateNamespace=true
