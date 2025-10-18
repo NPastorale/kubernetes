@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-100"
 spec:
   destination:
     namespace: cert-manager
@@ -24,7 +26,7 @@ spec:
     targetRevision: v1.19.1
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: false
+      selfHeal: false
     syncOptions:
       - CreateNamespace=true

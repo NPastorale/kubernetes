@@ -56,11 +56,11 @@ spec:
                 crypto_key  = "unseal-key"
               }
           dataStorage:
-            storageClass: "nfs-csi-persistent"
+            storageClass: "nfs-csi-test"
           ingress:
             enabled: true
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              cert-manager.io/cluster-issuer: "letsencrypt-staging"
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             ingressClassName: "internal-nginx"
             hosts:
@@ -78,7 +78,7 @@ spec:
     targetRevision: 0.31.0
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: false
+      selfHeal: false
     syncOptions:
       - CreateNamespace=true

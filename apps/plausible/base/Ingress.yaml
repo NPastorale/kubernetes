@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: plausible-ingress
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   ingressClassName: internal-nginx
   tls:
@@ -28,7 +28,7 @@ kind: Ingress
 metadata:
   name: script-plausible-ingress
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
     external-dns.alpha.kubernetes.io/exclude: "true"
 spec:
   ingressClassName: external-nginx

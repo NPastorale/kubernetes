@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: mac-prep
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
     nginx.ingress.kubernetes.io/rewrite-target: /NPastorale/scripts/main/macos-prep/macos-prep.sh
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/upstream-vhost: "raw.githubusercontent.com"

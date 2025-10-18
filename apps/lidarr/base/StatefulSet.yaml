@@ -18,11 +18,11 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/lidarr/config"
+            path: "/mnt/NAS-T/k8s-volumes/test/lidarr/config"
             server: 10.10.20.10
         - name: persistent-data
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/plex/data"
+            path: "/mnt/NAS-T/k8s-volumes/test/plex/data"
             server: 10.10.20.10
       containers:
         - name: lidarr
