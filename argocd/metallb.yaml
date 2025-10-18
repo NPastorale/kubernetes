@@ -22,7 +22,7 @@ spec:
     targetRevision: 0.15.3
   syncPolicy:
     automated:
-      prune: false
-      selfHeal: false
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
