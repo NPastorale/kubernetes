@@ -13,7 +13,7 @@ spec:
   source:
     path: apps/clickhouse/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+    targetRevision: feature/cluster-bootstrap
   syncPolicy:
     automated:
       prune: false
