@@ -20,7 +20,7 @@ spec:
               key: nvidia.com/gpu
               operator: Equal
     repoURL: "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
-    targetRevision: 0.18.1
+    targetRevision: 0.18.2
   syncPolicy:
     automated:
       prune: true
