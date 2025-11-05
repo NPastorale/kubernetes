@@ -21,13 +21,11 @@ spec:
           configMap:
             name: default-conf
         - name: config
-          nfs:
-            path: "/mnt/NAS-T/k8s-volumes/test/archmirror/config"
-            server: 10.10.20.10
+          persistentVolumeClaim:
+            claimName: config
         - name: data
-          nfs:
-            path: "/mnt/NAS-T/k8s-volumes/test/archmirror/data"
-            server: 10.10.20.10
+          persistentVolumeClaim:
+            claimName: data
         - name: cache
           emptyDir: {}
         - name: tmp
