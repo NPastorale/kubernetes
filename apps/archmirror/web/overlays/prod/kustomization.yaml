@@ -6,3 +6,7 @@ patches:
       kind: PersistentVolumeClaim
       name: config
     path: PersistentVolumeClaim.yaml
+  - target:
+      kind: Ingress
+      name: http-server
+    path: Ingress.yaml
