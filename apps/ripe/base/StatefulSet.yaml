@@ -19,7 +19,7 @@ spec:
           type: Unconfined
       containers:
         - name: ripe-atlas
-          image: docker.io/jamesits/ripe-atlas:latest@sha256:031ffbe8f357c35f3eb668bd3c455ca008e0bd42ca091b7254a67ace25968f87
+          image: docker.io/jamesits/ripe-atlas:latest@sha256:1f2a83b919bca477336afef8883df580eac1564683f73207592b4ff5e5bc568a
           imagePullPolicy: Always
           env:
             - name: RXTXRPT
