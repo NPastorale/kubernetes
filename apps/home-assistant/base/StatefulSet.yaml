@@ -18,7 +18,7 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/home-assistant/config"
+            path: "/mnt/NAS-T/k8s-volumes/test/home-assistant/config"
             server: 10.10.20.10
       hostNetwork: true
       containers:
