@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-90"
 spec:
   destination:
     namespace: vault
@@ -13,7 +15,8 @@ spec:
   source:
     path: apps/vault-config
     repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+    targetRevision: feature/cluster-bootstrap
+
   syncPolicy:
     automated:
       prune: true

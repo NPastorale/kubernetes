@@ -2,6 +2,7 @@ resources:
   - Deployment.yaml
   - HorizontalPodAutoscaler.yaml
   - Ingress.yaml
+  - PersistentVolumeClaim.yaml
   - Service.yaml
 configMapGenerator:
   - name: default-conf

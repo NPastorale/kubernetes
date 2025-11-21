@@ -14,9 +14,7 @@ spec:
     chart: intel-device-plugins-operator
     repoURL: "https://intel.github.io/helm-charts"
     targetRevision: 0.34.0
+
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true

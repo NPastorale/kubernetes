@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-100"
 spec:
   destination:
     namespace: csi
@@ -13,7 +15,8 @@ spec:
   source:
     path: apps/csi-driver-nfs-config
     repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+    targetRevision: feature/cluster-bootstrap
+
   syncPolicy:
     automated:
       prune: true
