@@ -13,10 +13,8 @@ spec:
   source:
     path: apps/bind/external/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+    targetRevision: feature/cluster-bootstrap
+
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true

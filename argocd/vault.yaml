@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-70"
 spec:
   destination:
     namespace: vault
@@ -56,11 +58,11 @@ spec:
                 crypto_key  = "unseal-key"
               }
           dataStorage:
-            storageClass: "nfs-csi-persistent"
+            storageClass: "nfs-csi-test"
           ingress:
             enabled: true
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              cert-manager.io/cluster-issuer: "letsencrypt-staging"
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             ingressClassName: "internal-nginx"
             hosts:
@@ -76,6 +78,7 @@ spec:
           enabled: false
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.31.0
+
   syncPolicy:
     automated:
       prune: true

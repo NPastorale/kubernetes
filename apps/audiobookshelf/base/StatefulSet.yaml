@@ -18,15 +18,15 @@ spec:
       volumes:
         - name: config
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/audiobookshelf/config"
+            path: "/mnt/NAS-T/k8s-volumes/test/audiobookshelf/config"
             server: 10.10.20.10
         - name: books
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/ephemeral/audiobookshelf/data/books"
+            path: "/mnt/NAS-T/k8s-volumes/test/audiobookshelf/data/books"
             server: 10.10.20.10
         - name: metadata
           nfs:
-            path: "/mnt/NAS-T/k8s-volumes/ephemeral/audiobookshelf/data/metadata"
+            path: "/mnt/NAS-T/k8s-volumes/test/audiobookshelf/data/metadata"
             server: 10.10.20.10
       containers:
         - name: audiobookshelf
