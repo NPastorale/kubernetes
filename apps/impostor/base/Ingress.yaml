@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: impostor
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: external-nginx
+  tls:
+    - hosts:
+        - impostor.nahue.ar
+      secretName: impostor
+  rules:
+    - host: impostor.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: impostor
+                port:
+                  number: 80

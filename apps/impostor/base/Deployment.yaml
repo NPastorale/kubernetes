@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: impostor
+  labels:
+    app: impostor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: impostor
+  template:
+    metadata:
+      labels:
+        app: impostor
+    spec:
+      containers:
+        - name: impostor
+          image: ghcr.io/npastorale/impostor:latest
+          resources:
+            requests:
+              memory: "56Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
