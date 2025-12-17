@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: impostor
-          image: ghcr.io/npastorale/impostor:latest@sha256:110d8a866e03b71487e83e3750d24a1f934535d522d5b3450a5b630605e1850d
+          image: ghcr.io/npastorale/impostor:latest@sha256:283ec71455926e42b0ccb7ae927e04f6c7c69a24e640a12c044364d23513fb57
           resources:
             requests:
               memory: "56Mi"
