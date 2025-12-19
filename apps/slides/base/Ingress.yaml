@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: slides
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: external-nginx
+  tls:
+    - hosts:
+        - slides.nahue.ar
+      secretName: slides
+  rules:
+    - host: slides.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: slides
+                port:
+                  number: 80
