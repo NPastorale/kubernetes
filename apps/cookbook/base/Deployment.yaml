@@ -33,4 +33,4 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - name: data
-              mountPath: /data
+              mountPath: /app/recipes
