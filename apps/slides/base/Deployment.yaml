@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: slides
-          image: npastorale/slides
+          image: npastorale/slides@sha256:e5b2fcd95e7a65668681f99de3561bb0dbef0a65df7de4b67659047050975345
           resources:
             requests:
               memory: "56Mi"
