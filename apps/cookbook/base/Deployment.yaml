@@ -20,7 +20,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: cookbook
-          image: sofiacarballo/cookbook
+          image: sofiacarballo/cookbook@sha256:84df027ace0fe854ba7a9fd40136267511db323134034c7b88bdc8e2a8e5c8a0
           resources:
             requests:
               memory: "256Mi"
