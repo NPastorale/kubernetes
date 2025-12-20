@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cookbook
+  labels:
+    app: cookbook
+spec:
+  selector:
+    matchLabels:
+      app: cookbook
+  template:
+    metadata:
+      labels:
+        app: cookbook
+    spec:
+      volumes:
+        - name: data
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/persistent/cookbook/data"
+            server: 10.10.20.10
+      containers:
+        - name: cookbook
+          image: sofiacarballo/cookbook
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: data
+              mountPath: /data
