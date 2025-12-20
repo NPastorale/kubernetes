@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cookbook-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - cookbook.nahue.ar
+      secretName: cookbook
+  rules:
+    - host: cookbook.nahue.ar
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cookbook
+                port:
+                  number: 80
