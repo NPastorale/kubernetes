@@ -28,7 +28,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: bind-external
-          image: ghcr.io/npastorale/bind:9.20.17-r0@sha256:85bea454d01c9dffc0149e8ed13beb448695aa39fe7a219f68fa9dc5ea1a545c
+          image: ghcr.io/npastorale/bind:9.20.18-r0@sha256:c2e315e901ae41e475ad352e3199dd2cbac2fa37ab6c6c464d285f243e88016b
           lifecycle:
             preStop:
               exec:
