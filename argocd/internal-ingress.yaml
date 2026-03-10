@@ -22,8 +22,6 @@ spec:
           value: "3"
         - name: controller.ingressClassByName
           value: "true"
-        - name: controller.service.loadBalancerIP
-          value: "10.10.20.57"
         - name: tcp.22
           value: gitlab/gitlab-gitlab-shell:22
     repoURL: https://kubernetes.github.io/ingress-nginx
