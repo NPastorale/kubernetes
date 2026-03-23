@@ -38,6 +38,8 @@ spec:
           env:
             - name: hostname
               value: syncthing-server
+            - name: STNOUPGRADE
+              value: "1"
             - name: TZ
               value: "Europe/Madrid"
             - name: PUID
