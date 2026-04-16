@@ -13,7 +13,7 @@ spec:
   source:
     chart: gitlab
     repoURL: https://charts.gitlab.io/
-    targetRevision: 9.10.3
+    targetRevision: 9.11.0
     helm:
       valuesObject:
         upgradeCheck:
