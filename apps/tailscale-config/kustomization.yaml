@@ -1,3 +1,4 @@
 resources:
   - Connector.yaml
   - ExternalSecret.yaml
+  - ProxyClass.yaml
