@@ -29,6 +29,8 @@ spec:
                 secretKeyRef:
                   name: telegram-api-key
                   key: telegram-api-key
+            - name: MODEL_SIZE
+              value: "turbo"
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Exists"
