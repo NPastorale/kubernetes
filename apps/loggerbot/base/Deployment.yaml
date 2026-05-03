@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loggerbot
+  labels:
+    app: loggerbot
+spec:
+  selector:
+    matchLabels:
+      app: loggerbot
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: loggerbot
+    spec:
+      runtimeClassName: "nvidia"
+      containers:
+        - name: loggerbot
+          image: ttl.sh/loggerbot:24h
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+          imagePullPolicy: IfNotPresent
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Exists"
+          effect: "NoSchedule"
