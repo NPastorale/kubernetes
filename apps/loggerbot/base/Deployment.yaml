@@ -23,6 +23,12 @@ spec:
             limits:
               nvidia.com/gpu: 1
           imagePullPolicy: Always
+          env:
+            - name: TELEGRAM_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-api-key
+                  key: telegram-api-key
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Exists"
