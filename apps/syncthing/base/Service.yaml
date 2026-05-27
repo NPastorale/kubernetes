@@ -5,6 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   loadBalancerIP: 10.10.20.55
+  externalTrafficPolicy: Local
   selector:
     app: syncthing
   ports:

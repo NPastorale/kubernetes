@@ -47,15 +47,18 @@ spec:
             - name: GUID
               value: "65534"
           readinessProbe:
-            tcpSocket:
-              port: 22000
+            httpGet:
+              path: /rest/noauth/health
+              port: 8384
             initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:
-            tcpSocket:
-              port: 22000
-            initialDelaySeconds: 10
+            httpGet:
+              path: /rest/noauth/health
+              port: 8384
+            initialDelaySeconds: 5
             periodSeconds: 5
+            failureThreshold: 12
           ports:
             - containerPort: 8384
             - containerPort: 22000
