@@ -5,6 +5,7 @@ metadata:
   labels:
     app: ddclient
 spec:
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: ddclient

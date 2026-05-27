@@ -5,6 +5,7 @@ metadata:
   labels:
     app: http-server
 spec:
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: http-server

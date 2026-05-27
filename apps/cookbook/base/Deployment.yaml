@@ -5,6 +5,7 @@ metadata:
   labels:
     app: cookbook
 spec:
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: cookbook

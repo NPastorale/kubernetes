@@ -5,6 +5,7 @@ metadata:
   labels:
     app: snapdrop
 spec:
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: snapdrop
