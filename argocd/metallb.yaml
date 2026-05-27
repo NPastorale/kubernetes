@@ -14,7 +14,7 @@ spec:
     chart: metallb
     helm:
       parameters:
-        - name: speaker.frr.enabled
+        - name: frrk8s.enabled
           value: "false"
     repoURL: https://metallb.github.io/metallb
     targetRevision: 0.16.0
