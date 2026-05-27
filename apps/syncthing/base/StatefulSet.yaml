@@ -5,6 +5,7 @@ metadata:
   labels:
     app: syncthing
 spec:
+  revisionHistoryLimit: 0
   serviceName: syncthing
   replicas: 1
   selector:
@@ -15,7 +16,6 @@ spec:
       labels:
         app: syncthing
     spec:
-      revisionHistoryLimit: 0
       volumes:
         - name: config
           nfs:
