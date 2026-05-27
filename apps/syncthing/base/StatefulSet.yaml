@@ -15,7 +15,7 @@ spec:
       labels:
         app: syncthing
     spec:
-      revisionHistoryLimit: 1
+      revisionHistoryLimit: 0
       volumes:
         - name: config
           nfs:
