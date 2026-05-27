@@ -1,4 +1,0 @@
-resources:
-  - Ingress.yaml
-  - Service.yaml
-  - StatefulSet.yaml
