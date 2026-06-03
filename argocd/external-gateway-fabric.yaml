@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-gateway-fabric
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-gateway-nginx
+  project: default
+  source:
+    chart: nginx-gateway-fabric
+    repoURL: ghcr.io/nginx/charts
+    targetRevision: 2.6.2
+    helm:
+      parameters:
+        - name: nginxGateway.gatewayClassName
+          value: "external-nginx"
+        - name: nginxGateway.name
+          value: "external-nginx"
+        - name: nginx.autoscaling.enable
+          value: "true"
+        - name: nginx.autoscaling.minReplicas
+          value: "2"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
