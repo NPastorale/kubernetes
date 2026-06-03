@@ -17,9 +17,9 @@ spec:
     helm:
       parameters:
         - name: nginxGateway.gatewayClassName
-          value: "external-nginx"
+          value: "internal-nginx"
         - name: nginxGateway.name
-          value: "external-nginx"
+          value: "internal-nginx"
         - name: nginx.autoscaling.enable
           value: "true"
         - name: nginx.autoscaling.minReplicas
