@@ -5,7 +5,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
-  gatewayClassName: external-nginx
+  gatewayClassName: nginx
   listeners:
     - name: http
       protocol: HTTP
