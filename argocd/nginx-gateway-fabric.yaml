@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: internal-gateway-fabric
+  name: nginx-gateway-fabric
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: internal-ingress-nginx
+    namespace: nginx-fabric
   project: default
   source:
     chart: nginx-gateway-fabric
@@ -16,10 +16,6 @@ spec:
     targetRevision: 2.6.3
     helm:
       parameters:
-        - name: nginxGateway.gatewayClassName
-          value: "internal-nginx"
-        - name: nginxGateway.name
-          value: "internal-nginx"
         - name: nginx.autoscaling.enable
           value: "true"
         - name: nginx.autoscaling.minReplicas
