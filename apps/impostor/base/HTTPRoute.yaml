@@ -1,0 +1,47 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: impostor-http
+spec:
+  hostnames:
+    - impostor.nahue.ar
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: impostor
+      sectionName: http
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+            hostname: impostor.nahue.ar
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: impostor-https
+spec:
+  hostnames:
+    - impostor.nahue.ar
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: impostor
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: impostor
+          port: 80
+          weight: 1
