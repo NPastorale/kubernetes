@@ -8,4 +8,4 @@ spec:
     kind: Gateway
     name: audiobookshelf
   body:
-    maxSize: "5G"
+    maxSize: "5g"
