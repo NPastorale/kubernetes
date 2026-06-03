@@ -23,6 +23,7 @@ spec:
           - nahue.ar
         annotationFilter: "external-dns.alpha.kubernetes.io/exclude notin (true)"
         txtSuffix: "-edns"
+        enableGatewayListenerSets: true
         extraArgs:
           rfc2136-host: bind-internal.bind9.svc.cluster.local
           rfc2136-port: 53
