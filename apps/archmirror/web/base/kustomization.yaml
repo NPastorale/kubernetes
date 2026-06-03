@@ -2,7 +2,7 @@ resources:
   - Deployment.yaml
   - Gateway.yaml
   - HorizontalPodAutoscaler.yaml
-  - HTTPRoute.yamlß
+  - HTTPRoute.yaml
   - Service.yaml
 configMapGenerator:
   - name: default-conf
