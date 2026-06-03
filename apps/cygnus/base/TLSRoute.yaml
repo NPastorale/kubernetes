@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: cygnus-tls
+spec:
+  hostnames:
+    - cygnus.nahue.ar
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: cygnus
+      sectionName: tls
+  rules:
+    - backendRefs:
+        - name: cygnus
+          port: 443
