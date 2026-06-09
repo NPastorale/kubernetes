@@ -19,7 +19,7 @@ spec:
       runtimeClassName: "nvidia"
       containers:
         - name: loggerbot
-          image: ttl.sh/loggerbot:24h
+          image: ttl.sh/loggerbot:24h@sha256:7dd0f4247ed156395031c1ee6ef0868149e8690b8b3aeb74cd533f9b55b5cb45
           resources:
             limits:
               nvidia.com/gpu: 1
