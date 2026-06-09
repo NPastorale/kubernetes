@@ -20,6 +20,8 @@ spec:
           value: "10.10.20.50:53"
         - name: dns01RecursiveNameserversOnly
           value: "true"
+        - name: config.enableGatewayAPI
+          value: "true"
     repoURL: https://charts.jetstack.io
     targetRevision: v1.20.2
   syncPolicy:
