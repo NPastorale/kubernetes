@@ -12,4 +12,7 @@ spec:
       port: 80
       allowedRoutes:
         namespaces:
-          from: nginx-fabric
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: nginx-fabric
