@@ -12,14 +12,20 @@ spec:
       port: 80
       allowedRoutes:
         namespaces:
-          from: nginx-fabric
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: nginx-fabric
     - name: archmirror-https
       protocol: HTTPS
       hostname: mirrors.nahue.ar
       port: 443
       allowedRoutes:
         namespaces:
-          from: mirrors
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: mirrors
       tls:
         mode: Terminate
         certificateRefs:
