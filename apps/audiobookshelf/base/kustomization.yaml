@@ -1,6 +1,5 @@
 resources:
   - ClientSettingsPolicy.yaml
-  - Gateway.yaml
   - HTTPRoute.yaml
   - Service.yaml
   - StatefulSet.yaml

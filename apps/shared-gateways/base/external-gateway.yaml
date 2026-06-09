@@ -32,3 +32,19 @@ spec:
           - name: mirrors
             kind: Secret
             group: ""
+    - name: audiobookshelf-https
+      protocol: HTTPS
+      hostname: audiobookshelf.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: audiobookshelf
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: audiobookshelf
+            kind: Secret
+            group: ""
