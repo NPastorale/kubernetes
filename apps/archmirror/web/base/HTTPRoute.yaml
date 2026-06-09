@@ -8,7 +8,7 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: external-nginx
+      name: external
       namespace: nginx-fabric
       sectionName: https
   rules:
