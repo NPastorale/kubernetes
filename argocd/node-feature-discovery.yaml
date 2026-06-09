@@ -19,6 +19,7 @@ spec:
             - effect: NoSchedule
               key: nvidia.com/gpu
               operator: Equal
+        postDeleteCleanup: false
     repoURL: "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
     targetRevision: 0.18.3
   syncPolicy:
