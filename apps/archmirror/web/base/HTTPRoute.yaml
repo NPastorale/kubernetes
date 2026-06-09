@@ -1,30 +1,6 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: archmirror-http
-spec:
-  hostnames:
-    - mirrors.nahue.ar
-  parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: archmirror
-      sectionName: http
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
-            hostname: mirrors.nahue.ar
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
   name: archmirror-https
 spec:
   hostnames:
@@ -32,7 +8,8 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: archmirror
+      name: external-nginx
+      namespace: nginx-fabric
       sectionName: https
   rules:
     - matches:

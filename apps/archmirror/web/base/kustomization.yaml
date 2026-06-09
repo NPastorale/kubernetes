@@ -1,6 +1,5 @@
 resources:
   - Deployment.yaml
-  - Gateway.yaml
   - HorizontalPodAutoscaler.yaml
   - HTTPRoute.yaml
   - Service.yaml
