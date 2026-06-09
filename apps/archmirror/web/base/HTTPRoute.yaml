@@ -10,7 +10,7 @@ spec:
       kind: Gateway
       name: external
       namespace: nginx-fabric
-      sectionName: https
+      sectionName: archmirror-https
   rules:
     - matches:
         - path:
