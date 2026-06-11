@@ -1,4 +1,5 @@
 resources:
+  - Certificate.yaml
   - Deployment.yaml
   - HorizontalPodAutoscaler.yaml
   - HTTPRoute.yaml
