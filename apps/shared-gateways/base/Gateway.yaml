@@ -1,6 +1,153 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
+  name: external
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: nginx
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: nginx-fabric
+    - name: archinstall-https
+      protocol: HTTPS
+      hostname: archinstall.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: scripts
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: archinstall
+            kind: Secret
+            group: ""
+    - name: archmirror-https
+      protocol: HTTPS
+      hostname: mirrors.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: mirrors
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: mirrors
+            kind: Secret
+            group: ""
+    - name: impostor-https
+      protocol: HTTPS
+      hostname: impostor.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: impostor
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: impostor
+            kind: Secret
+            group: ""
+    - name: joke-https
+      protocol: HTTPS
+      hostname: elverdaderorey.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: joke
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: joke
+            kind: Secret
+            group: ""
+    - name: podvader-https
+      protocol: HTTPS
+      hostname: podvader.com
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: podvader
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: podvader
+            kind: Secret
+            group: ""
+    - name: slides-https
+      protocol: HTTPS
+      hostname: slides.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: slides
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: slides
+            kind: Secret
+            group: ""
+    - name: ubuntu-prep-https
+      protocol: HTTPS
+      hostname: ubuntu-prep.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: scripts
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: ubuntu-prep
+            kind: Secret
+            group: ""
+    - name: web-https
+      protocol: HTTPS
+      hostname: nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: web
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: web
+            kind: Secret
+            group: ""
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
   name: internal
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
