@@ -1,6 +1,4 @@
 resources:
   - Endpoint.yaml
-  - Gateway.yaml
-  - HTTPRoute.yaml
   - Service.yaml
   - TLSRoute.yaml

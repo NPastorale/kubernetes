@@ -8,8 +8,9 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: cygnus
-      sectionName: tls
+      name: internal
+      namespace: nginx-fabric
+      sectionName: cygnus-tls
   rules:
     - backendRefs:
         - name: cygnus
