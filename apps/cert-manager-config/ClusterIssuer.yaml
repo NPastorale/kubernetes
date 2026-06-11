@@ -47,7 +47,7 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: your-email@example.com
+    email: npastorale@gmail.com
     privateKeySecretRef:
       name: letsencrypt-short-lived-staging
     profile: shortlived
