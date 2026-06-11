@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: web
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-classic-prod
     kind: ClusterIssuer
   dnsNames:
     - nahue.com

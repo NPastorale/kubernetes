@@ -3,7 +3,7 @@ kind: Gateway
 metadata:
   name: external
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-classic-prod
 spec:
   gatewayClassName: nginx
   listeners:
@@ -150,7 +150,7 @@ kind: Gateway
 metadata:
   name: internal
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-classic-prod
 spec:
   gatewayClassName: nginx
   listeners:

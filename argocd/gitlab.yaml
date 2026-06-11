@@ -33,7 +33,7 @@ spec:
             configureCertmanager: false
             class: internal-nginx
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
           kas:
             enabled: false
           pages:

@@ -35,14 +35,14 @@ spec:
             issuer:
               group: "cert-manager.io"
               kind: "ClusterIssuer"
-              name: "letsencrypt-prod"
+              name: "letsencrypt-classic-prod"
         extraObjects:
           - apiVersion: networking.k8s.io/v1
             kind: Ingress
             metadata:
               name: argocd-server-webhook-ingress
               annotations:
-                cert-manager.io/cluster-issuer: "letsencrypt-prod"
+                cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
                 external-dns.alpha.kubernetes.io/exclude: "true"
             spec:
               ingressClassName: external-nginx
