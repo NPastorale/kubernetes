@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: web
   issuerRef:
-    name: letsencrypt-classic-prod
+    name: letsencrypt-short-lived-staging
     kind: ClusterIssuer
   dnsNames:
     - mirrors.nahue.ar
