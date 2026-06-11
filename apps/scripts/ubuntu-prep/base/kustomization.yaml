@@ -1,5 +1,3 @@
 resources:
-- Service.yaml
-- gateway.yaml
-- httproute-scripts-ubuntu-prep-ubuntu-prep-ubuntu-prep-nahue-ar-https.yaml
-- httproute-scripts-ubuntu-prep-ubuntu-prep-ubuntu-prep-nahue-ar-http-redirect.yaml
+  - HTTPRoute.yaml
+  - Service.yaml

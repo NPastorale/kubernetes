@@ -1,16 +1,17 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: audiobookshelf-https
+  name: web-https
 spec:
   hostnames:
-    - audiobookshelf.nahue.ar
+    - nahue.ar
+    - www.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: internal
+      name: external
       namespace: nginx-fabric
-      sectionName: audiobookshelf-https
+      sectionName: web-https
   rules:
     - matches:
         - path:
@@ -19,6 +20,6 @@ spec:
       backendRefs:
         - group: ""
           kind: Service
-          name: audiobookshelf
+          name: web
           port: 80
           weight: 1

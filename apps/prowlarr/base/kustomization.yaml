@@ -1,4 +1,4 @@
 resources:
-  - Ingress.yaml
+  - HTTPRoute.yaml
   - Service.yaml
   - StatefulSet.yaml

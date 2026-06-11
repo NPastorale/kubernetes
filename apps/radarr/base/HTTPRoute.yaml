@@ -1,16 +1,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: audiobookshelf-https
+  name: radarr-https
 spec:
   hostnames:
-    - audiobookshelf.nahue.ar
+    - radarr.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: internal
       namespace: nginx-fabric
-      sectionName: audiobookshelf-https
+      sectionName: radarr-https
   rules:
     - matches:
         - path:
@@ -19,6 +19,6 @@ spec:
       backendRefs:
         - group: ""
           kind: Service
-          name: audiobookshelf
-          port: 80
+          name: radarr
+          port: 7878
           weight: 1

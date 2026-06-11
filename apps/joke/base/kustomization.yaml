@@ -1,5 +1,4 @@
 resources:
   - Deployment.yaml
-  - Gateway.yaml
   - HTTPRoute.yaml
   - Service.yaml

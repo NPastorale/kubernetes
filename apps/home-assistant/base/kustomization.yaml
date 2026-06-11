@@ -1,5 +1,4 @@
 resources:
-  - Gateway.yaml
   - HTTPRoute.yaml
   - Service.yaml
   - StatefulSet.yaml

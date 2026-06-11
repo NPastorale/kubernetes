@@ -16,3 +16,147 @@ spec:
           selector:
             matchLabels:
               kubernetes.io/metadata.name: nginx-fabric
+    - name: audiobookshelf-https
+      protocol: HTTPS
+      hostname: audiobookshelf.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: audiobookshelf
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: audiobookshelf
+            kind: Secret
+            group: ""
+    - name: cookbook-https
+      protocol: HTTPS
+      hostname: cookbook.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: cookbook
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: cookbook
+            kind: Secret
+            group: ""
+    - name: esphome-https
+      protocol: HTTPS
+      hostname: esphome.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: esphome
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: esphome
+            kind: Secret
+            group: ""
+    - name: home-assistant-https
+      protocol: HTTPS
+      hostname: ha.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-assistant
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: home-assistant
+            kind: Secret
+            group: ""
+    - name: lidarr-https
+      protocol: HTTPS
+      hostname: lidarr.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: lidarr
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lidarr
+            kind: Secret
+            group: ""
+    - name: prowlarr-https
+      protocol: HTTPS
+      hostname: prowlarr.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: prowlarr
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: prowlarr
+            kind: Secret
+            group: ""
+    - name: radarr-https
+      protocol: HTTPS
+      hostname: radarr.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: radarr
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: radarr
+            kind: Secret
+            group: ""
+    - name: sonarr-https
+      protocol: HTTPS
+      hostname: sonarr.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: sonarr
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr
+            kind: Secret
+            group: ""
+    - name: tautulli-https
+      protocol: HTTPS
+      hostname: tautulli.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: tautulli
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: tautulli
+            kind: Secret
+            group: ""

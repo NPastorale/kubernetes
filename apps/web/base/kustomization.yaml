@@ -1,4 +1,5 @@
 resources:
+  - Certificate.yaml
+  - HTTPRoute.yaml
   - Deployment.yaml
-  - Ingress.yaml
   - Service.yaml

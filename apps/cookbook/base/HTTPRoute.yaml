@@ -1,30 +1,6 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: cookbook-http
-spec:
-  hostnames:
-    - cookbook.nahue.ar
-  parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: cookbook
-      sectionName: http
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
-            hostname: cookbook.nahue.ar
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
   name: cookbook-https
 spec:
   hostnames:
@@ -32,8 +8,9 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: cookbook
-      sectionName: https
+      name: internal
+      namespace: nginx-fabric
+      sectionName: cookbook-https
   rules:
     - matches:
         - path:

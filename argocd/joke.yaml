@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: snapdrop
+  name: joke
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: snapdrop
+    namespace: joke
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/snapdrop/overlays/prod
+    path: apps/joke/overlays/prod
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
