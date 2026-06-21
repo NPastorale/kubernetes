@@ -14,6 +14,8 @@ spec:
     chart: cert-manager
     helm:
       parameters:
+        - name: global.revisionHistoryLimit
+          value: "0"
         - name: installCRDs
           value: "true"
         - name: dns01RecursiveNameservers
