@@ -17,6 +17,8 @@ spec:
         global:
           domain: argocd.nahue.ar
           revisionHistoryLimit: 0
+        controller:
+          revisionHistoryLimit: 0
         dex:
           enabled: false
         configs:
