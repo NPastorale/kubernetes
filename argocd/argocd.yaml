@@ -16,6 +16,7 @@ spec:
       valuesObject:
         global:
           domain: argocd.nahue.ar
+          revisionHistoryLimit: 0
         dex:
           enabled: false
         configs:
