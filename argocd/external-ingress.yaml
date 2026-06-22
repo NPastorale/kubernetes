@@ -16,6 +16,8 @@ spec:
       parameters:
         - name: controller.ingressClassResource.controllerValue
           value: "k8s.io/external-nginx"
+        - name: revisionHistoryLimit
+          value: "0"
         - name: controller.ingressClassResource.name
           value: "external-nginx"
         - name: controller.replicaCount
