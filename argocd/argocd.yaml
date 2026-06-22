@@ -65,7 +65,7 @@ spec:
                             port:
                               name: http
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 9.6.0
+    targetRevision: 9.7.0
   syncPolicy:
     automated:
       prune: true
