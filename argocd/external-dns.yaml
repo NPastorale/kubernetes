@@ -16,6 +16,7 @@ spec:
     targetRevision: 1.21.1
     helm:
       valuesObject:
+        revisionHistoryLimit: 0
         sources:
           - service
           - ingress
