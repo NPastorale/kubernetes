@@ -16,6 +16,8 @@ spec:
       parameters:
         - name: args[0]
           value: "--kubelet-insecure-tls"
+        - name: revisionHistoryLimit
+          value: "0"
     repoURL: https://kubernetes-sigs.github.io/metrics-server
     targetRevision: 3.13.1
   syncPolicy:
