@@ -16,7 +16,7 @@ spec:
       parameters:
         - name: global.revisionHistoryLimit
           value: "0"
-        - name: installCRDs
+        - name: crds.enabled
           value: "true"
         - name: dns01RecursiveNameservers
           value: "10.10.20.50:53"
@@ -24,6 +24,8 @@ spec:
           value: "true"
         - name: config.enableGatewayAPI
           value: "true"
+        - name: cainjector.enabled
+          value: "false"
     repoURL: https://charts.jetstack.io
     targetRevision: v1.20.3
   syncPolicy:
