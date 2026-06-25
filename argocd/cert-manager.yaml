@@ -25,7 +25,7 @@ spec:
         - name: config.enableGatewayAPI
           value: "true"
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.20.2
+    targetRevision: v1.20.3
   syncPolicy:
     automated:
       prune: true
