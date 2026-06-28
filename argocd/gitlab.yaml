@@ -34,6 +34,7 @@ spec:
             domain: nahue.ar
             https: true
           gatewayApi:
+            enabled: false
             configureCertmanager: false
           ingress:
             configureCertmanager: false
