@@ -23,12 +23,18 @@ spec:
             defaultColorMode: 3
             defaultTheme: 2
             defaultSyntaxHighlightingTheme: 5
+            object_store:
+              enabled: true
+              connection:
+                secret: object-storage
             terraformState:
               enabled: true
           edition: ee
           hosts:
             domain: nahue.ar
             https: true
+          gatewayApi:
+            configureCertmanager: false
           ingress:
             configureCertmanager: false
             class: internal-nginx
@@ -38,6 +44,11 @@ spec:
             enabled: false
           pages:
             enabled: true
+            objectStore:
+              connection:
+                secret: pages-storage
+          redis:
+            host: redis-gitlab
           psql:
             database: app
             username: app
@@ -45,18 +56,6 @@ spec:
             password:
               secret: postgres-gitlab-app
               key: password
-          minio:
-            enabled: true
-        minio:
-          persistence:
-            enabled: true
-            storageClass: "nfs-csi-persistent"
-            size: 100Gi
-        redis:
-          master:
-            persistence:
-              storageClass: "nfs-csi-persistent"
-              size: 50Gi
         installCertmanager: false
         nginx-ingress:
           enabled: false
@@ -83,6 +82,11 @@ spec:
             gitlab.com/prometheus_scrape: "true"
             gitlab.com/prometheus_port: 9252
         gitlab:
+          toolbox:
+            backups:
+              objectStorage:
+                config:
+                  secret: backup-storage
           gitaly:
             persistence:
               storageClass: "nfs-csi-persistent"
@@ -149,6 +153,8 @@ spec:
               tls:
                 secretName: gitlab-tls
         registry:
+          storage:
+            secret: registry-storage
           ingress:
             tls:
               secretName: registry-tls
