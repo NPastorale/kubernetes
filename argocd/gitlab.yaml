@@ -36,6 +36,7 @@ spec:
           gatewayApi:
             enabled: false
             configureCertmanager: false
+            installEnvoy: false
           ingress:
             configureCertmanager: false
             class: internal-nginx
