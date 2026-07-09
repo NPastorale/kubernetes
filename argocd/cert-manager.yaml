@@ -27,7 +27,7 @@ spec:
         - name: cainjector.enabled
           value: "false"
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.20.3
+    targetRevision: v1.21.0
   syncPolicy:
     automated:
       prune: true
