@@ -13,19 +13,18 @@ spec:
   source:
     chart: cert-manager
     helm:
-      parameters:
-        - name: global.revisionHistoryLimit
-          value: "0"
-        - name: crds.enabled
-          value: "true"
-        - name: dns01RecursiveNameservers
-          value: "10.10.20.50:53"
-        - name: dns01RecursiveNameserversOnly
-          value: "true"
-        - name: config.enableGatewayAPI
-          value: "true"
-        - name: cainjector.enabled
-          value: "false"
+      valuesObject:
+        global:
+          revisionHistoryLimit: 0
+        crds:
+          enabled: true
+        dns01RecursiveNameservers: "10.10.20.50:53"
+        dns01RecursiveNameserversOnly: true
+        cainjector:
+          enabled: false
+        config:
+          featureGates:
+            ACMEUseARI: true
     repoURL: https://charts.jetstack.io
     targetRevision: v1.21.0
   syncPolicy:
