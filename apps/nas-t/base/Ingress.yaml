@@ -29,6 +29,7 @@ metadata:
   name: files-nas-t
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1g"
 spec:
   ingressClassName: internal-nginx
   tls:
