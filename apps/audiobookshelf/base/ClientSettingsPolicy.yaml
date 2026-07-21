@@ -6,6 +6,6 @@ spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: HTTPRoute
-    name: audiobookshelf
+    name: audiobookshelf-https
   body:
     maxSize: "5g"
