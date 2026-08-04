@@ -6,9 +6,11 @@ spec:
   isCA: true
   commonName: vault-ca
   secretName: vault-ca-secret
+  duration: 87600h # 10 years
+  renewBefore: 720h # 30 days
   privateKey:
     algorithm: ECDSA
-    size: 256
+    size: 521
   issuerRef:
     name: vault-selfsigned-issuer
     kind: Issuer
@@ -21,6 +23,11 @@ metadata:
   name: vault-selfsigned
 spec:
   secretName: vault-selfsigned
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  privateKey:
+    algorithm: ECDSA
+    size: 521
   dnsNames:
     - vault.vault.svc.cluster.local
   issuerRef:
