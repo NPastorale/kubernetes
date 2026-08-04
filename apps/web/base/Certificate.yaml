@@ -9,5 +9,5 @@ spec:
     name: letsencrypt-classic-prod
     kind: ClusterIssuer
   dnsNames:
-    - nahue.com
-    - www.nahue.com
+    - nahue.ar
+    - www.nahue.ar
