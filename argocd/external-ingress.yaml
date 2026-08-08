@@ -21,7 +21,7 @@ spec:
         - name: controller.ingressClassResource.name
           value: "external-nginx"
         - name: controller.replicaCount
-          value: "3"
+          value: "2"
         - name: controller.ingressClassResource.default
           value: "true"
         - name: controller.ingressClassByName

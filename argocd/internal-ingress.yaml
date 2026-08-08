@@ -21,7 +21,7 @@ spec:
         - name: controller.ingressClassResource.name
           value: "internal-nginx"
         - name: controller.replicaCount
-          value: "3"
+          value: "2"
         - name: controller.ingressClassByName
           value: "true"
         - name: controller.service.loadBalancerIP
