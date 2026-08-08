@@ -1,0 +1,28 @@
+apiVersion: generators.external-secrets.io/v1alpha1
+kind: Password
+metadata:
+  name: valkey-password
+spec:
+  length: 32
+  digits: 5
+  symbols: 0
+  noUpper: false
+  allowRepeat: true
+  secretKeys:
+    - default
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: valkey-auth
+spec:
+  refreshInterval: 0
+  target:
+    name: valkey-auth
+    creationPolicy: Owner
+  dataFrom:
+    - sourceRef:
+        generatorRef:
+          apiVersion: generators.external-secrets.io/v1alpha1
+          kind: Password
+          name: valkey-password

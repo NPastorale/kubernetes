@@ -50,7 +50,11 @@ spec:
               connection:
                 secret: pages-storage
           redis:
-            host: redis-gitlab
+            host: valkey
+            auth:
+              enabled: true
+              secret: valkey-auth
+              key: default
           psql:
             database: app
             username: app
