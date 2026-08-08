@@ -39,6 +39,7 @@ spec:
             configureCertmanager: false
             installEnvoy: false
           ingress:
+            enabled: true
             configureCertmanager: false
             class: internal-nginx
             annotations:
