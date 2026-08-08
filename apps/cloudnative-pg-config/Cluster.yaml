@@ -1,7 +1,7 @@
 # apiVersion: postgresql.cnpg.io/v1
 # kind: Cluster
 # metadata:
-#   name: postgres-14
+#   name: postgres-18
 # spec:
 #   instances: 1
 #   imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
@@ -9,14 +9,14 @@
 #     size: 10Gi
 #     storageClass: nfs-csi-persistent
 # ---
-# apiVersion: postgresql.cnpg.io/v1
-# kind: Cluster
-# metadata:
-#   name: postgres-gitlab
-#   namespace: gitlab
-# spec:
-#   instances: 1
-#   imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
-#   storage:
-#     size: 10Gi
-#     storageClass: nfs-csi-persistent
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-gitlab
+  namespace: gitlab
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
+  storage:
+    size: 10Gi
+    storageClass: nfs-csi-persistent
