@@ -16,7 +16,7 @@ kind: ExternalSecret
 metadata:
   name: valkey-auth
 spec:
-  refreshInterval: 0
+  refreshInterval: "0"
   target:
     name: valkey-auth
     creationPolicy: Owner
