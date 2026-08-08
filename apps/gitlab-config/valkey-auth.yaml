@@ -16,10 +16,11 @@ kind: ExternalSecret
 metadata:
   name: valkey-auth
 spec:
-  refreshInterval: "0"
+  refreshPolicy: CreatedOnce
   target:
     name: valkey-auth
-    creationPolicy: Owner
+    creationPolicy: Orphan
+    immutable: true
   dataFrom:
     - sourceRef:
         generatorRef:
