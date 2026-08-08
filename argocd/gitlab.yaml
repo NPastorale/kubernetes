@@ -19,6 +19,7 @@ spec:
         upgradeCheck:
           enabled: false
         global:
+          revisionHistoryLimit: 0
           appConfig:
             defaultColorMode: 3
             defaultTheme: 2
@@ -70,6 +71,7 @@ spec:
         gitlab-runner:
           install: true
           gitlabUrl: "https://gitlab.nahue.ar"
+          revisionHistoryLimit: 0
           rbac:
             create: true
           checkInterval: 3
@@ -164,6 +166,9 @@ spec:
               tls:
                 secretName: gitlab-tls
         registry:
+          hpa:
+            minReplicas: 1
+            maxReplicas: 1
           storage:
             secret: registry-storage
           ingress:
