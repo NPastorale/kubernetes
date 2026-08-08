@@ -108,6 +108,8 @@ spec:
               tls:
                 secretName: pages-tls
           sidekiq:
+            minReplicas: 1
+            maxReplicas: 1
             extraInitContainers: |
               - name: init-public-key-sidekiq
                 image: busybox
