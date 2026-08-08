@@ -61,8 +61,6 @@ spec:
         installCertmanager: false
         nginx-ingress:
           enabled: false
-        postgresql:
-          install: false
         prometheus:
           install: false
         gitlab-runner:
@@ -84,8 +82,13 @@ spec:
             gitlab.com/prometheus_scrape: "true"
             gitlab.com/prometheus_port: 9252
         gitlab:
+          gitlab-shell:
+            minReplicas: 1
+            maxReplicas: 1
           toolbox:
             backups:
+              cron:
+                enabled: true
               objectStorage:
                 config:
                   secret: backup-storage
@@ -125,6 +128,8 @@ spec:
                 mountPath: /srv/gitlab/.license_encryption_key.pub
                 subPath: public.key
           webservice:
+            minReplicas: 1
+            maxReplicas: 1
             extraInitContainers: |
               - name: init-public-key-webservice
                 image: busybox
