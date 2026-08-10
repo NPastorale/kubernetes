@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-backup-compression
+  namespace: gitlab
+data:
+  COMPRESS_CMD: "gzip -c --best"

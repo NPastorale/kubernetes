@@ -99,6 +99,11 @@ spec:
               objectStorage:
                 config:
                   secret: backup-storage
+            extraEnvFrom:
+              COMPRESS_CMD:
+                configMapKeyRef:
+                  name: gitlab-backup-compression
+                  key: COMPRESS_CMD
           gitaly:
             persistence:
               storageClass: "nfs-csi-persistent"
