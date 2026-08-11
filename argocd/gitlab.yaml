@@ -142,8 +142,8 @@ spec:
                 mountPath: /srv/gitlab/.license_encryption_key.pub
                 subPath: public.key
           webservice:
-            minReplicas: 1
-            maxReplicas: 1
+            minReplicas: 2
+            maxReplicas: 5
             extraInitContainers: |
               - name: init-public-key-webservice
                 image: busybox
