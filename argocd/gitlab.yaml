@@ -72,12 +72,11 @@ spec:
         gitlab-runner:
           install: true
           gitlabUrl: "https://gitlab.nahue.ar"
-          revisionHistoryLimit: 0
+          revisionHistoryLimit: "0"
           rbac:
             create: true
           checkInterval: 3
           runners:
-            revisionHistoryLimit: 0
             locked: false
             config: |
               [[runners]]
