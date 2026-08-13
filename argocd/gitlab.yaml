@@ -92,6 +92,7 @@ spec:
                   [runners.cache.s3]
                   ServerAddress = "10.10.20.10:30188"
                   BucketName = "runner-cache"
+                  BucketLocation = "garage"
                   Insecure = true
                   AuthenticationType = "access-key"
             cache:
