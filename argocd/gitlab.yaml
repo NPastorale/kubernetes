@@ -80,11 +80,22 @@ spec:
             locked: false
             config: |
               [[runners]]
-                url = "https://gitlab.nahue.ar"
-                clone_url = "https://gitlab.nahue.ar"
+              url = "https://gitlab.nahue.ar"
+              clone_url = "https://gitlab.nahue.ar"
                 [runners.kubernetes]
                 privileged = true
                 image = "alpine:latest"
+                [runners.cache]
+                Type = "s3"
+                Path = "runner"
+                Shared = true
+                  [runners.cache.s3]
+                  ServerAddress = "10.10.20.10:30188"
+                  BucketName = "runner-cache"
+                  Insecure = true
+                  AuthenticationType = "access-key"
+            cache:
+              secretName: gitlab-runner-cache-s3
           podAnnotations:
             gitlab.com/prometheus_scrape: "true"
             gitlab.com/prometheus_port: 9252
