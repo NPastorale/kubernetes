@@ -38,9 +38,6 @@ spec:
                 - path: /
                   pathType: Prefix
                   service: controlPlane
-                - path: /api
-                  pathType: Prefix
-                  service: api
           tls:
             - secretName: hindsight-tls
               hosts:
