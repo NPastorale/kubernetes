@@ -1,0 +1,23 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: hindsight
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
+  storage:
+    size: 10Gi
+    storageClass: nfs-csi-persistent
+  bootstrap:
+    initdb:
+      database: hindsight
+      owner: hindsight
+      secret:
+        name: hindsight-db
+  postgresql:
+    parameters:
+      shared_preload_libraries: vector
+    extensions:
+      - name: pgvector
+        image:
+          reference: ghcr.io/cloudnative-pg/pgvector:0.8.6-202608090042-18-trixie@sha256:c3fe71d306fe3dfad4e71b2585c58034c2da5f234a18cd4b964ed03e1dc858a9

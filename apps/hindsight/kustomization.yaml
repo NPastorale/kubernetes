@@ -1,0 +1,4 @@
+resources:
+  - Cluster.yaml
+  - Database.yaml
+  - ExternalSecret.yaml
