@@ -2,6 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: hindsight
+  namespace: hindsight
 spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
@@ -15,8 +16,8 @@ spec:
       secret:
         name: hindsight-db
   postgresql:
-    parameters:
-      shared_preload_libraries: vector
+    shared_preload_libraries:
+      - vector
     extensions:
       - name: pgvector
         image:
