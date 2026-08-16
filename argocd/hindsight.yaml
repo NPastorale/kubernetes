@@ -16,7 +16,10 @@ spec:
       valuesObject:
         existingSecret: hindsight-db
         api:
-          env: {}
+          env:
+            HINDSIGHT_API_LLM_PROVIDER: lmstudio
+            HINDSIGHT_API_LLM_MODEL: qwen/qwen3.5-9b
+            HINDSIGHT_API_LLM_BASE_URL: http://10.10.10.13:1234/v1
         postgresql:
           enabled: false
           external:
