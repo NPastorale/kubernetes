@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hindsight
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: hindsight
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: hindsight
+    helm:
+      valuesObject:
+        existingSecret: hindsight-db
+        api:
+          env: {}
+        postgresql:
+          enabled: false
+          external:
+            host: hindsight-rw.hindsight.svc.cluster.local
+            port: 5432
+            database: hindsight
+            username: hindsight
+        ingress:
+          enabled: true
+          className: internal-nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
+          hosts:
+            - host: hindsight.nahue.ar
+              paths:
+                - path: /
+                  pathType: Prefix
+                  service: controlPlane
+                - path: /api
+                  pathType: Prefix
+                  service: api
+          tls:
+            - secretName: hindsight-tls
+              hosts:
+                - hindsight.nahue.ar
+    repoURL: oci://ghcr.io/vectorize-io/charts/hindsight
+    targetRevision: 0.9.1
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
