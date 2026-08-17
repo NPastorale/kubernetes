@@ -1,5 +1,6 @@
 resources:
+  - ExternalSecret.yaml
+  - Ingress.yaml
+  - PersistentVolumeClaim.yaml
   - Service.yaml
   - StatefulSet.yaml
-  - ExternalSecret.yaml
-  - PersistentVolumeClaim.yaml

@@ -52,26 +52,29 @@ spec:
                 secretKeyRef:
                   name: hermes-secrets
                   key: OPENCODE_GO_API_KEY
+            - name: HERMES_DASHBOARD
+              value: "1"
+            - name: HERMES_DASHBOARD_BASIC_AUTH_USERNAME
+              value: nahue
+            - name: HERMES_DASHBOARD_BASIC_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: HERMES_DASHBOARD_BASIC_AUTH_PASSWORD
+            - name: HERMES_DASHBOARD_BASIC_AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: HERMES_DASHBOARD_BASIC_AUTH_SECRET
           ports:
             - name: gateway
               containerPort: 8642
+            - name: dashboard
+              containerPort: 9119
           resources:
             requests:
-              cpu: 500m
-              memory: 1Gi
-            limits:
-              cpu: 2
-              memory: 4Gi
-          readinessProbe:
-            tcpSocket:
-              port: gateway
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          livenessProbe:
-            tcpSocket:
-              port: gateway
-            initialDelaySeconds: 30
-            periodSeconds: 30
+              cpu: 50m
+              memory: 128Mi
           volumeMounts:
             - name: config
               mountPath: /opt/data
