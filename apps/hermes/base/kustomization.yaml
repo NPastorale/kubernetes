@@ -1,0 +1,5 @@
+resources:
+  - Service.yaml
+  - StatefulSet.yaml
+  - ExternalSecret.yaml
+  - PersistentVolumeClaim.yaml
