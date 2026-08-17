@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: hermes-config
 spec:
-  storageClassName: nfs-csi-persistemt
+  storageClassName: nfs-csi-persistent
   accessModes:
     - ReadWriteOnce
   resources:
