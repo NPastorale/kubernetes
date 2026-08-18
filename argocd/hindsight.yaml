@@ -17,7 +17,7 @@ spec:
         existingSecret: hindsight-db
         api:
           env:
-            HINDSIGHT_API_LLM_PROVIDER: openai
+            HINDSIGHT_API_LLM_PROVIDER: openai-codex
             HINDSIGHT_API_LLM_MODEL: gpt-5.6-luna
         postgresql:
           enabled: false
