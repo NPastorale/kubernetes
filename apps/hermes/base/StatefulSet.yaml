@@ -16,6 +16,21 @@ spec:
       labels:
         app: hermes
     spec:
+      initContainers:
+        - name: configure-memory
+          image: nousresearch/hermes-agent:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - config
+            - set
+            - memory.provider
+            - hindsight
+          env:
+            - name: HERMES_HOME
+              value: /opt/data
+          volumeMounts:
+            - name: config
+              mountPath: /opt/data
       containers:
         - name: hermes
           image: nousresearch/hermes-agent:latest
@@ -52,6 +67,12 @@ spec:
                 secretKeyRef:
                   name: hermes-secrets
                   key: OPENCODE_GO_API_KEY
+            - name: HINDSIGHT_MODE
+              value: local_external
+            - name: HINDSIGHT_API_URL
+              value: http://hindsight-api.hindsight.svc.cluster.local:8888
+            - name: HINDSIGHT_BANK_ID
+              value: hermes
             - name: HERMES_DASHBOARD
               value: "1"
             - name: HERMES_DASHBOARD_BASIC_AUTH_USERNAME

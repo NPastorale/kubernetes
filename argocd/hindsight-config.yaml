@@ -13,7 +13,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/hindsight
+    path: apps/hindsight-config
     repoURL: https://github.com/NPastorale/kubernetes
     targetRevision: HEAD
   syncPolicy:
