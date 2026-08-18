@@ -17,8 +17,16 @@ spec:
         existingSecret: hindsight-db
         api:
           env:
-            HINDSIGHT_API_LLM_PROVIDER: openai
+            HINDSIGHT_API_LLM_PROVIDER: openai-codex
             HINDSIGHT_API_LLM_MODEL: gpt-5.4-mini
+            CODEX_HOME: /home/hindsight/.codex
+          extraVolumes:
+            - name: codex-auth
+              persistentVolumeClaim:
+                claimName: hindsight-codex-auth
+          extraVolumeMounts:
+            - name: codex-auth
+              mountPath: /home/hindsight/.codex
         postgresql:
           enabled: false
           external:

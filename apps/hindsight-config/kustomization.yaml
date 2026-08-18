@@ -2,3 +2,4 @@ resources:
   - Cluster.yaml
   - Database.yaml
   - ExternalSecret.yaml
+  - PVC.yaml
