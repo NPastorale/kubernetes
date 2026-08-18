@@ -17,8 +17,12 @@ spec:
         existingSecret: hindsight-db
         api:
           env:
-            HINDSIGHT_API_LLM_PROVIDER: openai-codex
-            HINDSIGHT_API_LLM_MODEL: gpt-5.4-mini
+            HINDSIGHT_API_LLM_PROVIDER: lmstudio
+            HINDSIGHT_API_LLM_MODEL: qwen3.8-9b
+            HINDSIGHT_API_LLM_BASE_URL: http://10.10.10.13:1234/v1
+            HINDSIGHT_API_LLM_1_PROVIDER: openai-codex
+            HINDSIGHT_API_LLM_1_MODEL: gpt-5.4-mini
+            HINDSIGHT_API_LLM_STRATEGY: '{"mode": "failover"}'
             CODEX_HOME: /home/hindsight/.codex
           extraVolumes:
             - name: codex-auth
