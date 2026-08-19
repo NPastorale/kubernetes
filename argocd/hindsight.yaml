@@ -18,7 +18,7 @@ spec:
         api:
           env:
             HINDSIGHT_API_LLM_PROVIDER: lmstudio
-            HINDSIGHT_API_LLM_MODEL: qwen3.8-9b
+            HINDSIGHT_API_LLM_MODEL: google/gemma-4-26b-a4b-qat
             HINDSIGHT_API_LLM_BASE_URL: http://10.10.10.13:1234/v1
             HINDSIGHT_API_LLM_MAX_CONCURRENT: "1"
             HINDSIGHT_API_LLM_REASONING_EFFORT: "high"
