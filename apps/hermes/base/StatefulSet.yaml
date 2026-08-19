@@ -52,6 +52,11 @@ spec:
                 secretKeyRef:
                   name: hermes-secrets
                   key: OPENCODE_GO_API_KEY
+            - name: GITLAB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: GITLAB_TOKEN
             - name: HINDSIGHT_MODE
               value: local_external
             - name: HINDSIGHT_API_URL
