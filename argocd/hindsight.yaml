@@ -14,25 +14,28 @@ spec:
     chart: hindsight
     helm:
       valuesObject:
-        existingSecret: hindsight-db
+        existingSecret: hindsight-secrets
         api:
           env:
-            #  LM Studio primary, Luna secondary
-            HINDSIGHT_API_LLM_PROVIDER: lmstudio
-            HINDSIGHT_API_LLM_MODEL: google/gemma-4-26b-a4b-qat
-            HINDSIGHT_API_LLM_BASE_URL: http://10.10.10.13:1234/v1
-            HINDSIGHT_API_LLM_MAX_CONCURRENT: "1"
-            HINDSIGHT_API_LLM_REASONING_EFFORT: "high"
-            HINDSIGHT_API_RETAIN_LLM_REASONING_EFFORT: "high"
-            HINDSIGHT_API_REFLECT_LLM_REASONING_EFFORT: "high"
-            HINDSIGHT_API_CONSOLIDATION_LLM_REASONING_EFFORT: "high"
-            HINDSIGHT_API_LLM_EXTRA_BODY: '{"think": true}'
-            HINDSIGHT_API_REFLECT_MAX_ITERATIONS: "20"
-            HINDSIGHT_API_REFLECT_WALL_TIMEOUT: "600"
-            HINDSIGHT_API_LLM_1_PROVIDER: openai-codex
-            HINDSIGHT_API_LLM_1_MODEL: gpt-5.6-luna
-            HINDSIGHT_API_LLM_STRATEGY: '{"mode": "failover"}'
-            CODEX_HOME: /home/hindsight/.codex
+            #  opencode-go primary (mimo-v2.5)
+            HINDSIGHT_API_LLM_PROVIDER: opencode-go
+            HINDSIGHT_API_LLM_MODEL: mimo-v2.5
+            #  LM Studio primary, Luna secondary (previous config)
+            # HINDSIGHT_API_LLM_PROVIDER: lmstudio
+            # HINDSIGHT_API_LLM_MODEL: google/gemma-4-26b-a4b-qat
+            # HINDSIGHT_API_LLM_BASE_URL: http://10.10.10.13:1234/v1
+            # HINDSIGHT_API_LLM_MAX_CONCURRENT: "1"
+            # HINDSIGHT_API_LLM_REASONING_EFFORT: "high"
+            # HINDSIGHT_API_RETAIN_LLM_REASONING_EFFORT: "high"
+            # HINDSIGHT_API_REFLECT_LLM_REASONING_EFFORT: "high"
+            # HINDSIGHT_API_CONSOLIDATION_LLM_REASONING_EFFORT: "high"
+            # HINDSIGHT_API_REFLECT_MAX_ITERATIONS: "20"
+            # HINDSIGHT_API_REFLECT_WALL_TIMEOUT: "600"
+            # HINDSIGHT_API_LLM_EXTRA_BODY: '{"think": true}'
+            # HINDSIGHT_API_LLM_1_PROVIDER: openai-codex
+            # HINDSIGHT_API_LLM_1_MODEL: gpt-5.6-luna
+            # HINDSIGHT_API_LLM_STRATEGY: '{"mode": "failover"}'
+            # CODEX_HOME: /home/hindsight/.codex
             #  Luna primary
             # HINDSIGHT_API_LLM_PROVIDER: openai-codex
             # HINDSIGHT_API_LLM_MODEL: gpt-5.6-luna
