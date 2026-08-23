@@ -106,7 +106,7 @@ spec:
               memory: "1Gi"
               cpu: "100m"
             limits:
-              memory: "4Gi"
+              gpu.intel.com/i915: 1
           env:
             - name: hostname
               value: syncthing-server
