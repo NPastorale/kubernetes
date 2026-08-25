@@ -22,9 +22,6 @@ spec:
         dns01RecursiveNameserversOnly: true
         cainjector:
           enabled: false
-        config:
-          featureGates:
-            ACMEUseARI: true
     repoURL: https://charts.jetstack.io
     targetRevision: v1.21.1
   syncPolicy:
