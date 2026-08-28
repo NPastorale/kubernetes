@@ -22,7 +22,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: web
-          image: npastorale/web:0.0.1@sha256:2f9e58779f6a61ccc1548dc4f9f68326016f856dc05137d971c92f29b3244ac8
+          image: npastorale/web:0.0.1@sha256:aa5b3913de3a67a1495ba3260cd960198261252def1376e83962d5717de35787
           resources:
             requests:
               memory: "56Mi"
