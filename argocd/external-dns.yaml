@@ -16,6 +16,7 @@ spec:
     targetRevision: 1.22.0
     helm:
       valuesObject:
+        policy: sync
         revisionHistoryLimit: 0
         sources:
           - service
