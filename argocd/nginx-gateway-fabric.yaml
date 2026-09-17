@@ -15,11 +15,11 @@ spec:
     repoURL: ghcr.io/nginx/charts
     targetRevision: 2.7.2
     helm:
-      parameters:
-        - name: nginx.autoscaling.enable
-          value: "true"
-        - name: nginx.autoscaling.minReplicas
-          value: "2"
+      valuesObject:
+        nginx:
+          autoscaling:
+            enable: true
+            minReplicas: 2
   syncPolicy:
     automated:
       prune: true
