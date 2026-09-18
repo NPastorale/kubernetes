@@ -1,3 +1,4 @@
 resources:
   - Gateway.yaml
   - HTTPRoute.yaml
+  - SnippetsPolicy.yaml
