@@ -12,6 +12,11 @@ spec:
       name: external
       namespace: nginx-fabric
       sectionName: web-https
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: external
+      namespace: nginx-fabric
+      sectionName: web-www-https
   rules:
     - matches:
         - path:

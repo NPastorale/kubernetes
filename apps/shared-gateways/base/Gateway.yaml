@@ -144,6 +144,22 @@ spec:
           - name: web
             kind: Secret
             group: ""
+    - name: web-www-https
+      protocol: HTTPS
+      hostname: www.nahue.ar
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: web
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: web
+            kind: Secret
+            group: ""
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
