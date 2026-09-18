@@ -16,6 +16,9 @@ spec:
     targetRevision: 2.7.2
     helm:
       valuesObject:
+        nginxGateway:
+          snippets:
+            enable: true
         nginx:
           autoscaling:
             enable: true
