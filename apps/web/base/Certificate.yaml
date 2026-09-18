@@ -11,3 +11,10 @@ spec:
   dnsNames:
     - nahue.ar
     - www.nahue.ar
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    rotationPolicy: Always
+  usages:
+    - server auth
+  isCA: false
