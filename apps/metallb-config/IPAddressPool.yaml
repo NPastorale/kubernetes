@@ -1,7 +1,17 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: pool
+  name: manual-pool
 spec:
+  autoAssign: false
   addresses:
-    - 10.10.20.50-10.10.20.99
+    - 10.10.20.50-10.10.20.60
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: automatic-pool
+spec:
+  autoAssign: true
+  addresses:
+    - 10.10.20.61-10.10.20.99
