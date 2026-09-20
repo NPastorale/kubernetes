@@ -61,6 +61,7 @@ spec:
             spec:
               parentRef:
                 name: external
+                namespace: nginx-fabric
               listeners:
                 - name: https
                   port: 443
