@@ -1,4 +1,0 @@
-resources:
-  - Endpoint.yaml
-  - Ingress.yaml
-  - Service.yaml
