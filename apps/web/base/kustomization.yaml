@@ -1,5 +1,6 @@
 resources:
   - Certificate.yaml
-  - HTTPRoute.yaml
   - Deployment.yaml
+  - HTTPRoute.yaml
+  - LIstenerSet.yaml
   - Service.yaml
