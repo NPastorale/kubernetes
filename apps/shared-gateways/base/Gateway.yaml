@@ -4,6 +4,9 @@ metadata:
   name: external
 spec:
   gatewayClassName: nginx
+  allowedListeners:
+    namespaces:
+      from: All
   listeners:
     - name: http
       protocol: HTTP
@@ -21,6 +24,9 @@ metadata:
   name: internal
 spec:
   gatewayClassName: nginx
+  allowedListeners:
+    namespaces:
+      from: All
   listeners:
     - name: http
       protocol: HTTP
