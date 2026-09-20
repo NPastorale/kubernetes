@@ -3,6 +3,9 @@ kind: Gateway
 metadata:
   name: external
 spec:
+  addresses:
+    - type: IPAddress
+      value: 10.10.20.59
   gatewayClassName: nginx
   allowedListeners:
     namespaces:
