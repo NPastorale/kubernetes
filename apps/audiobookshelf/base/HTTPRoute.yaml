@@ -10,7 +10,7 @@ spec:
       kind: ListenerSet
       name: audiobookshelf
       namespace: audiobookshelf
-      sectionName: audiobookshelf
+      sectionName: https
   rules:
     - matches:
         - path:
