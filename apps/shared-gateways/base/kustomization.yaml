@@ -1,4 +1,5 @@
 resources:
   - Gateway.yaml
   - HTTPRoute.yaml
+  - NginxProxy.yaml
   - SnippetsPolicy.yaml

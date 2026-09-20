@@ -1,0 +1,9 @@
+apiVersion: gateway.nginx.org/v1alpha2
+kind: NginxProxy
+metadata:
+  name: external
+spec:
+  kubernetes:
+    service:
+      type: LoadBalancer
+      loadBalancerIP: "10.10.20.59"

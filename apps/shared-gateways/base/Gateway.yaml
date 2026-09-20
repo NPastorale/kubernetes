@@ -3,9 +3,11 @@ kind: Gateway
 metadata:
   name: external
 spec:
-  addresses:
-    - type: IPAddress
-      value: 10.10.20.59
+  infrastructure:
+    parametersRef:
+      group: gateway.nginx.org
+      kind: NginxProxy
+      name: external
   gatewayClassName: nginx
   allowedListeners:
     namespaces:
