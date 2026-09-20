@@ -2,8 +2,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: external
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-classic-prod
 spec:
   gatewayClassName: nginx
   listeners:
@@ -21,8 +19,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: internal
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-classic-prod
 spec:
   gatewayClassName: nginx
   listeners:
