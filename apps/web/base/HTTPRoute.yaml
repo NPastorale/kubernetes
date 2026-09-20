@@ -8,15 +8,15 @@ spec:
     - www.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: web-https
+      kind: ListenerSet
+      name: web
+      namespace: web
+      sectionName: https
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: web-www-https
+      kind: ListenerSet
+      name: web
+      namespace: web
+      sectionName: www-https
   rules:
     - matches:
         - path:

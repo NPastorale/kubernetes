@@ -1,0 +1,35 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: audiobookshelf
+spec:
+  parentRef:
+    name: internal
+    namespace: nginx-fabric
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: nahue.ar
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: web
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: www-https
+      port: 443
+      protocol: HTTPS
+      hostname: www.nahue.ar
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: web
+      allowedRoutes:
+        namespaces:
+          from: Same
