@@ -25,49 +25,61 @@ spec:
           params:
             server.insecure: true
         server:
-          ingress:
+          service:
+            servicePortHttp2: 8080
+            servicePortHttp2AppProtocol: kubernetes.io/h2c
+          listenerset:
             enabled: true
-            ingressClassName: internal-nginx
-            tls: true
-          ingressGrpc:
+            parentRef:
+              name: internal
+              namespace: nginx-fabric
+          httproute:
             enabled: true
-            ingressClassName: internal-nginx
-            tls: true
+          # grpcroute:
+          #   enabled: true
           certificate:
-            enabled: "true"
+            enabled: true
             issuer:
               group: "cert-manager.io"
               kind: "ClusterIssuer"
-              name: "letsencrypt-classic-prod"
+              name: "letsencrypt-short-lived-prod"
+            privateKey:
+              algorithm: ECDSA
+              encoding: PKCS8
+              size: 384
+              rotationPolicy: Always
+            usages:
+              - server auth
         extraObjects:
-          - apiVersion: networking.k8s.io/v1
-            kind: Ingress
+          # ------------------------------------------------------------
+          # External webhook
+          # ------------------------------------------------------------
+          - apiVersion: gateway.networking.k8s.io/v1
+            kind: HTTPRoute
             metadata:
-              name: argocd-server-webhook-ingress
+              name: argocd-server-webhook
               annotations:
-                cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
                 external-dns.alpha.kubernetes.io/exclude: "true"
             spec:
-              ingressClassName: external-nginx
-              tls:
-                - hosts:
-                    - argocd.nahue.ar
-                  secretName: argocd-ingress-webhook
+              parentRefs:
+                - name: external
+                  namespace: nginx-fabric
+                  sectionName: https
+              hostnames:
+                - argocd.nahue.ar
               rules:
-                - host: argocd.nahue.ar
-                  http:
-                    paths:
-                      - path: /api/webhook
-                        pathType: Prefix
-                        backend:
-                          service:
-                            name: argocd-server
-                            port:
-                              name: http
+                - matches:
+                    - path:
+                        type: PathPrefix
+                        value: /api/webhook
+                  backendRefs:
+                    - name: argocd-server
+                      port: 80
     repoURL: https://argoproj.github.io/argo-helm
     targetRevision: 10.9.2
   syncPolicy:
     automated:
+      enabled: true
       prune: true
       selfHeal: true
     syncOptions:
