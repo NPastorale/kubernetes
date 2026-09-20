@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: audiobookshelf
+spec:
+  parentRef:
+    name: internal
+    namespace: nginx-fabric
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: audiobookshelf.nahue.ar
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: audiobookshelf-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
