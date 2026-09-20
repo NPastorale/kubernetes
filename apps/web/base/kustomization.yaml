@@ -2,5 +2,5 @@ resources:
   - Certificate.yaml
   - Deployment.yaml
   - HTTPRoute.yaml
-  - LIstenerSet.yaml
+  - ListenerSet.yaml
   - Service.yaml
