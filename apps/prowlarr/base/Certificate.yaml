@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prowlarr
+spec:
+  secretName: prowlarr
+  issuerRef:
+    name: letsencrypt-short-lived-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - prowlarr.nahue.ar
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    rotationPolicy: Always
+  usages:
+    - server auth
+  isCA: false
