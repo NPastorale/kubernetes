@@ -64,6 +64,8 @@ spec:
               memory: "256Mi"
               cpu: "100m"
               gpu.intel.com/i915: 1
+            limits:
+              gpu.intel.com/i915: 1
           env:
             - name: TZ
               value: "Europe/Madrid"
