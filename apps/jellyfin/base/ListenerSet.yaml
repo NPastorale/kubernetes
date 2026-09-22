@@ -4,7 +4,7 @@ metadata:
   name: jellyfin
 spec:
   parentRef:
-    name: external
+    name: internal
     namespace: nginx-fabric
   listeners:
     - name: https
