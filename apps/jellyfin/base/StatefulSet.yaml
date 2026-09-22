@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  serviceName: jellyfin
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      # affinity:
+      #   nodeAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 100
+      #         preference:
+      #           matchExpressions:
+      #             - key: gpu.intel.com/device-id.0300-46d1.present #N100 iGPU
+      #               operator: In
+      #               values:
+      #                 - "true"
+      #       - weight: 50
+      #         preference:
+      #           matchExpressions:
+      #             - key: gpu.intel.com/device-id.0300-3e9b.present #i7-9750H iGPU
+      #               operator: In
+      #               values:
+      #                 - "true"
+      #       - weight: 25
+      #         preference:
+      #           matchExpressions:
+      #             - key: intel.feature.node.kubernetes.io/gpu
+      #               operator: In
+      #               values:
+      #                 - "true"
+      volumes:
+        - name: config
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/persistent/jellyfin/config"
+            server: 10.10.20.10
+        - name: transcodes
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/ephemeral/jellyfin/transcodes"
+            server: 10.10.20.10
+        # Reuses the existing Plex media library read-only so you don't
+        # have to copy anything. Point this at your music folder if it lives
+        # elsewhere.
+        - name: media
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/persistent/plex/data"
+            server: 10.10.20.10
+      containers:
+        - name: jellyfin
+          image: lscr.io/linuxserver/jellyfin:12.1ubu2604-ls50@sha256:51252e7a416e703cdc3cd91e8a54673a2430cc80409be8a38abe511411577b95
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+              gpu.intel.com/i915: 1
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: JELLYFIN_PublishedServerUrl
+              value: "https://jellyfin.nahue.ar"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          ports:
+            - containerPort: 8096
+              name: web
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+            - name: transcodes
+              mountPath: /config/transcodes
+              readOnly: false
+            - name: media
+              mountPath: /data
+              readOnly: true
