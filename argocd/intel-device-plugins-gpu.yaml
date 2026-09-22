@@ -21,7 +21,7 @@ spec:
         - name: resourceManager
           value: "false"
         - name: sharedDevNum
-          value: "1"
+          value: "10"
   syncPolicy:
     automated:
       prune: true
