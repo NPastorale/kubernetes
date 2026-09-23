@@ -70,7 +70,7 @@ spec:
               hosts:
                 - hindsight.nahue.ar
     repoURL: oci://ghcr.io/vectorize-io/charts/hindsight
-    targetRevision: 0.9.1
+    targetRevision: 0.10.1
   syncPolicy:
     automated:
       prune: true
