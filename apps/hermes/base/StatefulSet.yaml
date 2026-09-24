@@ -57,6 +57,11 @@ spec:
                 secretKeyRef:
                   name: hermes-secrets
                   key: GITLAB_TOKEN
+            - name: CONTEXT7_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-secrets
+                  key: CONTEXT7_API_KEY
             - name: HINDSIGHT_MODE
               value: local_external
             - name: HINDSIGHT_API_URL
