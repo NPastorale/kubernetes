@@ -19,7 +19,7 @@ spec:
           env:
             #  opencode-go primary (mimo-v2.5)
             HINDSIGHT_API_LLM_PROVIDER: opencode-go
-            HINDSIGHT_API_LLM_MODEL: mimo-v2.5
+            HINDSIGHT_API_LLM_MODEL: mimo-v2.6-flash
             #  LM Studio primary, Luna secondary (previous config)
             # HINDSIGHT_API_LLM_PROVIDER: lmstudio
             # HINDSIGHT_API_LLM_MODEL: google/gemma-4-26b-a4b-qat
