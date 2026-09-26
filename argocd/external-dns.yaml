@@ -19,9 +19,10 @@ spec:
         policy: sync
         revisionHistoryLimit: 0
         sources:
-          - service
-          - ingress
+          - crd
           - gateway-httproute
+          - ingress
+          - service
         provider:
           name: rfc2136
         domainFilters:
