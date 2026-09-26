@@ -39,7 +39,7 @@ spec:
             - nahue.ar
           rfc2136-tsig-keyname: ddns-key
           rfc2136-tsig-secret-alg: hmac-sha512
-          rfc2136-tsig-axfr: true
+          rfc2136-axfr: true
         env:
           - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
             valueFrom:
