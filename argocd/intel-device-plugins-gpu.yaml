@@ -24,6 +24,7 @@ spec:
           value: "10"
   syncPolicy:
     automated:
+      enable: true
       prune: true
       selfHeal: true
     syncOptions:

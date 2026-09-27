@@ -20,6 +20,7 @@ spec:
     targetRevision: 0.16.1
   syncPolicy:
     automated:
+      enable: true
       prune: true
       selfHeal: true
     syncOptions:

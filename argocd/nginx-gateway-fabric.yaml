@@ -25,6 +25,7 @@ spec:
             minReplicas: 2
   syncPolicy:
     automated:
+      enable: true
       prune: true
       selfHeal: true
     syncOptions:
