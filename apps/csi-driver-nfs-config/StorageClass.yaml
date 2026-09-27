@@ -8,6 +8,7 @@ parameters:
   share: /mnt/NAS-T/k8s-volumes/test
   subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
 reclaimPolicy: Retain
+allowVolumeExpansion: true
 mountOptions:
   - nfsvers=4.2
 
@@ -22,6 +23,7 @@ parameters:
   share: /mnt/NAS-T/k8s-volumes/ephemeral
   subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
 reclaimPolicy: Retain
+allowVolumeExpansion: true
 mountOptions:
   - nfsvers=4.2
 
@@ -36,5 +38,6 @@ parameters:
   share: /mnt/NAS-T/k8s-volumes/persistent
   subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
 reclaimPolicy: Retain
+allowVolumeExpansion: true
 mountOptions:
   - nfsvers=4.2
