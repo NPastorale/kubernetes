@@ -18,7 +18,7 @@ spec:
         api:
           env:
             #  opencode-go primary (mimo-v2.5)
-            HINDSIGHT_API_LLM_PROVIDER: opencode-go
+            HINDSIGHT_API_LLM_PROVIDER: openai-codex
             HINDSIGHT_API_LLM_MODEL: gpt-6-luna
             HINDSIGHT_API_LLM_REASONING_EFFORT: "low"
             #  LM Studio primary, Luna secondary (previous config)
