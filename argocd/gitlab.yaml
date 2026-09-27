@@ -135,7 +135,7 @@ spec:
             maxReplicas: 1
             extraInitContainers: |
               - name: init-public-key-sidekiq
-                image: busybox
+                image: busybox@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
                 command: ['sh', '-c', 'echo "$PUBLIC_KEY" > /mnt/public.key']
                 env:
                   - name: PUBLIC_KEY
@@ -167,7 +167,7 @@ spec:
             maxReplicas: 5
             extraInitContainers: |
               - name: init-public-key-webservice
-                image: busybox
+                image: busybox@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
                 command: ['sh', '-c', 'echo "$PUBLIC_KEY" > /mnt/public.key']
                 env:
                   - name: PUBLIC_KEY
