@@ -5,38 +5,79 @@
   ],
   "kubernetes": {
     "managerFilePatterns": [
-      "/apps/.+\\.yaml$/"
-    ],
-    "packageRules": [
-      {
-        "matchDatasources": [
-          "docker"
-        ],
-        "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]?(?<build>\\w*)?-?(?<commit>\\w{0,9})?-ls(?<revision>\\d+)-?(?<compatibility>\\w?)$",
-        "matchPackageNames": [
-          "lscr.io/linuxserver/{/,}**"
-        ]
-      },
-      {
-        "matchDatasources": [
-          "docker"
-        ],
-        "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)[.-]?(?<build>\\w*)?-?(?<commit>\\w{0,9})?$",
-        "matchPackageNames": [
-          "ghcr.io/npastorale/{/,}**"
-        ]
-      }
+      "/^apps/.+\\.yaml$/",
+      "/^argocd/.+\\.yaml$/"
     ]
   },
   "argocd": {
     "managerFilePatterns": [
-      "/argocd/.+\\.yaml$/"
-    ],
-    "packageRules": [
-      {
-        "matchCurrentValue": "/^HEAD$/",
-        "enabled": false
-      }
+      "/^argocd/.+\\.yaml$/"
     ]
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "CloudNativePG Cluster spec.imageName",
+      "managerFilePatterns": [
+        "/^apps/.+\\.yaml$/"
+      ],
+      "matchStrings": [
+        "imageName:\\s*(?<depName>[^\\s:@]+/[^\\s:@]+):(?<currentValue>[^\\s@/]+)(?:@(?<currentDigest>\\S+))?"
+      ],
+      "datasourceTemplate": "docker",
+      "autoReplaceStringTemplate": "imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "CloudNativePG extension image.reference",
+      "managerFilePatterns": [
+        "/^apps/.+\\.yaml$/"
+      ],
+      "matchStrings": [
+        "reference:\\s*(?<depName>[^\\s:@]+/[^\\s:@]+):(?<currentValue>[^\\s@/]+)(?:@(?<currentDigest>\\S+))?"
+      ],
+      "datasourceTemplate": "docker",
+      "autoReplaceStringTemplate": "reference: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "linuxserver.io tags: X.Y[.Z][.build][ubuNNNN][-rN][-commit]-lsN",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/**"
+      ],
+      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?(?<compatibility>ubu\\d+)?(?:-r\\d+)?(?:-[0-9a-f]{7,9})?-ls(?<revision>\\d+)$"
+    },
+    {
+      "description": "Own images: X.Y.Z[-rN]; latest keeps default versioning so digest updates still work",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/npastorale/**"
+      ],
+      "matchCurrentValue": "!/^latest$/",
+      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-r(?<build>\\d+))?$"
+    },
+    {
+      "description": "CloudNativePG extension images: X.Y.Z-<timestamp>-<pg major>-<distro>",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/cloudnative-pg/pgvector"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d{12})-(?<compatibility>\\d+-\\w+)$"
+    },
+    {
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchCurrentValue": "/^HEAD$/",
+      "enabled": false
+    }
+  ]
 }
