@@ -5,8 +5,7 @@
   ],
   "kubernetes": {
     "managerFilePatterns": [
-      "/^apps/.+\\.yaml$/",
-      "/^argocd/.+\\.yaml$/"
+      "/^(apps|argocd)/.+\\.yaml$/"
     ]
   },
   "argocd": {
@@ -16,8 +15,8 @@
   },
   "customManagers": [
     {
-      "customType": "regex",
       "description": "CloudNativePG Cluster spec.imageName",
+      "customType": "regex",
       "managerFilePatterns": [
         "/^apps/.+\\.yaml$/"
       ],
@@ -28,8 +27,8 @@
       "autoReplaceStringTemplate": "imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
     },
     {
-      "customType": "regex",
       "description": "CloudNativePG extension image.reference",
+      "customType": "regex",
       "managerFilePatterns": [
         "/^apps/.+\\.yaml$/"
       ],
@@ -42,20 +41,14 @@
   ],
   "packageRules": [
     {
-      "description": "linuxserver.io tags: X.Y[.Z][.build][ubuNNNN][-rN][-commit]-lsN",
-      "matchDatasources": [
-        "docker"
-      ],
+      "description": "linuxserver.io: X.Y[.Z][.build][ubuNNNN][-rN][-commit]-lsN",
       "matchPackageNames": [
         "lscr.io/linuxserver/**"
       ],
       "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?(?<compatibility>ubu\\d+)?(?:-r\\d+)?(?:-[0-9a-f]{7,9})?-ls(?<revision>\\d+)$"
     },
     {
-      "description": "Own images: X.Y.Z[-rN]; latest keeps default versioning so digest updates still work",
-      "matchDatasources": [
-        "docker"
-      ],
+      "description": "Own images: X.Y.Z[-rN] (latest keeps default versioning for digest updates)",
       "matchPackageNames": [
         "ghcr.io/npastorale/**"
       ],
@@ -63,16 +56,14 @@
       "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-r(?<build>\\d+))?$"
     },
     {
-      "description": "CloudNativePG extension images: X.Y.Z-<timestamp>-<pg major>-<distro>",
-      "matchDatasources": [
-        "docker"
-      ],
+      "description": "CloudNativePG extensions: X.Y.Z-<timestamp>-<pg major>-<distro>",
       "matchPackageNames": [
         "ghcr.io/cloudnative-pg/pgvector"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d{12})-(?<compatibility>\\d+-\\w+)$"
     },
     {
+      "description": "Argo CD apps tracking HEAD of a Git repo",
       "matchManagers": [
         "argocd"
       ],
