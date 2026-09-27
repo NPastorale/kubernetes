@@ -27,7 +27,7 @@ spec:
               permissions: "~* &* +@all"
   syncPolicy:
     automated:
-      enable: true
+      enabled: true
       prune: true
       selfHeal: true
     syncOptions:

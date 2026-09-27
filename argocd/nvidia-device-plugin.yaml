@@ -32,7 +32,7 @@ spec:
     targetRevision: 0.20.1
   syncPolicy:
     automated:
-      enable: true
+      enabled: true
       prune: true
       selfHeal: true
     syncOptions:

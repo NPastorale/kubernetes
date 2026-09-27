@@ -36,6 +36,6 @@ spec:
     chart: open-webui
   syncPolicy:
     automated:
-      enable: true
+      enabled: true
       prune: true
       selfHeal: true

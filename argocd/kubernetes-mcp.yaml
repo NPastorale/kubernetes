@@ -1,0 +1,130 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-mcp
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: hermes
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: kubernetes-mcp-server
+    helm:
+      valuesObject:
+        serviceAccount:
+          create: true
+          automountToken: true
+        rbac:
+          create: true
+          extraClusterRoles:
+            - name: readonly
+              rules:
+                - apiGroups:
+                    - ""
+                  resources:
+                    - namespaces
+                    - nodes
+                    - pods
+                    - pods/log
+                    - pods/status
+                    - events
+                    - services
+                    - endpoints
+                    - configmaps
+                    - persistentvolumes
+                    - persistentvolumeclaims
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - apps
+                  resources:
+                    - deployments
+                    - replicasets
+                    - statefulsets
+                    - daemonsets
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - batch
+                  resources:
+                    - jobs
+                    - cronjobs
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - networking.k8s.io
+                  resources:
+                    - ingresses
+                    - networkpolicies
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - storage.k8s.io
+                  resources:
+                    - storageclasses
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - apiextensions.k8s.io
+                  resources:
+                    - customresourcedefinitions
+                  verbs:
+                    - get
+                    - list
+                    - watch
+                - apiGroups:
+                    - argoproj.io
+                  resources:
+                    - applications
+                    - applicationsets
+                    - appprojects
+                  verbs:
+                    - get
+                    - list
+                    - watch
+          extraClusterRoleBindings:
+            - name: readonly
+              roleRef:
+                name: readonly
+        ingress:
+          enabled: false
+        httpRoute:
+          enabled: false
+        service:
+          type: ClusterIP
+          port: 8080
+        config:
+          read_only: true
+          cluster_provider_strategy: in-cluster
+          stateless: true
+          toolsets:
+            - core
+          denied_resources:
+            - group: ""
+              version: v1
+              kind: Secret
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+    repoURL: ghcr.io/containers/charts
+    targetRevision: 0.1.0
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
