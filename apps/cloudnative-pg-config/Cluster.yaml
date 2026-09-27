@@ -15,7 +15,7 @@ metadata:
   name: postgres-gitlab
   namespace: gitlab
 spec:
-  instances: 2
+  instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie@sha256:0fae0cb527912426a889ec0b21b9733e5b76fdc6ad8909914a6e8a6c8ba4f64b
   storage:
     size: 50Gi
