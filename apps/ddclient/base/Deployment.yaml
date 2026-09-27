@@ -19,6 +19,12 @@ spec:
           nfs:
             path: "/mnt/NAS-T/k8s-volumes/persistent/ddclient/config"
             server: 10.10.20.10
+        - name: ddns-key
+          secret:
+            secretName: ddclient
+            items:
+              - key: ddns-key.conf
+                path: ddns-key.conf
       containers:
         - name: ddclient
           image: lscr.io/linuxserver/ddclient:v4.0.0-ls233@sha256:61de8a998f00bcf468a361f0df6007fb6ee8b2c6e89ed1c431145a98caeb7755
@@ -43,17 +49,11 @@ spec:
                 secretKeyRef:
                   name: ddclient
                   key: dynu-password
-            - name: CHANGEIP_LOGIN
-              valueFrom:
-                secretKeyRef:
-                  name: ddclient
-                  key: changeip-login
-            - name: CHANGEIP_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: ddclient
-                  key: changeip-password
           volumeMounts:
             - name: ddclient-conf
               mountPath: /config/ddclient.conf
               subPath: ddclient.conf
+            - name: ddns-key
+              mountPath: /etc/ddclient/ddns-key.conf
+              subPath: ddns-key.conf
+              readOnly: true
