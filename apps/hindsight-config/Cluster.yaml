@@ -5,7 +5,7 @@ metadata:
   namespace: hindsight
 spec:
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie@sha256:0fae0cb527912426a889ec0b21b9733e5b76fdc6ad8909914a6e8a6c8ba4f64b
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie@sha256:4467d4cf7e502fbc29800b75d755ede477a765b25a506a58a0842a57a4bf42c9
   storage:
     size: 10Gi
     storageClass: nfs-csi-persistent
