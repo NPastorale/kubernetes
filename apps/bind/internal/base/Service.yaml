@@ -5,6 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   loadBalancerIP: 10.10.20.52
+  externalTrafficPolicy: Local
   selector:
     app: bind-internal
   ports:
