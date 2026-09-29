@@ -102,7 +102,7 @@ spec:
                       port: 80
                       weight: 1
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 10.9.2
+    targetRevision: 10.9.3
   syncPolicy:
     automated:
       enabled: true
