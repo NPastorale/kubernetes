@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: home-assistant-tls
+spec:
+  secretName: home-assistant-tls
+  issuerRef:
+    name: letsencrypt-short-lived-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - ha.nahue.ar
