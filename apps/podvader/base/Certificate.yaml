@@ -2,12 +2,18 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: podvader
-  namespace: nginx-fabric
 spec:
   secretName: podvader
   issuerRef:
-    name: letsencrypt-classic-prod
+    name: letsencrypt-short-lived-prod
     kind: ClusterIssuer
   dnsNames:
     - podvader.com
     - www.podvader.com
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    rotationPolicy: Always
+  usages:
+    - server auth
+  isCA: false

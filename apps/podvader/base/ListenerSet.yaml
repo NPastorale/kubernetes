@@ -1,0 +1,35 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: podvader
+spec:
+  parentRef:
+    name: external
+    namespace: nginx-fabric
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: podvader.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: podvader
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: www-https
+      port: 443
+      protocol: HTTPS
+      hostname: www.podvader.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: podvader
+      allowedRoutes:
+        namespaces:
+          from: Same

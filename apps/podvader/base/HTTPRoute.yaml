@@ -8,10 +8,15 @@ spec:
     - www.podvader.com
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: podvader-https
+      kind: ListenerSet
+      name: podvader
+      namespace: podvader
+      sectionName: https
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: podvader
+      namespace: podvader
+      sectionName: www-https
   rules:
     - matches:
         - path:
