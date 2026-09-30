@@ -11,9 +11,30 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: apps/web/overlays/prod
-    repoURL: https://github.com/NPastorale/kubernetes
-    targetRevision: HEAD
+    repoURL: ghcr.io/npastorale/charts
+    chart: app
+    targetRevision: 0.1.0
+    helm:
+      valuesObject:
+        type: Deployment
+        image: npastorale/web:0.0.1
+        ports:
+          http: 8080
+        readiness:
+          path: /
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        resources:
+          requests:
+            cpu: 100m
+            memory: 56Mi
+          limits:
+            memory: 1Gi
+        route:
+          gateway: external
+          hostnames:
+            - nahue.ar
+            - www.nahue.ar
   syncPolicy:
     automated:
       enabled: true
