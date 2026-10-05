@@ -118,6 +118,10 @@ spec:
                   name: gitlab-backup-compression
                   key: COMPRESS_CMD
           gitaly:
+            gpgSigning:
+              enabled: true
+              secret: gitaly-gpg-signing-key
+              key: signing_key
             persistence:
               storageClass: "nfs-csi-persistent"
               size: 500Gi
