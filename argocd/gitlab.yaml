@@ -20,6 +20,7 @@ spec:
           enabled: false
         global:
           revisionHistoryLimit: 0
+          time_zone: "Europe/Madrid"
           appConfig:
             defaultColorMode: 3
             defaultTheme: 2
