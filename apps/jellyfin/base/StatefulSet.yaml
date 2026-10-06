@@ -58,7 +58,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: jellyfin
-          image: lscr.io/linuxserver/jellyfin:12.1ubu2604-ls50@sha256:51252e7a416e703cdc3cd91e8a54673a2430cc80409be8a38abe511411577b95
+          image: lscr.io/linuxserver/jellyfin:12.2ubu2604-ls52@sha256:790de2cba2780394a7335f8e08bad3381a7c8e156de8beb9ece42a4fa8c6359a
           resources:
             requests:
               memory: "256Mi"
