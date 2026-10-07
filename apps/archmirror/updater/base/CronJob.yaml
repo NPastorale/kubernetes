@@ -26,7 +26,7 @@ spec:
                 defaultMode: 0777
           containers:
             - name: rsync-client
-              image: ghcr.io/npastorale/rsync:3.5.0-r0@sha256:66c776221471c2c0668e5d441fa73dd92c9ca3c03d9562b0a66d418874360b18
+              image: ghcr.io/npastorale/rsync:3.5.0-r0@sha256:9e7f685528da6b41b3d0732b66ea30970e231e5db7ec09ba4b425d6a3b48ea89
               command: ["/script/rsync.sh"]
               imagePullPolicy: IfNotPresent
               env:
