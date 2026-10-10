@@ -19,7 +19,7 @@ spec:
           requests:
             cpu: 50m
     repoURL: https://kubernetes-sigs.github.io/descheduler/
-    targetRevision: 0.36.0
+    targetRevision: 0.37.0
   syncPolicy:
     automated:
       enabled: true
