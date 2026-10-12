@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: qbittorrent-tls
+spec:
+  dnsNames:
+    - qbittorrent.nahue.ar
+  isCA: false
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-short-lived-prod
+  privateKey:
+    algorithm: ECDSA
+    rotationPolicy: Always
+    size: 384
+  secretName: qbittorrent-tls
+  usages:
+    - server auth

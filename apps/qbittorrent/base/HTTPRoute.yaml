@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: qbittorrent-https
+spec:
+  hostnames:
+    - qbittorrent.nahue.ar
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: qbittorrent-https
+      namespace: qbittorrent
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: qbittorrent
+          port: 8080
+          weight: 1

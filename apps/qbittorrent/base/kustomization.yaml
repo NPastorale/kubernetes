@@ -1,4 +1,7 @@
 resources:
-  - Ingress.yaml
+  - Certificate.yaml
+  - ClientSettingsPolicy.yaml
+  - HTTPRoute.yaml
+  - ListenerSet.yaml
   - Service.yaml
   - StatefulSet.yaml

@@ -1,6 +1,9 @@
 resources:
+  - Certificate.yaml
   - ExternalSecret.yaml
-  - Ingress.yaml
+  - HTTPRoute.yaml
+  - ListenerSet.yaml
   - PersistentVolumeClaim.yaml
+  - ProxySettingsPolicy.yaml
   - Service.yaml
   - StatefulSet.yaml

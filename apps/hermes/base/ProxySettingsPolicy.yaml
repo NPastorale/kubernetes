@@ -1,0 +1,13 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: ProxySettingsPolicy
+metadata:
+  name: hermes
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: hermes-https
+  buffering:
+    disable: true
+  timeout:
+    read: 1h
