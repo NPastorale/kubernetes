@@ -7,10 +7,10 @@ spec:
     - mirrors.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: archmirror-https
+      kind: ListenerSet
+      name: archmirror-https
+      namespace: mirrors
+      sectionName: https
   rules:
     - matches:
         - path:

@@ -7,10 +7,10 @@ spec:
     - slides.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: slides-https
+      kind: ListenerSet
+      name: slides-https
+      namespace: slides
+      sectionName: https
   rules:
     - matches:
         - path:

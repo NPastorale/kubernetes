@@ -3,6 +3,7 @@ resources:
   - Deployment.yaml
   - HorizontalPodAutoscaler.yaml
   - HTTPRoute.yaml
+  - ListenerSet.yaml
   - Service.yaml
 configMapGenerator:
   - name: default-conf

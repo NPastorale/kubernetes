@@ -7,10 +7,10 @@ spec:
     - elverdaderorey.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: joke-https
+      kind: ListenerSet
+      name: joke-https
+      namespace: joke
+      sectionName: https
   rules:
     - matches:
         - path:

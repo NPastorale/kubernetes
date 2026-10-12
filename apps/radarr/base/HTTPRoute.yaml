@@ -7,10 +7,10 @@ spec:
     - radarr.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: internal
-      namespace: nginx-fabric
-      sectionName: radarr-https
+      kind: ListenerSet
+      name: radarr-https
+      namespace: radarr
+      sectionName: https
   rules:
     - matches:
         - path:

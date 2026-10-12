@@ -1,3 +1,5 @@
 resources:
+  - Certificate.yaml
   - HTTPRoute.yaml
+  - ListenerSet.yaml
   - Service.yaml

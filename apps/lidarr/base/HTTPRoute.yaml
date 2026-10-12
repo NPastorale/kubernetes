@@ -7,10 +7,10 @@ spec:
     - lidarr.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: internal
-      namespace: nginx-fabric
-      sectionName: lidarr-https
+      kind: ListenerSet
+      name: lidarr-https
+      namespace: lidarr
+      sectionName: https
   rules:
     - matches:
         - path:

@@ -7,10 +7,10 @@ spec:
     - ubuntu-prep.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: external
-      namespace: nginx-fabric
-      sectionName: ubuntu-prep-https
+      kind: ListenerSet
+      name: ubuntu-prep-https
+      namespace: scripts
+      sectionName: https
   rules:
     - matches:
         - path:
