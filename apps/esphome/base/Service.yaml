@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: esphome
 spec:
-  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 6052
   selector:
     app: esphome
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 6052
+  type: ClusterIP
