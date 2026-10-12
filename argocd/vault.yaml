@@ -57,18 +57,20 @@ spec:
               }
           dataStorage:
             storageClass: "nfs-csi-persistent"
-          ingress:
+          httproute:
             enabled: true
-            annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
-              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-            ingressClassName: "internal-nginx"
-            hosts:
-              - host: "vault.nahue.ar"
-            tls:
-              - hosts:
-                  - vault.nahue.ar
-                secretName: vault
+            hostnames:
+              - vault.nahue.ar
+            parentRefs:
+              - group: gateway.networking.k8s.io
+                kind: ListenerSet
+                name: vault-https
+                namespace: vault
+                sectionName: https
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
           updateStrategy: "RollingUpdate"
         injector:
           enabled: false

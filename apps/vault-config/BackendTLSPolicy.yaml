@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: vault
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: vault
+  validation:
+    caCertificateRefs:
+      - group: ""
+        kind: Secret
+        name: vault-ca-secret
+    hostname: vault.vault.svc.cluster.local
