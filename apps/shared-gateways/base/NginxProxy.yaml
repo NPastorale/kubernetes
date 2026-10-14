@@ -3,7 +3,11 @@ kind: NginxProxy
 metadata:
   name: external
 spec:
+  dnsResolver:
+    addresses:
+      - type: IPAddress
+        value: "10.96.0.10"
   kubernetes:
     service:
-      type: LoadBalancer
       loadBalancerIP: "10.10.20.59"
+      type: LoadBalancer

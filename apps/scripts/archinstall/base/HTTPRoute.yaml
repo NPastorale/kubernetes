@@ -12,13 +12,19 @@ spec:
       namespace: scripts
       sectionName: https
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
+    - backendRefs:
         - group: ""
           kind: Service
           name: archinstall
           port: 443
           weight: 1
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              replaceFullPath: /NPastorale/scripts/main/arch-installation/autoinstall.sh
+              type: ReplaceFullPath
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

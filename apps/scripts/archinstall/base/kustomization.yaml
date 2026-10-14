@@ -1,4 +1,5 @@
 resources:
+  - BackendTLSPolicy.yaml
   - Certificate.yaml
   - HTTPRoute.yaml
   - ListenerSet.yaml
