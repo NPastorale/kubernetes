@@ -13,7 +13,7 @@ spec:
   source:
     chart: nginx-gateway-fabric
     repoURL: ghcr.io/nginx/charts
-    targetRevision: 2.7.2
+    targetRevision: 2.8.0
     helm:
       valuesObject:
         nginxGateway:
