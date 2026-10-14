@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hindsight
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: hindsight
+  namespace: argocd
 spec:
   destination:
     namespace: hindsight
@@ -14,52 +14,24 @@ spec:
     chart: hindsight
     helm:
       valuesObject:
-        existingSecret: hindsight-secrets
         api:
           env:
-            #  opencode-go primary (mimo-v2.5)
-            HINDSIGHT_API_LLM_PROVIDER: openai-codex
             HINDSIGHT_API_LLM_MODEL: gpt-6-luna
-            HINDSIGHT_API_LLM_REASONING_EFFORT: "low"
-            #  LM Studio primary, Luna secondary (previous config)
-            # HINDSIGHT_API_LLM_PROVIDER: lmstudio
-            # HINDSIGHT_API_LLM_MODEL: google/gemma-4-26b-a4b-qat
-            # HINDSIGHT_API_LLM_BASE_URL: http://10.10.10.13:1234/v1
-            # HINDSIGHT_API_LLM_MAX_CONCURRENT: "1"
-            # HINDSIGHT_API_LLM_REASONING_EFFORT: "high"
-            # HINDSIGHT_API_RETAIN_LLM_REASONING_EFFORT: "high"
-            # HINDSIGHT_API_REFLECT_LLM_REASONING_EFFORT: "high"
-            # HINDSIGHT_API_CONSOLIDATION_LLM_REASONING_EFFORT: "high"
-            # HINDSIGHT_API_REFLECT_MAX_ITERATIONS: "20"
-            # HINDSIGHT_API_REFLECT_WALL_TIMEOUT: "600"
-            # HINDSIGHT_API_LLM_EXTRA_BODY: '{"think": true}'
-            # HINDSIGHT_API_LLM_1_PROVIDER: openai-codex
-            # HINDSIGHT_API_LLM_1_MODEL: gpt-5.6-luna
-            # HINDSIGHT_API_LLM_STRATEGY: '{"mode": "failover"}'
-            # CODEX_HOME: /home/hindsight/.codex
-            #  Luna primary
-            # HINDSIGHT_API_LLM_PROVIDER: openai-codex
-            # HINDSIGHT_API_LLM_MODEL: gpt-5.6-luna
-            # CODEX_HOME: /home/hindsight/.codex
+            HINDSIGHT_API_LLM_PROVIDER: openai-codex
+            HINDSIGHT_API_LLM_REASONING_EFFORT: low
+          extraVolumeMounts:
+            - mountPath: /home/hindsight/.codex
+              name: codex-auth
           extraVolumes:
             - name: codex-auth
               persistentVolumeClaim:
                 claimName: hindsight-codex-auth
-          extraVolumeMounts:
-            - name: codex-auth
-              mountPath: /home/hindsight/.codex
-        postgresql:
-          enabled: false
-          external:
-            host: hindsight-rw.hindsight.svc.cluster.local
-            port: 5432
-            database: hindsight
-            username: hindsight
+        existingSecret: hindsight-secrets
         ingress:
-          enabled: true
-          className: internal-nginx
           annotations:
-            cert-manager.io/cluster-issuer: "letsencrypt-classic-prod"
+            cert-manager.io/cluster-issuer: letsencrypt-classic-prod
+          className: internal-nginx
+          enabled: true
           hosts:
             - host: hindsight.nahue.ar
               paths:
@@ -67,10 +39,17 @@ spec:
                   pathType: Prefix
                   service: controlPlane
           tls:
-            - secretName: hindsight-tls
-              hosts:
+            - hosts:
                 - hindsight.nahue.ar
-    repoURL: oci://ghcr.io/vectorize-io/charts/hindsight
+              secretName: hindsight-tls
+        postgresql:
+          enabled: false
+          external:
+            database: hindsight
+            host: hindsight-rw.hindsight.svc.cluster.local
+            port: 5432
+            username: hindsight
+    repoURL: ghcr.io/vectorize-io/charts
     targetRevision: 0.10.1
   syncPolicy:
     automated:
