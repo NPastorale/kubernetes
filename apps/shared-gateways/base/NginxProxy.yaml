@@ -8,6 +8,12 @@ spec:
       - type: IPAddress
         value: "10.96.0.10"
   kubernetes:
+    deployment:
+      patches:
+        - type: Merge
+          value:
+            spec:
+              revisionHistoryLimit: 0
     service:
       loadBalancerIP: "10.10.20.59"
       type: LoadBalancer
