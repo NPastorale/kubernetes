@@ -50,7 +50,7 @@ spec:
             port: 5432
             username: hindsight
     repoURL: ghcr.io/vectorize-io/charts
-    targetRevision: 0.10.1
+    targetRevision: 0.10.3
   syncPolicy:
     automated:
       enabled: true
