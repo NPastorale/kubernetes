@@ -48,6 +48,23 @@
       "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?(?<compatibility>ubu\\d+)?(?:-r\\d+)?(?:-[0-9a-f]{7,9})?-ls(?<revision>\\d+)$"
     },
     {
+      // qbittorrent needs its own regex for two reasons:
+      // 1. Upstream changed its tag scheme at ls454 to include the libtorrent
+      //    version (`5.2.0_v2.0.12-ls454`), which the generic linuxserver rule
+      //    above does not match.
+      // 2. Its tags have no 4th numeric component, and Renovate's regex
+      //    versioning ignores the `revision` group unless a `build` group is
+      //    also captured. Mapping the `-lsN` number to `build` makes it part of
+      //    the compared version, so ls-only rebuilds are picked up too.
+      // Keep this scoped to qbittorrent: the generic rule works for the other
+      // linuxserver images.
+      "description": "linuxserver.io qbittorrent: X.Y.Z[-rN][_vA.B.C]-lsN (ls number mapped to build so it is compared)",
+      "matchPackageNames": [
+        "lscr.io/linuxserver/qbittorrent"
+      ],
+      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:-r\\d+)?(?:_v\\d+\\.\\d+(?:\\.\\d+)?)?-ls(?<build>\\d+)$"
+    },
+    {
       "description": "Own images: X.Y.Z[-rN] (latest keeps default versioning for digest updates)",
       "matchPackageNames": [
         "ghcr.io/npastorale/**"
