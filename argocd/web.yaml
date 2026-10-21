@@ -17,7 +17,7 @@ spec:
     helm:
       valuesObject:
         type: Deployment
-        image: npastorale/web:0.0.1@sha256:9147d0885e881cc56d88d4877f9d567f8f676d2f8b4dc2bd452204324bacba29
+        image: npastorale/web:0.0.1@sha256:4d29a406ec0eb70d34979ad894371285083998650566d86316a916864692c81c
         ports:
           http: 8080
         readiness:
