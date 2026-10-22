@@ -30,16 +30,6 @@ spec:
           - allowVolumeExpansion: true
             isDefault: false
             mountOptions: []
-            name: truenas-iscsi
-            parameters:
-              compression: LZ4
-              datasetPath: test
-              protocol: iscsi
-            reclaimPolicy: Delete
-            volumeBindingMode: Immediate
-          - allowVolumeExpansion: true
-            isDefault: false
-            mountOptions: []
             name: truenas-nvmeof
             parameters:
               compression: LZ4
@@ -53,7 +43,7 @@ spec:
           existingSecretKey: api-key
           # NVMe-oF portal must be an IP: TrueNAS validates addr_traddr as IPvAnyAddress.
           nvmeofPortal: 10.10.20.10:4420
-          url: wss://nas-t.nahue.ar
+          url: wss://k8s.nas-t.nahue.ar
     repoURL: https://raw.githubusercontent.com/truenas/truenas-csi/master/charts
     targetRevision: 1.4.0
   syncPolicy:
