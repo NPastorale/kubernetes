@@ -5,20 +5,26 @@ metadata:
 spec:
   hostnames:
     - impostor.nahue.ar
+    - impostorvieja.nahue.ar
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: ListenerSet
       name: impostor-https
       namespace: impostor
       sectionName: https
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: impostor-https
+      namespace: impostor
+      sectionName: https-vieja
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
+    - backendRefs:
         - group: ""
           kind: Service
           name: impostor
           port: 80
           weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

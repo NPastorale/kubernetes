@@ -3,20 +3,33 @@ kind: ListenerSet
 metadata:
   name: impostor-https
 spec:
-  parentRef:
-    name: external
-    namespace: nginx-fabric
   listeners:
-    - name: https
+    - allowedRoutes:
+        namespaces:
+          from: Same
+      hostname: impostor.nahue.ar
+      name: https
       port: 443
       protocol: HTTPS
-      hostname: impostor.nahue.ar
       tls:
-        mode: Terminate
         certificateRefs:
           - group: ""
             kind: Secret
             name: impostor-tls
-      allowedRoutes:
+        mode: Terminate
+    - allowedRoutes:
         namespaces:
           from: Same
+      hostname: impostorvieja.nahue.ar
+      name: https-vieja
+      port: 443
+      protocol: HTTPS
+      tls:
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: impostor-tls
+        mode: Terminate
+  parentRef:
+    name: external
+    namespace: nginx-fabric

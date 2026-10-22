@@ -5,6 +5,7 @@ metadata:
 spec:
   dnsNames:
     - impostor.nahue.ar
+    - impostorvieja.nahue.ar
   isCA: false
   issuerRef:
     kind: ClusterIssuer
