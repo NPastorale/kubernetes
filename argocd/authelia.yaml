@@ -47,6 +47,9 @@ spec:
                 argocd:
                   id_token:
                     - groups
+                    # Argo CD builds the display username from "email" (falling
+                    # back to "sub" = the UUID), so email must be in the ID token.
+                    - email
               jwks:
                 - algorithm: RS256
                   use: sig
