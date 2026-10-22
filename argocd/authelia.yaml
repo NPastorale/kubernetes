@@ -15,22 +15,57 @@ spec:
     helm:
       valuesObject:
         configMap:
-          theme: dark
-          # Test only: one_factor lets you log in with just a password.
-          # Change to two_factor once you have TOTP/WebAuthn enrolled.
           access_control:
             default_policy: one_factor
           authentication_backend:
-            # Users file is mounted from a ConfigMap (read-only), so disable the
-            # flows that would try to write it back.
-            password_reset:
-              disable: true
-            password_change:
-              disable: true
             file:
               enabled: true
               path: /users/users_database.yml
               watch: true
+            password_change:
+              disable: true
+            password_reset:
+              disable: true
+          identity_providers:
+            oidc:
+              claims_policies:
+                argocd:
+                  id_token:
+                    - groups
+                    - email
+              clients:
+                - authorization_policy: one_factor
+                  authorization_signed_response_alg: ES384
+                  claims_policy: argocd
+                  client_id: argocd
+                  client_name: Argo CD
+                  client_secret:
+                    path: /secrets/oidc/client_secret
+                  consent_mode: implicit
+                  grant_types:
+                    - authorization_code
+                  id_token_signed_response_alg: ES384
+                  pkce_challenge_method: S256
+                  redirect_uris:
+                    - https://argocd.nahue.ar/auth/callback
+                  require_pkce: true
+                  response_types:
+                    - code
+                  scopes:
+                    - openid
+                    - profile
+                    - email
+                    - groups
+              enabled: true
+              jwks:
+                - algorithm: RS256
+                  key:
+                    path: /secrets/oidc/rsa.pem
+                  use: sig
+                - algorithm: ES384
+                  key:
+                    path: /secrets/oidc/ec.pem
+                  use: sig
           notifier:
             filesystem:
               enabled: true
@@ -41,54 +76,48 @@ spec:
           storage:
             local:
               enabled: true
-          identity_providers:
-            oidc:
-              enabled: true
-              claims_policies:
-                argocd:
-                  id_token:
-                    - groups
-                    # Argo CD builds the display username from "email" (falling
-                    # back to "sub" = the UUID), so email must be in the ID token.
-                    - email
-              jwks:
-                # Authelia requires at least one RS256 key in the set. Argo CD
-                # uses the ES384 key below (id_token_signed_response_alg).
-                - algorithm: RS256
-                  use: sig
-                  key:
-                    path: /secrets/oidc/rsa.pem
-                - algorithm: ES384
-                  use: sig
-                  key:
-                    path: /secrets/oidc/ec.pem
-              clients:
-                - client_id: argocd
-                  client_name: Argo CD
-                  client_secret:
-                    # Mounted from the authelia-oidc Secret (Vault -> ExternalSecret)
-                    path: /secrets/oidc/client_secret
-                  redirect_uris:
-                    - https://argocd.nahue.ar/auth/callback
-                    - http://localhost:8085/auth/callback
-                  scopes:
-                    - openid
-                    - profile
-                    - email
-                    - groups
-                  grant_types:
-                    - authorization_code
-                  response_types:
-                    - code
-                  authorization_policy: one_factor
-                  consent_mode: implicit
-                  claims_policy: argocd
-                  # Sign ID tokens with ECDSA P-384 (ES384) instead of RSA.
-                  id_token_signed_response_alg: ES384
-                  authorization_signed_response_alg: ES384
-                  # Enforce PKCE S256 for the authorization code flow.
-                  require_pkce: true
-                  pkce_challenge_method: S256
+          theme: dark
+        extraObjects:
+          - apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: authelia
+            spec:
+              dnsNames:
+                - auth.nahue.ar
+              issuerRef:
+                kind: ClusterIssuer
+                name: letsencrypt-short-lived-prod
+              privateKey:
+                algorithm: ECDSA
+                encoding: PKCS8
+                rotationPolicy: Always
+                size: 384
+              secretName: authelia-tls
+              usages:
+                - server auth
+          - apiVersion: gateway.networking.k8s.io/v1
+            kind: ListenerSet
+            metadata:
+              name: authelia
+            spec:
+              listeners:
+                - allowedRoutes:
+                    namespaces:
+                      from: Same
+                  hostname: auth.nahue.ar
+                  name: https
+                  port: 443
+                  protocol: HTTPS
+                  tls:
+                    certificateRefs:
+                      - group: ""
+                        kind: Secret
+                        name: authelia-tls
+                    mode: Terminate
+              parentRef:
+                name: internal
+                namespace: nginx-fabric
         ingress:
           enabled: true
           gatewayAPI:
@@ -99,74 +128,31 @@ spec:
                 name: authelia
                 namespace: authelia
                 sectionName: https
-        secret:
-          # All keys live in Vault and are projected by External Secrets:
-          #   authelia-secrets -> reset-password JWT, session, storage and OIDC HMAC keys
-          #   authelia-oidc    -> OIDC client secret + signing key, mounted at /secrets/oidc
-          existingSecret: authelia-secrets
-          additionalSecrets:
-            authelia-oidc:
-              path: oidc
         pod:
-          kind: Deployment
-          revisionHistoryLimit: 0
+          extraVolumeMounts:
+            - mountPath: /config
+              name: config-data
+            - mountPath: /users
+              name: users-database
+              readOnly: true
           extraVolumes:
-            - name: config-data
-              emptyDir: {}
+            - emptyDir: {}
+              name: config-data
             - name: users-database
               secret:
                 secretName: authelia-users
-          extraVolumeMounts:
-            - name: config-data
-              mountPath: /config
-            - name: users-database
-              mountPath: /users
-              readOnly: true
-        extraObjects:
-          - apiVersion: cert-manager.io/v1
-            kind: Certificate
-            metadata:
-              name: authelia
-            spec:
-              secretName: authelia-tls
-              issuerRef:
-                name: letsencrypt-short-lived-prod
-                kind: ClusterIssuer
-              dnsNames:
-                - auth.nahue.ar
-              privateKey:
-                algorithm: ECDSA
-                encoding: PKCS8
-                size: 384
-                rotationPolicy: Always
-              usages:
-                - server auth
-          - apiVersion: gateway.networking.k8s.io/v1
-            kind: ListenerSet
-            metadata:
-              name: authelia
-            spec:
-              parentRef:
-                name: internal
-                namespace: nginx-fabric
-              listeners:
-                - name: https
-                  port: 443
-                  protocol: HTTPS
-                  hostname: auth.nahue.ar
-                  tls:
-                    mode: Terminate
-                    certificateRefs:
-                      - group: ""
-                        kind: Secret
-                        name: authelia-tls
-                  allowedRoutes:
-                    namespaces:
-                      from: Same
-    repoURL: https://charts.authelia.com
+          kind: Deployment
+          revisionHistoryLimit: 0
+        secret:
+          additionalSecrets:
+            authelia-oidc:
+              path: oidc
+          existingSecret: authelia-secrets
+    repoURL: ghcr.io/authelia/chartrepo
     targetRevision: 0.11.22
   syncPolicy:
     automated:
+      enabled: true
       prune: true
       selfHeal: true
     syncOptions:
