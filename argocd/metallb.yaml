@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: metallb
+  namespace: argocd
 spec:
   destination:
     namespace: metallb-system
@@ -16,7 +16,7 @@ spec:
       valuesObject:
         frrk8s:
           enabled: false
-    repoURL: https://metallb.github.io/metallb
+    repoURL: quay.io/metallb/chart
     targetRevision: 0.16.1
   syncPolicy:
     automated:
