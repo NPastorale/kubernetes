@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     chart: gitlab
-    repoURL: https://charts.gitlab.io/
+    repoURL: registry.gitlab.com/charts/charts.gitlab.io/release
     targetRevision: 10.5.1
     helm:
       valuesObject:
