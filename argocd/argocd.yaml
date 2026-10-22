@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: argocd
+  namespace: argocd
 spec:
   destination:
     namespace: argocd
@@ -14,16 +14,7 @@ spec:
     chart: argo-cd
     helm:
       valuesObject:
-        global:
-          domain: argocd.nahue.ar
-          revisionHistoryLimit: 0
-        controller:
-          revisionHistoryLimit: 0
-        dex:
-          enabled: false
         configs:
-          params:
-            server.insecure: true
           cm:
             oidc.config: |
               name: Authelia
@@ -33,88 +24,92 @@ spec:
               requestedScopes: ["openid", "profile", "email", "groups"]
               requestedIDTokenClaims: {"groups": {"essential": true}}
               enablePKCEAuthentication: true
+          params:
+            server.insecure: true
           rbac:
-            policy.default: role:readonly
             policy.csv: |
               g, admins, role:admin
-        server:
-          service:
-            servicePortHttp2: 8080
-            servicePortHttp2AppProtocol: kubernetes.io/h2c
-          listenerset:
-            enabled: true
-            parentRef:
-              name: internal
-              namespace: nginx-fabric
-          httproute:
-            enabled: true
-          # grpcroute:
-          #   enabled: true
-          certificate:
-            enabled: true
-            issuer:
-              group: "cert-manager.io"
-              kind: "ClusterIssuer"
-              name: "letsencrypt-short-lived-prod"
-            privateKey:
-              algorithm: ECDSA
-              encoding: PKCS8
-              size: 384
-              rotationPolicy: Always
-            usages:
-              - server auth
+            policy.default: role:readonly
+        controller:
+          revisionHistoryLimit: 0
+        dex:
+          enabled: false
         extraObjects:
-          # ------------------------------------------------------------
-          # External webhook
-          # ------------------------------------------------------------
           - apiVersion: gateway.networking.k8s.io/v1
             kind: ListenerSet
             metadata:
               name: argocd-server-webhook
             spec:
-              parentRef:
-                name: external
-                namespace: nginx-fabric
               listeners:
-                - name: https
+                - allowedRoutes:
+                    namespaces:
+                      from: Same
+                  hostname: argocd.nahue.ar
+                  name: https
                   port: 443
                   protocol: HTTPS
-                  hostname: argocd.nahue.ar
                   tls:
-                    mode: Terminate
                     certificateRefs:
                       - group: ""
                         kind: Secret
                         name: argocd-server-tls
-                  allowedRoutes:
-                    namespaces:
-                      from: Same
+                    mode: Terminate
+              parentRef:
+                name: external
+                namespace: nginx-fabric
           - apiVersion: gateway.networking.k8s.io/v1
             kind: HTTPRoute
             metadata:
-              name: argocd-server-webhook
               annotations:
                 external-dns.alpha.kubernetes.io/exclude: "true"
+              name: argocd-server-webhook
             spec:
+              hostnames:
+                - argocd.nahue.ar
               parentRefs:
                 - group: gateway.networking.k8s.io
                   kind: ListenerSet
                   name: argocd-server-webhook
                   sectionName: https
-              hostnames:
-                - argocd.nahue.ar
               rules:
-                - matches:
-                    - path:
-                        type: PathPrefix
-                        value: /api/webhook
-                  backendRefs:
+                - backendRefs:
                     - group: ""
                       kind: Service
                       name: argocd-server
                       port: 80
                       weight: 1
-    repoURL: https://argoproj.github.io/argo-helm
+                  matches:
+                    - path:
+                        type: PathPrefix
+                        value: /api/webhook
+        global:
+          domain: argocd.nahue.ar
+          revisionHistoryLimit: 0
+        server:
+          certificate:
+            enabled: true
+            issuer:
+              group: cert-manager.io
+              kind: ClusterIssuer
+              name: letsencrypt-short-lived-prod
+            privateKey:
+              algorithm: ECDSA
+              encoding: PKCS8
+              rotationPolicy: Always
+              size: 384
+            usages:
+              - server auth
+          httproute:
+            enabled: true
+          listenerset:
+            enabled: true
+            parentRef:
+              name: internal
+              namespace: nginx-fabric
+          service:
+            servicePortHttp2: 8080
+            servicePortHttp2AppProtocol: kubernetes.io/h2c
+    repoURL: ghcr.io/argoproj/argo-helm
     targetRevision: 10.10.5
   syncPolicy:
     automated:
