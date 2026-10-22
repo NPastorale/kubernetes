@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: valkey
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: valkey
+  namespace: argocd
 spec:
   destination:
     namespace: gitlab
@@ -12,19 +12,19 @@ spec:
   project: default
   source:
     chart: valkey
-    repoURL: https://valkey.io/valkey-helm/
-    targetRevision: 0.12.0
     helm:
       valuesObject:
-        fullnameOverride: valkey
-        dataStorage:
-          enabled: false
         auth:
-          enabled: true
-          usersExistingSecret: valkey-auth
           aclUsers:
             default:
-              permissions: "~* &* +@all"
+              permissions: ~* &* +@all
+          enabled: true
+          usersExistingSecret: valkey-auth
+        dataStorage:
+          enabled: false
+        fullnameOverride: valkey
+    repoURL: ghcr.io/valkey-io/valkey-helm
+    targetRevision: 0.12.0
   syncPolicy:
     automated:
       enabled: true
