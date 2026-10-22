@@ -1,52 +1,52 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-dns
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: external-dns
+  namespace: argocd
 spec:
   destination:
     namespace: external-dns
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://kubernetes-sigs.github.io/external-dns/
     chart: external-dns
-    targetRevision: 1.23.0
     helm:
       valuesObject:
+        annotationFilter: external-dns.alpha.kubernetes.io/exclude notin (true)
+        domainFilters:
+          - podvader.com
+          - nahue.ar
+        enableGatewayListenerSets: true
+        env:
+          - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: ddns-key
+                name: ddns-key
+        extraArgs:
+          rfc2136-axfr: true
+          rfc2136-host: bind-internal.bind9.svc.cluster.local
+          rfc2136-port: 53
+          rfc2136-tsig-keyname: ddns-key
+          rfc2136-tsig-secret-alg: hmac-sha512
+          rfc2136-zone:
+            - podvader.com
+            - nahue.ar
+          txt-wildcard-replacement: _wildcard
         policy: sync
+        provider:
+          name: rfc2136
         revisionHistoryLimit: 0
         sources:
           - crd
           - gateway-httproute
           - ingress
           - service
-        provider:
-          name: rfc2136
-        domainFilters:
-          - podvader.com
-          - nahue.ar
-        annotationFilter: "external-dns.alpha.kubernetes.io/exclude notin (true)"
-        txtPrefix: "edns-%{record_type}."
-        enableGatewayListenerSets: true
-        extraArgs:
-          rfc2136-host: bind-internal.bind9.svc.cluster.local
-          rfc2136-port: 53
-          rfc2136-zone:
-            - podvader.com
-            - nahue.ar
-          rfc2136-tsig-keyname: ddns-key
-          rfc2136-tsig-secret-alg: hmac-sha512
-          rfc2136-axfr: true
-          txt-wildcard-replacement: _wildcard
-        env:
-          - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: ddns-key
-                key: ddns-key
+        txtPrefix: edns-%{record_type}.
+    repoURL: ghcr.io/kubernetes-sigs/external-dns
+    targetRevision: 1.23.0
   syncPolicy:
     automated:
       enabled: true
