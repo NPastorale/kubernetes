@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: intel-device-plugins-operator
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: intel-device-plugins-operator
+  namespace: argocd
 spec:
   destination:
     namespace: intel-device-plugins-operator
@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     chart: intel-device-plugins-operator
-    repoURL: "https://intel.github.io/helm-charts"
+    repoURL: ghcr.io/intel/helm-charts
     targetRevision: 0.37.1
   syncPolicy:
     automated:
