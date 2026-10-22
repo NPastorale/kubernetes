@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: node-feature-discovery
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: node-feature-discovery
+  namespace: argocd
 spec:
   destination:
     namespace: node-feature-discovery
@@ -14,13 +14,13 @@ spec:
     chart: node-feature-discovery
     helm:
       valuesObject:
+        postDeleteCleanup: false
         worker:
           tolerations:
             - effect: NoSchedule
               key: nvidia.com/gpu
               operator: Equal
-        postDeleteCleanup: false
-    repoURL: "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
+    repoURL: registry.k8s.io/nfd/charts
     targetRevision: 0.20.0
   syncPolicy:
     automated:
