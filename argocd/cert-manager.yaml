@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: cert-manager
+  namespace: argocd
 spec:
   destination:
     namespace: cert-manager
@@ -14,13 +14,13 @@ spec:
     chart: cert-manager
     helm:
       valuesObject:
-        global:
-          revisionHistoryLimit: 0
         crds:
           enabled: true
-        dns01RecursiveNameservers: "10.10.20.50:53"
+        dns01RecursiveNameservers: 10.10.20.50:53
         dns01RecursiveNameserversOnly: true
-    repoURL: https://charts.jetstack.io
+        global:
+          revisionHistoryLimit: 0
+    repoURL: quay.io/jetstack/charts
     targetRevision: v1.21.2
   syncPolicy:
     automated:
@@ -29,3 +29,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
