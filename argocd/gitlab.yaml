@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gitlab
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: gitlab
+  namespace: argocd
 spec:
   destination:
     namespace: gitlab
@@ -12,132 +12,28 @@ spec:
   project: default
   source:
     chart: gitlab
-    repoURL: registry.gitlab.com/charts/charts.gitlab.io/release
-    targetRevision: 10.5.1
     helm:
       valuesObject:
-        upgradeCheck:
-          enabled: false
-        global:
-          revisionHistoryLimit: 0
-          time_zone: "Europe/Madrid"
-          appConfig:
-            defaultColorMode: 3
-            defaultTheme: 2
-            defaultSyntaxHighlightingTheme: 5
-            object_store:
-              enabled: true
-              connection:
-                secret: object-storage
-            terraformState:
-              enabled: true
-          edition: ee
-          hosts:
-            domain: nahue.ar
-            https: true
-          gatewayApi:
-            enabled: false
-            configureCertmanager: false
-            installEnvoy: false
-          ingress:
-            enabled: true
-            configureCertmanager: false
-            class: internal-nginx
-            annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-short-lived-prod"
-          kas:
-            enabled: false
-          pages:
-            enabled: true
-            objectStore:
-              connection:
-                secret: pages-storage
-          redis:
-            host: valkey
-            auth:
-              enabled: true
-              secret: valkey-auth
-              key: default
-          psql:
-            database: app
-            username: app
-            host: postgres-gitlab-rw
-            password:
-              secret: postgres-gitlab-app
-              key: password
-        installCertmanager: false
-        nginx-ingress:
-          enabled: false
-        prometheus:
-          install: false
-        gitlab-runner:
-          install: true
-          gitlabUrl: "https://gitlab.nahue.ar"
-          revisionHistoryLimit: "0"
-          rbac:
-            create: true
-          checkInterval: 3
-          runners:
-            locked: false
-            config: |
-              [[runners]]
-              url = "https://gitlab.nahue.ar"
-              clone_url = "https://gitlab.nahue.ar"
-                [runners.kubernetes]
-                privileged = true
-                image = "alpine:latest"
-                [runners.cache]
-                Type = "s3"
-                Path = "runner"
-                Shared = true
-                  [runners.cache.s3]
-                  ServerAddress = "10.10.20.10:30188"
-                  BucketName = "runner-cache"
-                  BucketLocation = "garage"
-                  Insecure = true
-                  AuthenticationType = "access-key"
-            cache:
-              secretName: gitlab-runner-cache-s3
-          podAnnotations:
-            gitlab.com/prometheus_scrape: "true"
-            gitlab.com/prometheus_port: 9252
         gitlab:
-          gitlab-shell:
-            minReplicas: 1
-            maxReplicas: 1
-          toolbox:
-            backups:
-              cron:
-                enabled: true
-              objectStorage:
-                config:
-                  secret: backup-storage
-            extraEnvFrom:
-              COMPRESS_CMD:
-                configMapKeyRef:
-                  name: gitlab-backup-compression
-                  key: COMPRESS_CMD
           gitaly:
             gpgSigning:
               enabled: true
-              secret: gitaly-gpg-signing-key
               key: signing_key
+              secret: gitaly-gpg-signing-key
             persistence:
-              storageClass: "nfs-csi-persistent"
               size: 500Gi
+              storageClass: nfs-csi-persistent
           gitlab-pages:
-            resources:
-              requests:
-                cpu: 100m
             ingress:
               tls:
                 secretName: pages-tls
-          sidekiq:
             resources:
               requests:
                 cpu: 100m
-            minReplicas: 1
+          gitlab-shell:
             maxReplicas: 1
+            minReplicas: 1
+          sidekiq:
             extraInitContainers: |
               - name: init-public-key-sidekiq
                 image: busybox@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
@@ -157,19 +53,31 @@ spec:
                 volumeMounts:
                   - name: public-key
                     mountPath: /mnt
-            extraVolumes: |
-              - name: public-key
-                emptyDir: {}
             extraVolumeMounts: |
               - name: public-key
                 mountPath: /srv/gitlab/.license_encryption_key.pub
                 subPath: public.key
-          webservice:
+            extraVolumes: |
+              - name: public-key
+                emptyDir: {}
+            maxReplicas: 1
+            minReplicas: 1
             resources:
               requests:
                 cpu: 100m
-            minReplicas: 2
-            maxReplicas: 5
+          toolbox:
+            backups:
+              cron:
+                enabled: true
+              objectStorage:
+                config:
+                  secret: backup-storage
+            extraEnvFrom:
+              COMPRESS_CMD:
+                configMapKeyRef:
+                  key: COMPRESS_CMD
+                  name: gitlab-backup-compression
+          webservice:
             extraInitContainers: |
               - name: init-public-key-webservice
                 image: busybox@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
@@ -189,25 +97,117 @@ spec:
                 volumeMounts:
                   - name: public-key
                     mountPath: /mnt
-            extraVolumes: |
-              - name: public-key
-                emptyDir: {}
             extraVolumeMounts: |
               - name: public-key
                 mountPath: /srv/gitlab/.license_encryption_key.pub
                 subPath: public.key
+            extraVolumes: |
+              - name: public-key
+                emptyDir: {}
             ingress:
               tls:
                 secretName: gitlab-tls
+            maxReplicas: 5
+            minReplicas: 2
+            resources:
+              requests:
+                cpu: 100m
+        gitlab-runner:
+          checkInterval: 3
+          gitlabUrl: https://gitlab.nahue.ar
+          install: true
+          podAnnotations:
+            gitlab.com/prometheus_port: 9252
+            gitlab.com/prometheus_scrape: "true"
+          rbac:
+            create: true
+          revisionHistoryLimit: "0"
+          runners:
+            cache:
+              secretName: gitlab-runner-cache-s3
+            config: |
+              [[runners]]
+              url = "https://gitlab.nahue.ar"
+              clone_url = "https://gitlab.nahue.ar"
+                [runners.kubernetes]
+                privileged = true
+                image = "alpine:latest"
+                [runners.cache]
+                Type = "s3"
+                Path = "runner"
+                Shared = true
+                  [runners.cache.s3]
+                  ServerAddress = "10.10.20.10:30188"
+                  BucketName = "runner-cache"
+                  BucketLocation = "garage"
+                  Insecure = true
+                  AuthenticationType = "access-key"
+            locked: false
+        global:
+          appConfig:
+            defaultColorMode: 3
+            defaultSyntaxHighlightingTheme: 5
+            defaultTheme: 2
+            object_store:
+              connection:
+                secret: object-storage
+              enabled: true
+            terraformState:
+              enabled: true
+          edition: ee
+          gatewayApi:
+            configureCertmanager: false
+            enabled: false
+            installEnvoy: false
+          hosts:
+            domain: nahue.ar
+            https: true
+          ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-short-lived-prod
+            class: internal-nginx
+            configureCertmanager: false
+            enabled: true
+          kas:
+            enabled: false
+          pages:
+            enabled: true
+            objectStore:
+              connection:
+                secret: pages-storage
+          psql:
+            database: app
+            host: postgres-gitlab-rw
+            password:
+              key: password
+              secret: postgres-gitlab-app
+            username: app
+          redis:
+            auth:
+              enabled: true
+              key: default
+              secret: valkey-auth
+            host: valkey
+          revisionHistoryLimit: 0
+          time_zone: Europe/Madrid
+        installCertmanager: false
+        nginx-ingress:
+          enabled: false
+        prometheus:
+          install: false
         registry:
           hpa:
-            minReplicas: 1
             maxReplicas: 1
-          storage:
-            secret: registry-storage
+            minReplicas: 1
           ingress:
             tls:
               secretName: registry-tls
+          storage:
+            secret: registry-storage
+        upgradeCheck:
+          enabled: false
+    repoURL: registry.gitlab.com/charts/charts.gitlab.io/release
+    targetRevision: 10.5.1
   syncPolicy:
     automated:
       enabled: true
