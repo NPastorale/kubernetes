@@ -15,6 +15,7 @@ spec:
     helm:
       valuesObject:
         configMap:
+          theme: dark
           # Test only: one_factor lets you log in with just a password.
           # Change to two_factor once you have TOTP/WebAuthn enrolled.
           access_control:
@@ -51,43 +52,22 @@ spec:
                     # back to "sub" = the UUID), so email must be in the ID token.
                     - email
               jwks:
+                # Authelia requires at least one RS256 key in the set. Argo CD
+                # uses the ES384 key below (id_token_signed_response_alg).
                 - algorithm: RS256
                   use: sig
                   key:
-                    value: |
-                      -----BEGIN PRIVATE KEY-----
-                      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDlOt9ABv4kocHR
-                      bmm3vwstVZNOYeGSLBYfzKluVAPXo8lXe22aWn6XqxMhPg684OggTWPOE8xAyHRI
-                      gWshopmonfF8uKcmI/+3XiaM6dMPz2KwJznY7Diiub/Xn0TG9hGy1KyMikpU714O
-                      VO4u4gnmhUDPEhlK+H++h3c/1ObfG0N/vU7lo9nAlgCWh+LbfME9763xKcPcy3Eh
-                      Hwn3MY33BM3ch7YP1Az+eqOauDMEFNG3vKylN8XaGY7tDezMBlfuNPzsMY8mdjpy
-                      Fda2oc6ki8f4G/3ziKvrMCT3D2Tmf0n7AJQGO9VvtNxgcGnnwkSKN8W4AwbEZ+ED
-                      Jc8120UhAgMBAAECggEAFKIO9Els2MlCk+JXW7WzgNoiDz0aO7kCKMyYN5kSW3ef
-                      qOMwQ2N/35EDgMuAMhogar/siuEXUoF4jgowJW/oWtgUo4BPc0xsOQodeDOXzuWA
-                      4ZA2UcM5edQ0Y2kvnKULhMhF28Sa2jhNhAa7BbdM4tX9tmXPpwLlJLY20qUMPuqe
-                      qilU4wWToKQoWhVxbmU3Wl/Y0LHmcFt8wciSdcY1oKUO19n0C/csg9rIAO9VeA2R
-                      bQO0aCw4U8yKfOsxMaIYHmGm0IOuhpyrZ5HUnPgv5LzD7LGkCbpIM35Qm4kAey24
-                      Q6I9XvjdxEMwWQTlnqrRP77HeL/V9Tt2/pOEF6kaQQKBgQD9fGq3r/dPqsnKD6M/
-                      Kbbe61jsSRL0JrGCxnWSJEuhSYbYyzim79fp/QBRSngzkn0mObpPzKb4gMgijhBW
-                      IyM3Tq2kevZsUzzryiy24LQxlRBC+JR5TVTWmsrykPySGKJbj7TOs6zEkEEN2okb
-                      VhqQMIalDEn5aOJK3f+1PeOCGQKBgQDngN7vYJ35IQwB1Q9zOg4x2BHo0hwktxpF
-                      9hivOhxp+MGiv0DqgFEso4KSuir530FrPTYpHzBlMeAwB23PCk0oU8RllZ6k36ud
-                      XjZG0KRzqbAAWz8ZkoeXyV1ANJ4gsbugYCoYKJVera1/njICVsofQbEpXuWA69ev
-                      I95ABTIMSQKBgQCO7orWTLitCWaDM1IfmYvuItKfWY0AcpkBXpqI70JeDbGlqOGm
-                      7/LVk72MGOuyWNWMqlxuBr3XvfYb1fNMPr/qvciXyGYPKthdNEEGVaoFk0H6IWTH
-                      CV3fLKVnJW3li1JxQpT3QMUYiSbFgwZwjZqo11P02PsVUZjYElnPfrg8cQKBgEV+
-                      OO3Qqfs0AV+3bnjfb41k2BN0pwAaeuePdV98aTUieDX7hWgfdr6YosSa3/W8H+4q
-                      JMz5UNS/wRWJ1Vu2Mu0tICKCZGoHvoNx2YcucH9L68pfmbR6ePuGddilMuaLk9AT
-                      re8sl5IhPpi1izuKhAgX9y99DhXCNi+b68Z6CMkJAoGBAJGd3JfVcs4aG2mv7aTE
-                      WcA672SSYd4XEpacbggUNdskxDZer9BAaco1UQ7StwmsVZDeaNUjDNak3bmr89Ea
-                      fX4dnhzCtVECZLNIwbBn/SDT0P7nqT0mNnC4f91mW1vUgS9aYI1h6CY8GqHr9gA/
-                      k1ZtbTD0JJa+tn249+w8BPuS
-                      -----END PRIVATE KEY-----
+                    path: /secrets/oidc/rsa.pem
+                - algorithm: ES384
+                  use: sig
+                  key:
+                    path: /secrets/oidc/ec.pem
               clients:
                 - client_id: argocd
                   client_name: Argo CD
-                  # Hash of the plaintext secret configured in argocd.yaml
-                  client_secret: "$pbkdf2-sha512$310000$5pfcEZELJ9ay7YT7DZjeBw$4SgLEItwqa1fkAIREWOLbDg3QyG0R2tHXSOYX.w.hnjgKKqt2Y9Mr7o4q90RR65Z9l0lLlllpd0zP00unuo5og"
+                  client_secret:
+                    # Mounted from the authelia-oidc Secret (Vault -> ExternalSecret)
+                    path: /secrets/oidc/client_secret
                   redirect_uris:
                     - https://argocd.nahue.ar/auth/callback
                     - http://localhost:8085/auth/callback
@@ -103,6 +83,12 @@ spec:
                   authorization_policy: one_factor
                   consent_mode: implicit
                   claims_policy: argocd
+                  # Sign ID tokens with ECDSA P-384 (ES384) instead of RSA.
+                  id_token_signed_response_alg: ES384
+                  authorization_signed_response_alg: ES384
+                  # Enforce PKCE S256 for the authorization code flow.
+                  require_pkce: true
+                  pkce_challenge_method: S256
         ingress:
           enabled: true
           gatewayAPI:
@@ -113,6 +99,14 @@ spec:
                 name: authelia
                 namespace: authelia
                 sectionName: https
+        secret:
+          # All keys live in Vault and are projected by External Secrets:
+          #   authelia-secrets -> reset-password JWT, session, storage and OIDC HMAC keys
+          #   authelia-oidc    -> OIDC client secret + signing key, mounted at /secrets/oidc
+          existingSecret: authelia-secrets
+          additionalSecrets:
+            authelia-oidc:
+              path: oidc
         pod:
           kind: Deployment
           revisionHistoryLimit: 0
@@ -120,8 +114,8 @@ spec:
             - name: config-data
               emptyDir: {}
             - name: users-database
-              configMap:
-                name: authelia-users
+              secret:
+                secretName: authelia-users
           extraVolumeMounts:
             - name: config-data
               mountPath: /config
@@ -129,21 +123,6 @@ spec:
               mountPath: /users
               readOnly: true
         extraObjects:
-          - apiVersion: v1
-            kind: ConfigMap
-            metadata:
-              name: authelia-users
-            data:
-              users_database.yml: |
-                users:
-                  nahue:
-                    disabled: false
-                    displayname: Nahue
-                    # authelia-test-2026
-                    password: '$argon2id$v=19$m=65536,t=3,p=4$iTjuaPC4FhlOKDOzhtx5qg$zzSCk3xuVIR+XnVRkcGYb9Sf/Mt8lUx96Lu0yvjdJRw'
-                    email: nahue@nahue.ar
-                    groups:
-                      - admins
           - apiVersion: cert-manager.io/v1
             kind: Certificate
             metadata:
@@ -155,6 +134,13 @@ spec:
                 kind: ClusterIssuer
               dnsNames:
                 - auth.nahue.ar
+              privateKey:
+                algorithm: ECDSA
+                encoding: PKCS8
+                size: 384
+                rotationPolicy: Always
+              usages:
+                - server auth
           - apiVersion: gateway.networking.k8s.io/v1
             kind: ListenerSet
             metadata:

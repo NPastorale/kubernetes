@@ -29,9 +29,10 @@ spec:
               name: Authelia
               issuer: https://auth.nahue.ar
               clientID: argocd
-              clientSecret: argocd7b21631ea65351b74ba7904a161e0b7b
+              clientSecret: $argocd-authelia-oidc:clientSecret
               requestedScopes: ["openid", "profile", "email", "groups"]
               requestedIDTokenClaims: {"groups": {"essential": true}}
+              enablePKCEAuthentication: true
           rbac:
             policy.default: role:readonly
             policy.csv: |
