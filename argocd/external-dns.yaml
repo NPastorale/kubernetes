@@ -45,7 +45,7 @@ spec:
           - ingress
           - service
         txtPrefix: edns-%{record_type}.
-    repoURL: ghcr.io/kubernetes-sigs/external-dns
+    repoURL: registry-1.docker.io/bitnamicharts
     targetRevision: 1.23.0
   syncPolicy:
     automated:
