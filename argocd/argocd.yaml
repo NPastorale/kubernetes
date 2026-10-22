@@ -24,6 +24,18 @@ spec:
         configs:
           params:
             server.insecure: true
+          cm:
+            oidc.config: |
+              name: Authelia
+              issuer: https://auth.nahue.ar
+              clientID: argocd
+              clientSecret: argocd7b21631ea65351b74ba7904a161e0b7b
+              requestedScopes: ["openid", "profile", "email", "groups"]
+              requestedIDTokenClaims: {"groups": {"essential": true}}
+          rbac:
+            policy.default: role:readonly
+            policy.csv: |
+              g, admins, role:admin
         server:
           service:
             servicePortHttp2: 8080
