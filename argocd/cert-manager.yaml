@@ -21,7 +21,7 @@ spec:
         global:
           revisionHistoryLimit: 0
     repoURL: quay.io/jetstack/charts
-    targetRevision: v1.21.2
+    targetRevision: v1.21.3
   syncPolicy:
     automated:
       enabled: true
