@@ -14,6 +14,9 @@ spec:
     chart: cert-manager
     helm:
       valuesObject:
+        config:
+          featureGates:
+            ACMEUseARI: true
         crds:
           enabled: true
         dns01RecursiveNameservers: 10.10.20.50:53
