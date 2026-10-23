@@ -1,40 +1,40 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: web
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: web
+  namespace: argocd
 spec:
   destination:
     namespace: web
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: ghcr.io/npastorale/charts
     chart: app
-    targetRevision: 0.1.0
     helm:
       valuesObject:
-        type: Deployment
         image: npastorale/web:0.0.1@sha256:e1500e13b866bbae79a29d00fb7c22e56d621436915accc9fa894a13b92f9459
         ports:
           http: 8080
         readiness:
-          path: /
           initialDelaySeconds: 3
+          path: /
           periodSeconds: 3
         resources:
+          limits:
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 56Mi
-          limits:
-            memory: 1Gi
         route:
           gateway: external
           hostnames:
             - nahue.ar
             - www.nahue.ar
+        type: Deployment
+    repoURL: ghcr.io/npastorale/charts
+    targetRevision: 0.1.0
   syncPolicy:
     automated:
       enabled: true
