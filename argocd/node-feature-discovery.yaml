@@ -21,7 +21,7 @@ spec:
               key: nvidia.com/gpu
               operator: Equal
     repoURL: registry.k8s.io/nfd/charts
-    targetRevision: 0.20.0
+    targetRevision: 0.20.1
   syncPolicy:
     automated:
       enabled: true
