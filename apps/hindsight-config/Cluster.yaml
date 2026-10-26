@@ -21,4 +21,4 @@ spec:
     extensions:
       - name: pgvector
         image:
-          reference: ghcr.io/cloudnative-pg/pgvector:0.8.7-202610260938-18-trixie@sha256:31caeb883873fca74e87da2b0b3bb9a689e5e951ac7d87cd3340872e3094b0fe
+          reference: ghcr.io/cloudnative-pg/pgvector:0.8.7-202610261016-18-trixie@sha256:bc9da05b09950b5beca1ce77c9903432b666a6cb527e60c78c7943ebf328e3cb
