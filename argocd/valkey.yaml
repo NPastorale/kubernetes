@@ -24,7 +24,7 @@ spec:
           enabled: false
         fullnameOverride: valkey
     repoURL: ghcr.io/valkey-io/valkey-helm
-    targetRevision: 0.12.0
+    targetRevision: 0.12.1
   syncPolicy:
     automated:
       enabled: true
