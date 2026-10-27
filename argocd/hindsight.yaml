@@ -29,7 +29,7 @@ spec:
         existingSecret: hindsight-secrets
         ingress:
           annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-classic-prod
+            cert-manager.io/cluster-issuer: letsencrypt-short-lived-prod
           className: internal-nginx
           enabled: true
           hosts:

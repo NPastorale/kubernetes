@@ -32,7 +32,7 @@ spec:
       values: |
         ingress:
           annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-classic-prod
+            cert-manager.io/cluster-issuer: letsencrypt-short-lived-prod
     chart: open-webui
   syncPolicy:
     automated:
