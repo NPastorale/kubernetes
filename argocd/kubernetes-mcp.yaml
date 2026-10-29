@@ -121,7 +121,7 @@ spec:
             cpu: 100m
             memory: 128Mi
     repoURL: ghcr.io/containers/charts
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
   syncPolicy:
     automated:
       prune: true
