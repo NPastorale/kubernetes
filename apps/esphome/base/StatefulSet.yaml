@@ -20,8 +20,7 @@ spec:
         - env:
             - name: TZ
               value: Europe/Madrid
-          image: >-
-            ghcr.io/esphome/esphome:2026.9.1@sha256:776a845d508909bf426d2ee7bdd81796361ebe6a7f091807ce1d6d0b48985413
+          image: ghcr.io/esphome/esphome:2026.9.1@sha256:776a845d508909bf426d2ee7bdd81796361ebe6a7f091807ce1d6d0b48985413
           imagePullPolicy: IfNotPresent
           name: esphome
           ports:
