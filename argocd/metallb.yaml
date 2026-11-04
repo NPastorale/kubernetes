@@ -14,8 +14,12 @@ spec:
     chart: metallb
     helm:
       valuesObject:
+        controller:
+          revisionHistoryLimit: 0
         frrk8s:
           enabled: false
+        speaker:
+          revisionHistoryLimit: 0
     repoURL: quay.io/metallb/chart
     targetRevision: 0.16.2
   syncPolicy:
