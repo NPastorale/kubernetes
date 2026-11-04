@@ -17,7 +17,7 @@ spec:
         frrk8s:
           enabled: false
     repoURL: quay.io/metallb/chart
-    targetRevision: 0.16.1
+    targetRevision: 0.16.2
   syncPolicy:
     automated:
       enabled: true
