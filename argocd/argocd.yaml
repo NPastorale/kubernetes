@@ -110,7 +110,7 @@ spec:
             servicePortHttp2: 8080
             servicePortHttp2AppProtocol: kubernetes.io/h2c
     repoURL: ghcr.io/argoproj/argo-helm
-    targetRevision: 10.11.7
+    targetRevision: 10.12.0
   syncPolicy:
     automated:
       enabled: true
