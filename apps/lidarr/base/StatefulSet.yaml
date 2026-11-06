@@ -25,6 +25,14 @@ spec:
           nfs:
             path: "/mnt/NAS-T/k8s-volumes/persistent/plex/data"
             server: 10.10.20.10
+        - name: ephemeral-data
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/ephemeral/plex/data"
+            server: 10.10.20.10
+        - name: qbittorrent-data
+          nfs:
+            path: "/mnt/NAS-T/k8s-volumes/ephemeral/qbittorrent/data"
+            server: 10.10.20.10
       containers:
         - name: lidarr
           image: lscr.io/linuxserver/lidarr:3.1.6.5079-ls47@sha256:d5707cfe084da21a3864c7ef0edd9c0543b5e26c79c551f84dad5ef8683af8c7
@@ -63,4 +71,10 @@ spec:
               readOnly: false
             - name: persistent-data
               mountPath: /persistent-data
+              readOnly: false
+            - name: ephemeral-data
+              mountPath: /ephemeral-data
+              readOnly: false
+            - name: qbittorrent-data
+              mountPath: /downloads
               readOnly: false
