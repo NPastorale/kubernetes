@@ -12,7 +12,13 @@ spec:
       namespace: esphome
       sectionName: https
   rules:
-    - backendRefs:
+    - filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.nginx.org
+            kind: SnippetsFilter
+            name: authelia-forward-auth
+      backendRefs:
         - group: ""
           kind: Service
           name: esphome

@@ -1,0 +1,30 @@
+# Opt this route in to Authelia forward auth.
+# See docs/authelia-gateway-api-externalauth.md for why this uses NGF snippets
+# instead of Gateway API ExternalAuth.
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: authelia-forward-auth
+spec:
+  snippets:
+    - context: http.server.location
+      value: |
+        # Authenticate the request with Authelia before proxying it to ESPHome.
+        auth_request /_authelia_authz;
+
+        # Authelia returns the login URL in the Location header on a 401.
+        auth_request_set $authelia_redirect_url $upstream_http_location;
+
+        # Copy authenticated user metadata to the upstream request.
+        auth_request_set $authelia_user $upstream_http_remote_user;
+        auth_request_set $authelia_groups $upstream_http_remote_groups;
+        auth_request_set $authelia_name $upstream_http_remote_name;
+        auth_request_set $authelia_email $upstream_http_remote_email;
+
+        proxy_set_header Remote-User $authelia_user;
+        proxy_set_header Remote-Groups $authelia_groups;
+        proxy_set_header Remote-Name $authelia_name;
+        proxy_set_header Remote-Email $authelia_email;
+
+        # Send unauthenticated users to the Authelia portal.
+        error_page 401 =302 $authelia_redirect_url;

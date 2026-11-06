@@ -1,0 +1,39 @@
+# Shared Authelia authz endpoint for routes that opt in via SnippetsFilter.
+# Gateway API ExternalAuth is not usable with Authelia 4.39.x + NGF 2.8.0; see
+# docs/authelia-gateway-api-externalauth.md for the full analysis.
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsPolicy
+metadata:
+  name: authelia-forward-auth
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: external
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: internal
+  snippets:
+    - context: http.server
+      value: |
+        # Internal authz endpoint used by routes that opt in to Authelia.
+        # Authelia's AuthRequest endpoint expects the original request details to
+        # be provided through X-Original-* headers.
+        location = /_authelia_authz {
+            internal;
+
+            proxy_pass http://authelia.authelia.svc.cluster.local/api/authz/auth-request;
+
+            proxy_pass_request_body off;
+            proxy_set_header Content-Length "";
+            proxy_set_header Connection "";
+
+            proxy_set_header X-Original-Method $request_method;
+            proxy_set_header X-Original-URL $scheme://$host$request_uri;
+            proxy_set_header X-Forwarded-For $remote_addr;
+
+            proxy_http_version 1.1;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 10s;
+            proxy_send_timeout 10s;
+        }

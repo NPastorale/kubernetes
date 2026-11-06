@@ -3,4 +3,5 @@ resources:
   - HTTPRoute.yaml
   - ListenerSet.yaml
   - Service.yaml
+  - SnippetsFilter.yaml
   - StatefulSet.yaml

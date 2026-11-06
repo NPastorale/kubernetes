@@ -1,4 +1,5 @@
 resources:
+  - AutheliaForwardAuth.yaml
   - Gateway.yaml
   - HTTPRoute.yaml
   - NginxProxy.yaml
