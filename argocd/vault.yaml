@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault
-  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  name: vault
+  namespace: argocd
 spec:
   destination:
     namespace: vault
@@ -16,25 +16,26 @@ spec:
       valuesObject:
         global:
           tlsDisable: false
+        injector:
+          enabled: false
         server:
-          volumes:
-            - name: vault-tls
-              secret:
-                defaultMode: 400
-                secretName: vault-selfsigned
-            - name: kms-auth
-              secret:
-                defaultMode: 400
-                secretName: kms-auth
-          volumeMounts:
-            - mountPath: /vault/userconfig/vault-tls/
-              name: vault-tls
-              readOnly: true
-            - mountPath: /vault/userconfig/kms-auth/
-              name: kms-auth
-              readOnly: true
-          standalone:
+          dataStorage:
+            storageClass: nfs-csi-persistent
+          httproute:
             enabled: true
+            hostnames:
+              - vault.nahue.ar
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            parentRefs:
+              - group: gateway.networking.k8s.io
+                kind: ListenerSet
+                name: vault-https
+                namespace: vault
+                sectionName: https
+          standalone:
             config: |
               ui = true
               disable_mlock = true
@@ -55,25 +56,24 @@ spec:
                 key_ring    = "Vault"
                 crypto_key  = "unseal-key"
               }
-          dataStorage:
-            storageClass: "nfs-csi-persistent"
-          httproute:
             enabled: true
-            hostnames:
-              - vault.nahue.ar
-            parentRefs:
-              - group: gateway.networking.k8s.io
-                kind: ListenerSet
-                name: vault-https
-                namespace: vault
-                sectionName: https
-            matches:
-              - path:
-                  type: PathPrefix
-                  value: /
-          updateStrategy: "RollingUpdate"
-        injector:
-          enabled: false
+          updateStrategyType: RollingUpdate
+          volumeMounts:
+            - mountPath: /vault/userconfig/vault-tls/
+              name: vault-tls
+              readOnly: true
+            - mountPath: /vault/userconfig/kms-auth/
+              name: kms-auth
+              readOnly: true
+          volumes:
+            - name: vault-tls
+              secret:
+                defaultMode: 400
+                secretName: vault-selfsigned
+            - name: kms-auth
+              secret:
+                defaultMode: 400
+                secretName: kms-auth
         ui:
           enabled: false
     repoURL: https://helm.releases.hashicorp.com
