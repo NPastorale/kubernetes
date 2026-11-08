@@ -50,11 +50,11 @@ spec:
                 path = "/vault/data"
               }
               seal "gcpckms" {
-                credentials = "/vault/userconfig/kms-auth/sa-credentials.json"
-                project     = "podhub-e6f2d31e0650c5b3"
+                credentials = "/vault/userconfig/gcpkms-auth/sa-credentials.json"
+                project     = "vault-kms-b3cfae84"
                 region      = "europe-southwest1"
-                key_ring    = "Vault"
-                crypto_key  = "unseal-key"
+                key_ring    = "vault"
+                crypto_key  = "vault-auto-unseal"
               }
             enabled: true
           updateStrategyType: RollingUpdate
@@ -62,18 +62,18 @@ spec:
             - mountPath: /vault/userconfig/vault-tls/
               name: vault-tls
               readOnly: true
-            - mountPath: /vault/userconfig/kms-auth/
-              name: kms-auth
+            - mountPath: /vault/userconfig/gcpkms-auth/
+              name: gcpkms-auth
               readOnly: true
           volumes:
             - name: vault-tls
               secret:
                 defaultMode: 400
                 secretName: vault-selfsigned
-            - name: kms-auth
+            - name: gcpkms-auth
               secret:
                 defaultMode: 400
-                secretName: kms-auth
+                secretName: gcpkms-auth
         ui:
           enabled: false
     repoURL: https://helm.releases.hashicorp.com
