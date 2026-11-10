@@ -14,7 +14,7 @@ spec:
     chart: app
     helm:
       valuesObject:
-        image: npastorale/web:0.0.1@sha256:95f4ccdf93dbeb234c6044b27315be687ee3206a05153aa481d45c6fae26e229
+        image: npastorale/web:0.0.1@sha256:99c4a09a3928a33567b2683dc19cb91c2f2191699efebd60d4567d4039b20a14
         ports:
           http: 8080
         readiness:
