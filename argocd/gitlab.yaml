@@ -207,7 +207,7 @@ spec:
         upgradeCheck:
           enabled: false
     repoURL: registry.gitlab.com/charts/charts.gitlab.io/release
-    targetRevision: 10.5.5
+    targetRevision: 10.5.6
   syncPolicy:
     automated:
       enabled: true
