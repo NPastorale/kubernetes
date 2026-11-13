@@ -20,9 +20,10 @@ spec:
               permissions: ~* &* +@all
           enabled: true
           usersExistingSecret: valkey-auth
-        dataStorage:
-          enabled: false
+        deploymentStrategy: RollingUpdate
         fullnameOverride: valkey
+        persistence:
+          enabled: false
     repoURL: ghcr.io/valkey-io/valkey-helm
     targetRevision: 1.0.0
   syncPolicy:
