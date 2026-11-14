@@ -5,12 +5,18 @@
   ],
   "kubernetes": {
     "managerFilePatterns": [
-      "/^(apps|argocd)/.+\\.yaml$/"
+      "/^(apps|argocd|deactivated)/.+\\.yaml$/"
     ]
   },
   "argocd": {
     "managerFilePatterns": [
-      "/^argocd/.+\\.yaml$/"
+      "/^(argocd|deactivated)/.+\\.yaml$/",
+      "/^app-of-apps\\.yaml$/"
+    ]
+  },
+  "helm-values": {
+    "managerFilePatterns": [
+      "/^deactivated/factorio\\.yaml$/"
     ]
   },
   "customManagers": [
@@ -18,69 +24,215 @@
       "description": "CloudNativePG Cluster spec.imageName",
       "customType": "regex",
       "managerFilePatterns": [
-        "/^apps/.+\\.yaml$/"
+        "/^(apps|deactivated)/.+\\.yaml$/"
       ],
       "matchStrings": [
-        "imageName:\\s*(?<depName>[^\\s:@]+/[^\\s:@]+):(?<currentValue>[^\\s@/]+)(?:@(?<currentDigest>\\S+))?"
+        "(?m)^(?<indentation>[ \\t]*)imageName:\\s*(?<depName>[^\\s:@]+/[^\\s:@]+):(?<currentValue>[^\\s@/]+)(?:@(?<currentDigest>\\S+))?"
       ],
       "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+      "autoReplaceStringTemplate": "{{{indentation}}}imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
     },
     {
       "description": "CloudNativePG extension image.reference",
       "customType": "regex",
       "managerFilePatterns": [
-        "/^apps/.+\\.yaml$/"
+        "/^(apps|deactivated)/.+\\.yaml$/"
       ],
       "matchStrings": [
-        "reference:\\s*(?<depName>[^\\s:@]+/[^\\s:@]+):(?<currentValue>[^\\s@/]+)(?:@(?<currentDigest>\\S+))?"
+        "(?m)^(?<indentation>[ \\t]*)reference:\\s*(?<depName>[^\\s:@]+/[^\\s:@]+):(?<currentValue>[^\\s@/]+)(?:@(?<currentDigest>\\S+))?"
       ],
       "datasourceTemplate": "docker",
-      "autoReplaceStringTemplate": "reference: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+      "autoReplaceStringTemplate": "{{{indentation}}}reference: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+    },
+    {
+      "description": "MongoDB Community operator spec.version (server image X.Y.Z-ubi8)",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^apps/mongodb-config/MongoDB\\.yaml$/"
+      ],
+      "matchStrings": [
+        "(?m)^(?<indentation>[ \\t]+)version:\\s*[\"'](?<currentValue>\\d+\\.\\d+\\.\\d+)[\"']"
+      ],
+      "depNameTemplate": "mongodb/mongodb-community-server",
+      "datasourceTemplate": "docker",
+      "extractVersionTemplate": "^(?<version>\\d+\\.\\d+\\.\\d+)-ubi8$",
+      "autoReplaceStringTemplate": "{{{indentation}}}version: \"{{{newValue}}}\""
     }
   ],
   "packageRules": [
+    // ---------------------------------------------------------------------
+    // linuxserver.io images
+    // ---------------------------------------------------------------------
+    // Each rule is a tag pattern, not an image name. The description names
+    // the image(s) that pattern was created for.
+    //
+    // The -lsN number is mapped to the `build` group (not `revision`) so
+    // ls-only rebuilds are compared. The 4th numeric component, when present,
+    // is mapped to `revision`; Renovate only compares `revision` when a
+    // `build` group is present, which is always true here.
+    //
+    // If a new tag does not match any rule, the checker fails. Add a new
+    // shared rule if the shape is used by 2+ images, or a unique rule if only
+    // one image uses it, and add the tag to
+    // scripts/renovate-pattern-fixtures.json.
+    // Add a `groupName` to each rule if you want one PR for all linuxserver
+    // updates.
+    // Shared patterns (2+ images)
     {
-      "description": "linuxserver.io: X.Y[.Z][.build][ubuNNNN][-rN][-commit]-lsN",
+      "description": "linuxserver.io base X.Y.Z[-rN]-lsN (homeassistant, unifi-network-application)",
+      "matchDatasources": [
+        "docker"
+      ],
       "matchPackageNames": [
         "lscr.io/linuxserver/**"
       ],
-      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?(?<compatibility>ubu\\d+)?(?:-r\\d+)?(?:-[0-9a-f]{7,9})?-ls(?<revision>\\d+)$"
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+(?:-r\\d+)?-ls\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-r\\d+)?-ls(?<build>\\d+)$"
     },
     {
-      // qbittorrent needs its own regex for two reasons:
-      // 1. Upstream changed its tag scheme at ls454 to include the libtorrent
-      //    version (`5.2.0_v2.0.12-ls454`), which the generic linuxserver rule
-      //    above does not match.
-      // 2. Its tags have no 4th numeric component, and Renovate's regex
-      //    versioning ignores the `revision` group unless a `build` group is
-      //    also captured. Mapping the `-lsN` number to `build` makes it part of
-      //    the compared version, so ls-only rebuilds are picked up too.
-      // Keep this scoped to qbittorrent: the generic rule works for the other
-      // linuxserver images.
-      "description": "linuxserver.io qbittorrent: X.Y.Z[-rN][_vA.B.C]-lsN (ls number mapped to build so it is compared)",
-      "matchPackageNames": [
-        "lscr.io/linuxserver/qbittorrent"
+      "description": "linuxserver.io 4-part X.Y.Z.B[-rN]-lsN (prowlarr, lidarr, sonarr, radarr)",
+      "matchDatasources": [
+        "docker"
       ],
-      "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:-r\\d+)?(?:_v\\d+\\.\\d+(?:\\.\\d+)?)?-ls(?<build>\\d+)$"
+      "matchPackageNames": [
+        "lscr.io/linuxserver/**"
+      ],
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+\\.\\d+(?:-r\\d+)?-ls\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<revision>\\d+)(?:-r\\d+)?-ls(?<build>\\d+)$"
     },
     {
-      "description": "Own images: X.Y.Z[-rN] (latest keeps default versioning for digest updates)",
-      "matchPackageNames": [
-        "ghcr.io/npastorale/**"
+      "description": "linuxserver.io v-prefix vX.Y.Z[-rN]-lsN (syncthing, tautulli, ddclient)",
+      "matchDatasources": [
+        "docker"
       ],
-      "matchCurrentValue": "!/^latest$/",
+      "matchPackageNames": [
+        "lscr.io/linuxserver/**"
+      ],
+      "matchCurrentValue": "/^v\\d+\\.\\d+\\.\\d+(?:-r\\d+)?-ls\\d+$/",
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-r\\d+)?-ls(?<build>\\d+)$"
+    },
+    // Unique patterns (1 image)
+    {
+      "description": "linuxserver.io 4-part + commit (plex)",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/**"
+      ],
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+\\.\\d+-[0-9a-fA-F]{6,40}-ls\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<revision>\\d+)-[0-9a-fA-F]{6,40}-ls(?<build>\\d+)$"
+    },
+    {
+      "description": "linuxserver.io ubuNNNN compatibility (jellyfin)",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/**"
+      ],
+      "matchCurrentValue": "/^\\d+\\.\\d+(?:\\.\\d+)?ubu\\d+(?:-r\\d+)?-ls\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?<compatibility>ubu\\d+)(?:-r\\d+)?-ls(?<build>\\d+)$"
+    },
+    {
+      "description": "linuxserver.io libtorrent suffix (qbittorrent)",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/**"
+      ],
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+(?:_v\\d+(?:\\.\\d+)*(?:-r\\d+)?|-r\\d+_v\\d+(?:\\.\\d+)*)-ls\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:_v\\d+(?:\\.\\d+)*(?:-r\\d+)?|-r\\d+_v\\d+(?:\\.\\d+)*)-ls(?<build>\\d+)$"
+    },
+    // ---------------------------------------------------------------------
+    // Patterns intentionally left to default Docker versioning (no rule)
+    // ---------------------------------------------------------------------
+    // Third-party semver/CalVer: nginx, postgres, ollama, litestream,
+    //   audiobookshelf, esphome, hermes-agent
+    // Latest tags: impostor, ripe-atlas
+    // Digest-only: busybox, cookbook, generic-device-plugin, joke, slides
+    // The checker reports these as DEFAULT, FLOATING, or DIGEST-ONLY.
+    // ---------------------------------------------------------------------
+    // Own images (GHCR and Docker Hub)
+    // ---------------------------------------------------------------------
+    {
+      "description": "Own images X.Y.Z[-rN] (bind, kubectl, rsync, podvader, web; latest stays on default versioning)",
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/npastorale/**",
+        "npastorale/**"
+      ],
+      "matchCurrentValue": "/^v?\\d+\\.\\d+\\.\\d+(?:-r\\d+)?$/",
       "versioning": "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-r(?<build>\\d+))?$"
     },
+    // ---------------------------------------------------------------------
+    // CloudNativePG images
+    // ---------------------------------------------------------------------
     {
-      "description": "CloudNativePG extensions: X.Y.Z-<timestamp>-<pg major>-<distro>",
+      "description": "CloudNativePG PostgreSQL ghcr.io/cloudnative-pg/postgresql rolling MAJOR-minimal-DISTRO (cloudnative-pg-config, hindsight-config)",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/cloudnative-pg/postgresql"
+      ],
+      "matchCurrentValue": "/^v?\\d+-minimal-[a-z][a-z0-9]*$/",
+      "versioning": "regex:^v?(?<major>\\d+)-minimal-(?<compatibility>[a-z][a-z0-9]*)$"
+    },
+    {
+      "description": "CloudNativePG pgvector ghcr.io/cloudnative-pg/pgvector X.Y.Z-<timestamp>-<pg major>-<distro> (hindsight-config)",
+      "matchDatasources": [
+        "docker"
+      ],
       "matchPackageNames": [
         "ghcr.io/cloudnative-pg/pgvector"
       ],
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+-\\d{12}-\\d+-\\w+$/",
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d{12})-(?<compatibility>\\d+-\\w+)$"
     },
+    // ---------------------------------------------------------------------
+    // MongoDB Community
+    // ---------------------------------------------------------------------
     {
-      "description": "Argo CD apps tracking HEAD of a Git repo",
+      "description": "MongoDB Community mongodb/mongodb-community-server spec.version X.Y.Z (mongodb-config; operator appends -ubi8)",
+      "matchManagers": [
+        "regex"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "mongodb/mongodb-community-server"
+      ],
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+$/",
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
+      "pinDigests": false
+    },
+    // ---------------------------------------------------------------------
+    // Explicitly disabled / non-versioned dependencies
+    // ---------------------------------------------------------------------
+    {
+      "description": "factoriotools/factorio stable image (deactivated/factorio.yaml; upstream chart uses a floating tag)",
+      "matchManagers": [
+        "helm-values"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "factoriotools/factorio"
+      ],
+      "matchCurrentValue": "stable",
+      "enabled": false
+    },
+    {
+      "description": "Argo CD apps tracking HEAD of a Git repo (all HEAD refs)",
       "matchManagers": [
         "argocd"
       ],
