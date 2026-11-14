@@ -202,7 +202,7 @@
     {
       "description": "MongoDB Community mongodb/mongodb-community-server spec.version X.Y.Z (mongodb-config; operator appends -ubi8)",
       "matchManagers": [
-        "regex"
+        "custom.regex"
       ],
       "matchDatasources": [
         "docker"
