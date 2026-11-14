@@ -15,6 +15,7 @@ spec:
       name: mongodbcommunity.mongodbcommunity.mongodb.com
       jsonPointers:
         - /spec
+        - /metadata/annotations
   project: default
   source:
     chart: community-operator
