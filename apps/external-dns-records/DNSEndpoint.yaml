@@ -1,7 +1,7 @@
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
-  name: test
+  name: NAS-T
 spec:
   endpoints:
     - dnsName: nas-t.nahue.ar
@@ -12,7 +12,7 @@ spec:
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
-  name: test
+  name: K8s NAS-T
 spec:
   endpoints:
     - dnsName: k8s.nas-t.nahue.ar
