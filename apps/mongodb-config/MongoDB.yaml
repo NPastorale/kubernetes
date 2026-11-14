@@ -6,7 +6,7 @@ spec:
   members: 1
   type: ReplicaSet
   version: "8.0.38"
-  featureCompatibilityVersion: "7.0"
+  featureCompatibilityVersion: "8.0"
   security:
     authentication:
       modes:
