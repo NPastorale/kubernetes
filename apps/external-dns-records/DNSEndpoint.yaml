@@ -1,0 +1,21 @@
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: test
+spec:
+  endpoints:
+    - dnsName: nas-t.nahue.ar
+      recordType: A
+      targets:
+        - 10.10.10.10
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: test
+spec:
+  endpoints:
+    - dnsName: k8s.nas-t.nahue.ar
+      recordType: A
+      targets:
+        - 10.10.20.10

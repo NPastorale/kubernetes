@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  name: external-dns-records
+  namespace: argocd
+spec:
+  destination:
+    namespace: external-dns
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: apps/external-dns-records
+    repoURL: https://github.com/NPastorale/kubernetes
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
