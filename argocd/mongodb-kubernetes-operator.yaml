@@ -17,7 +17,6 @@ spec:
     helm:
       valuesObject:
         operator:
-          name: mongodb-kubernetes-operator-mck
           replicas: 0
   syncPolicy:
     automated:
