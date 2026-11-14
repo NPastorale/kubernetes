@@ -14,10 +14,6 @@ spec:
     chart: mongodb-kubernetes
     repoURL: https://mongodb.github.io/helm-charts
     targetRevision: 1.15.0
-    helm:
-      valuesObject:
-        operator:
-          replicas: 0
   syncPolicy:
     automated:
       enabled: true
