@@ -27,7 +27,7 @@ spec:
                 path: ddns-key.conf
       containers:
         - name: ddclient
-          image: lscr.io/linuxserver/ddclient:v4.0.0-ls233@sha256:61de8a998f00bcf468a361f0df6007fb6ee8b2c6e89ed1c431145a98caeb7755
+          image: lscr.io/linuxserver/ddclient:v4.0.0-ls238@sha256:8daff71cbdc8ef9b9e2db35617dcff250f3f219fe3f8110940107ceed0f9eb7b
           resources:
             requests:
               memory: "52Mi"
