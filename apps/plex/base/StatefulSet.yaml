@@ -98,6 +98,7 @@ spec:
             runAsUser: 0
             runAsGroup: 0
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -113,6 +114,7 @@ spec:
             runAsUser: 911
             runAsGroup: 911
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -139,6 +141,7 @@ spec:
             runAsUser: 911
             runAsGroup: 911
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -159,11 +162,13 @@ spec:
               mountPath: /etc/litestream.yml
               subPath: litestream.yaml
       hostNetwork: true
+      terminationGracePeriodSeconds: 60
       containers:
         - name: plex
           image: lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls332@sha256:d6e045dac4ea2ccb94e0aa4441e02dbec9c9d306d650814eb33d20ad497a2107
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -178,22 +183,32 @@ spec:
             # only needs to skip its root-only usermod/lsiown steps.
             - name: LSIO_NON_ROOT_USER
               value: "1"
-            - name: hostname
-              value: syncthing-server
+            # Root filesystem is read-only; tell s6 to stage its /etc bits in /run.
+            - name: S6_READ_ONLY_ROOT
+              value: "1"
             - name: TZ
               value: "Europe/Madrid"
             - name: VERSION
               value: "docker"
-          readinessProbe:
-            tcpSocket:
+          # Plex can take minutes to open its web server after a DB restore or
+          # migration; keep liveness out of the way until startup succeeds.
+          startupProbe:
+            httpGet:
+              path: /identity
               port: 32400
-            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /identity
+              port: 32400
             periodSeconds: 5
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              path: /identity
               port: 32400
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 6
           ports:
             - containerPort: 32400
               name: web
@@ -232,6 +247,7 @@ spec:
             runAsUser: 911
             runAsGroup: 911
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
