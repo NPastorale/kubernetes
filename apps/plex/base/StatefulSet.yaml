@@ -51,9 +51,7 @@ spec:
               value: Europe/Madrid
             - name: VERSION
               value: docker
-          image: >-
-            lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls332@sha256:d6e045dac4ea2ccb94e0aa4441e02dbec9c9d306d650814eb33d20ad497a2107
-
+          image: lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls332@sha256:d6e045dac4ea2ccb94e0aa4441e02dbec9c9d306d650814eb33d20ad497a2107
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -112,15 +110,11 @@ spec:
             - mountPath: /ephemeral-data
               name: ephemeral-data
               readOnly: true
-            - mountPath: >-
-                /config/Library/Application Support/Plex Media Server/Plug-in Support/Databases
-
+            - mountPath: /config/Library/Application Support/Plex Media Server/Plug-in Support/Databases
               name: plex-database
         - args:
             - replicate
-          image: >-
-            litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
-
+          image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
           name: litestream
           ports:
             - containerPort: 9090
@@ -144,15 +138,12 @@ spec:
               subPath: litestream.yaml
       dnsPolicy: ClusterFirstWithHostNet
       enableServiceLinks: false
-      hostNetwork: true
       initContainers:
         - command:
             - sh
             - "-c"
             - chmod 0755 /run && chown 911:911 /run
-          image: >-
-            busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
-
+          image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
           name: fix-run
           securityContext:
             allowPrivilegeEscalation: false
@@ -173,9 +164,7 @@ spec:
             - "-if-db-not-exists"
             - "-if-replica-exists"
             - /data/com.plexapp.plugins.library.db
-          image: >-
-            litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
-
+          image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
           name: init-litestream
           securityContext:
             allowPrivilegeEscalation: false
@@ -200,9 +189,7 @@ spec:
             - "-if-db-not-exists"
             - "-if-replica-exists"
             - /data/com.plexapp.plugins.library.blobs.db
-          image: >-
-            litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
-
+          image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
           name: init-litestream-blobs
           securityContext:
             allowPrivilegeEscalation: false
