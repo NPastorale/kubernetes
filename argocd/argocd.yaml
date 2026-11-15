@@ -24,6 +24,101 @@ spec:
               requestedScopes: ["openid", "profile", "email", "groups"]
               requestedIDTokenClaims: {"groups": {"essential": true}}
               enablePKCEAuthentication: true
+            resource.customizations.health.deviceplugin.intel.com_GpuDevicePlugin: |
+              hs = {}
+              if obj.status == nil or obj.status.desiredNumberScheduled == nil then
+                hs.status = "Progressing"
+                hs.message = "Waiting for the device plugin to report status"
+                return hs
+              end
+
+              local ready = obj.status.numberReady or 0
+              local desired = obj.status.desiredNumberScheduled
+
+              if desired == 0 then
+                hs.status = "Healthy"
+                hs.message = "No node requires the device plugin"
+              elseif ready >= desired then
+                hs.status = "Healthy"
+                hs.message = ready .. "/" .. desired .. " nodes ready"
+              else
+                hs.status = "Progressing"
+                hs.message = ready .. "/" .. desired .. " nodes ready"
+              end
+
+              return hs
+
+            resource.customizations.health.gateway.nginx.org_NginxGateway: |
+              hs = {}
+              if obj.status == nil or obj.status.conditions == nil then
+                hs.status = "Progressing"
+                hs.message = "Waiting for the NginxGateway status"
+                return hs
+              end
+
+              for _, c in ipairs(obj.status.conditions) do
+                if c.type == "Valid" then
+                  if c.status == "True" then
+                    hs.status = "Healthy"
+                  else
+                    hs.status = "Degraded"
+                  end
+                  hs.message = c.message or c.reason or c.type
+                  return hs
+                end
+              end
+
+              hs.status = "Progressing"
+              hs.message = "Waiting for the Valid condition"
+              return hs
+
+            resource.customizations.health.mongodbcommunity.mongodb.com_MongoDBCommunity: |
+              hs = {}
+              if obj.status == nil or obj.status.phase == nil then
+                hs.status = "Progressing"
+                hs.message = "Waiting for the operator to report status"
+                return hs
+              end
+
+              if obj.status.phase == "Running" then
+                hs.status = "Healthy"
+              elseif obj.status.phase == "Failed" then
+                hs.status = "Degraded"
+              else
+                hs.status = "Progressing"
+              end
+
+              if obj.status.message ~= nil and obj.status.message ~= "" then
+                hs.message = obj.status.message
+              else
+                hs.message = "Phase: " .. obj.status.phase
+              end
+
+              return hs
+
+            resource.customizations.health.tailscale.com_Connector: |
+              hs = {}
+              if obj.status == nil or obj.status.conditions == nil then
+                hs.status = "Progressing"
+                hs.message = "Waiting for the connector status"
+                return hs
+              end
+
+              for _, c in ipairs(obj.status.conditions) do
+                if c.type == "ConnectorReady" then
+                  if c.status == "True" then
+                    hs.status = "Healthy"
+                  else
+                    hs.status = "Degraded"
+                  end
+                  hs.message = c.message or c.reason or c.type
+                  return hs
+                end
+              end
+
+              hs.status = "Progressing"
+              hs.message = "Waiting for the ConnectorReady condition"
+              return hs
           params:
             server.insecure: true
           rbac:
