@@ -127,6 +127,8 @@ spec:
             policy.csv: |
               g, admins, role:admin
             policy.default: role:readonly
+        controller:
+          revisionHistoryLimit: 0
         dex:
           enabled: false
         extraObjects:
