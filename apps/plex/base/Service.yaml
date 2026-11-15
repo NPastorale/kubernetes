@@ -3,40 +3,13 @@ kind: Service
 metadata:
   name: plex
 spec:
-  type: LoadBalancer
-  loadBalancerIP: 10.10.20.53
-  selector:
-    app: plex
+  # Only the gateway (HTTPRoute) and in-cluster clients (Tautulli) need to
+  # reach Plex; GDM discovery and the MetalLB VIP are gone with hostNetwork.
   ports:
     - name: web
-      protocol: TCP
       port: 32400
-      targetPort: 32400
-    - name: companion
       protocol: TCP
-      port: 8342
-      targetPort: 8342
-    - name: gdm-1
-      protocol: UDP
-      port: 32410
-      targetPort: 32410
-    - name: gdm-2
-      protocol: UDP
-      port: 32412
-      targetPort: 32412
-    - name: gdm-3
-      protocol: UDP
-      port: 32413
-      targetPort: 32413
-    - name: gdm-4
-      protocol: UDP
-      port: 32414
-      targetPort: 32414
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nahueflix
-spec:
-  type: ExternalName
-  externalName: app.plex.tv
+      targetPort: 32400
+  selector:
+    app: plex
+  type: ClusterIP

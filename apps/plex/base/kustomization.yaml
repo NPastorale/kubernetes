@@ -1,10 +1,11 @@
+configMapGenerator:
+  - files:
+      - litestream.yaml
+    name: plex-litestream
 resources:
   - Certificate.yaml
   - HTTPRoute.yaml
   - ListenerSet.yaml
+  - ProxySettingsPolicy.yaml
   - Service.yaml
   - StatefulSet.yaml
-configMapGenerator:
-  - name: plex-litestream
-    files:
-      - litestream.yaml
