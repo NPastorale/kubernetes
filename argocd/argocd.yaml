@@ -24,7 +24,8 @@ spec:
               requestedScopes: ["openid", "profile", "email", "groups"]
               requestedIDTokenClaims: {"groups": {"essential": true}}
               enablePKCEAuthentication: true
-            resource.customizations.health.deviceplugin.intel.com_GpuDevicePlugin: |
+            resource.customizations.health.deviceplugin.intel.com_GpuDevicePlugin:
+              |
               hs = {}
               if obj.status == nil or obj.status.desiredNumberScheduled == nil then
                 hs.status = "Progressing"
@@ -72,7 +73,8 @@ spec:
               hs.message = "Waiting for the Valid condition"
               return hs
 
-            resource.customizations.health.mongodbcommunity.mongodb.com_MongoDBCommunity: |
+            resource.customizations.health.mongodbcommunity.mongodb.com_MongoDBCommunity:
+              |
               hs = {}
               if obj.status == nil or obj.status.phase == nil then
                 hs.status = "Progressing"
@@ -125,8 +127,6 @@ spec:
             policy.csv: |
               g, admins, role:admin
             policy.default: role:readonly
-        controller:
-          revisionHistoryLimit: 0
         dex:
           enabled: false
         extraObjects:
