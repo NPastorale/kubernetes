@@ -1,214 +1,66 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: plex
   labels:
     app: plex
+  name: plex
 spec:
-  serviceName: plex
   replicas: 1
   revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: plex
+  serviceName: plex
   template:
     metadata:
       labels:
         app: plex
     spec:
-      automountServiceAccountToken: false
-      enableServiceLinks: false
-      dnsPolicy: ClusterFirstWithHostNet
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 911
-        runAsGroup: 911
-        fsGroup: 911
-        fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups:
-          - 44 # video: /dev/dri/card0
-          - 107 # render: /dev/dri/renderD128 (verify against the node's GID)
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
+            - preference:
                 matchExpressions:
-                  - key: gpu.intel.com/device-id.0300-46d1.present #N100 iGPU
+                  - key: gpu.intel.com/device-id.0300-46d1.present
                     operator: In
                     values:
                       - "true"
-            - weight: 50
-              preference:
+              weight: 100
+            - preference:
                 matchExpressions:
-                  - key: gpu.intel.com/device-id.0300-3e9b.present #i7-9750H iGPU
+                  - key: gpu.intel.com/device-id.0300-3e9b.present
                     operator: In
                     values:
                       - "true"
-            - weight: 25
-              preference:
+              weight: 50
+            - preference:
                 matchExpressions:
                   - key: intel.feature.node.kubernetes.io/gpu
                     operator: In
                     values:
                       - "true"
-      volumes:
-        - name: config
-          nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/plex/config"
-            server: 10.10.20.10
-        - name: config-db
-          nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/plex/databases"
-            server: 10.10.20.10
-        - name: persistent-data
-          nfs:
-            path: "/mnt/NAS-T/k8s-volumes/persistent/plex/data"
-            server: 10.10.20.10
-            readOnly: true
-        - name: ephemeral-data
-          nfs:
-            path: "/mnt/NAS-T/k8s-volumes/ephemeral/plex/data"
-            server: 10.10.20.10
-            readOnly: true
-        - name: "plex-litestream"
-          configMap:
-            name: plex-litestream
-            defaultMode: 0444
-        - name: "plex-database"
-          emptyDir: {}
-        - name: run
-          emptyDir: {}
-        - name: tmp
-          emptyDir: {}
-      initContainers:
-        # emptyDir-backed /run is created root-owned; s6-overlay's preinit
-        # requires it to be owned by the uid the container runs as (911), and
-        # cannot fix that itself because the pod is non-root. Runs once per pod.
-        - name: fix-run
-          image: busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
-          command:
-            - sh
-            - -c
-            - chmod 0755 /run && chown 911:911 /run
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-            runAsGroup: 0
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-              add:
-                - CHOWN
-          volumeMounts:
-            - name: run
-              mountPath: /run
-        - name: init-litestream
-          image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 911
-            runAsGroup: 911
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-          args:
-            [
-              "restore",
-              "-if-db-not-exists",
-              "-if-replica-exists",
-              "/data/com.plexapp.plugins.library.db",
-            ]
-          volumeMounts:
-            - name: plex-database
-              mountPath: "/data"
-            - name: config-db
-              mountPath: "/nfs"
-              readOnly: true
-            - name: plex-litestream
-              mountPath: /etc/litestream.yml
-              subPath: litestream.yaml
-        - name: init-litestream-blobs
-          image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 911
-            runAsGroup: 911
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-          args:
-            [
-              "restore",
-              "-if-db-not-exists",
-              "-if-replica-exists",
-              "/data/com.plexapp.plugins.library.blobs.db",
-            ]
-          volumeMounts:
-            - name: plex-database
-              mountPath: "/data"
-            - name: config-db
-              mountPath: "/nfs"
-              readOnly: true
-            - name: plex-litestream
-              mountPath: /etc/litestream.yml
-              subPath: litestream.yaml
-      hostNetwork: true
-      terminationGracePeriodSeconds: 60
+              weight: 25
+      automountServiceAccountToken: false
       containers:
-        - name: plex
-          image: lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls332@sha256:d6e045dac4ea2ccb94e0aa4441e02dbec9c9d306d650814eb33d20ad497a2107
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-          resources:
-            requests:
-              memory: "1Gi"
-              cpu: "100m"
-            limits:
-              gpu.intel.com/i915: 1
-          env:
-            # /run is handed to uid 911 by the fix-run init container, so LSIO
-            # only needs to skip its root-only usermod/lsiown steps.
+        - env:
             - name: LSIO_NON_ROOT_USER
               value: "1"
-            # Root filesystem is read-only; tell s6 to stage its /etc bits in /run.
             - name: S6_READ_ONLY_ROOT
               value: "1"
             - name: TZ
-              value: "Europe/Madrid"
+              value: Europe/Madrid
             - name: VERSION
-              value: "docker"
-          # Plex can take minutes to open its web server after a DB restore or
-          # migration; keep liveness out of the way until startup succeeds.
-          startupProbe:
-            httpGet:
-              path: /identity
-              port: 32400
-            periodSeconds: 5
-            failureThreshold: 60
-          readinessProbe:
-            httpGet:
-              path: /identity
-              port: 32400
-            periodSeconds: 5
+              value: docker
+          image: >-
+            lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls332@sha256:d6e045dac4ea2ccb94e0aa4441e02dbec9c9d306d650814eb33d20ad497a2107
+
           livenessProbe:
+            failureThreshold: 6
             httpGet:
               path: /identity
               port: 32400
             periodSeconds: 10
-            failureThreshold: 6
+          name: plex
           ports:
             - containerPort: 32400
               name: web
@@ -224,42 +76,190 @@ spec:
               protocol: UDP
             - containerPort: 32414
               protocol: UDP
-          volumeMounts:
-            - name: config
-              mountPath: /config
-            - name: run
-              mountPath: /run
-            - name: tmp
-              mountPath: /tmp
-            # Plex only reads media. On-demand subtitles go to the blob DB under /config.
-            - name: persistent-data
-              mountPath: /persistent-data
-              readOnly: true
-            - name: ephemeral-data
-              mountPath: /ephemeral-data
-              readOnly: true
-            - name: plex-database
-              mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
-        - name: litestream
-          image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
+          readinessProbe:
+            httpGet:
+              path: /identity
+              port: 32400
+            periodSeconds: 5
+          resources:
+            limits:
+              gpu.intel.com/i915: 1
+            requests:
+              cpu: 100m
+              memory: 1Gi
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 911
-            runAsGroup: 911
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
-          args: ["replicate"]
+            readOnlyRootFilesystem: true
+          startupProbe:
+            failureThreshold: 60
+            httpGet:
+              path: /identity
+              port: 32400
+            periodSeconds: 5
           volumeMounts:
-            - name: config-db
-              mountPath: "/nfs"
-            - name: plex-database
-              mountPath: "/data"
-            - name: plex-litestream
-              mountPath: /etc/litestream.yml
-              subPath: litestream.yaml
+            - mountPath: /config
+              name: config
+            - mountPath: /run
+              name: run
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /persistent-data
+              name: persistent-data
+              readOnly: true
+            - mountPath: /ephemeral-data
+              name: ephemeral-data
+              readOnly: true
+            - mountPath: >-
+                /config/Library/Application Support/Plex Media Server/Plug-in Support/Databases
+
+              name: plex-database
+        - args:
+            - replicate
+          image: >-
+            litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
+
+          name: litestream
           ports:
-            - name: metrics
-              containerPort: 9090
+            - containerPort: 9090
+              name: metrics
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 911
+            runAsNonRoot: true
+            runAsUser: 911
+          volumeMounts:
+            - mountPath: /nfs
+              name: config-db
+            - mountPath: /data
+              name: plex-database
+            - mountPath: /etc/litestream.yml
+              name: plex-litestream
+              subPath: litestream.yaml
+      dnsPolicy: ClusterFirstWithHostNet
+      enableServiceLinks: false
+      hostNetwork: true
+      initContainers:
+        - command:
+            - sh
+            - "-c"
+            - chmod 0755 /run && chown 911:911 /run
+          image: >-
+            busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662
+
+          name: fix-run
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - CHOWN
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /run
+              name: run
+        - args:
+            - restore
+            - "-if-db-not-exists"
+            - "-if-replica-exists"
+            - /data/com.plexapp.plugins.library.db
+          image: >-
+            litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
+
+          name: init-litestream
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 911
+            runAsNonRoot: true
+            runAsUser: 911
+          volumeMounts:
+            - mountPath: /data
+              name: plex-database
+            - mountPath: /nfs
+              name: config-db
+              readOnly: true
+            - mountPath: /etc/litestream.yml
+              name: plex-litestream
+              subPath: litestream.yaml
+        - args:
+            - restore
+            - "-if-db-not-exists"
+            - "-if-replica-exists"
+            - /data/com.plexapp.plugins.library.blobs.db
+          image: >-
+            litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
+
+          name: init-litestream-blobs
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 911
+            runAsNonRoot: true
+            runAsUser: 911
+          volumeMounts:
+            - mountPath: /data
+              name: plex-database
+            - mountPath: /nfs
+              name: config-db
+              readOnly: true
+            - mountPath: /etc/litestream.yml
+              name: plex-litestream
+              subPath: litestream.yaml
+      securityContext:
+        fsGroup: 911
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 911
+        runAsNonRoot: true
+        runAsUser: 911
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 44
+          - 107
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: config
+          nfs:
+            path: /mnt/NAS-T/k8s-volumes/persistent/plex/config
+            server: 10.10.20.10
+        - name: config-db
+          nfs:
+            path: /mnt/NAS-T/k8s-volumes/persistent/plex/databases
+            server: 10.10.20.10
+        - name: persistent-data
+          nfs:
+            path: /mnt/NAS-T/k8s-volumes/persistent/plex/data
+            readOnly: true
+            server: 10.10.20.10
+        - name: ephemeral-data
+          nfs:
+            path: /mnt/NAS-T/k8s-volumes/ephemeral/plex/data
+            readOnly: true
+            server: 10.10.20.10
+        - configMap:
+            defaultMode: 444
+            name: plex-litestream
+          name: plex-litestream
+        - emptyDir: {}
+          name: plex-database
+        - emptyDir: {}
+          name: run
+        - emptyDir: {}
+          name: tmp
