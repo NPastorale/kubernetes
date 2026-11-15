@@ -4,7 +4,7 @@ metadata:
   name: tautulli-https
 spec:
   parentRef:
-    name: internal
+    name: external
     namespace: nginx-fabric
   listeners:
     - name: https

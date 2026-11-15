@@ -12,22 +12,10 @@ spec:
       protocol: TCP
       port: 32400
       targetPort: 32400
-    - name: dlna-tcp
-      protocol: TCP
-      port: 32469
-      targetPort: 32469
     - name: companion
       protocol: TCP
       port: 8342
       targetPort: 8342
-    - name: dlna-udp
-      protocol: UDP
-      port: 1900
-      targetPort: 1900
-    - name: bonjour
-      protocol: UDP
-      port: 5353
-      targetPort: 5353
     - name: gdm-1
       protocol: UDP
       port: 32410

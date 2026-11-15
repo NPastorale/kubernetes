@@ -16,6 +16,20 @@ spec:
       labels:
         app: plex
     spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      dnsPolicy: ClusterFirstWithHostNet
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 911
+        runAsGroup: 911
+        fsGroup: 911
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 44 # video: /dev/dri/card0
+          - 107 # render: /dev/dri/renderD128 (verify against the node's GID)
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -53,18 +67,33 @@ spec:
           nfs:
             path: "/mnt/NAS-T/k8s-volumes/persistent/plex/data"
             server: 10.10.20.10
+            readOnly: true
         - name: ephemeral-data
           nfs:
             path: "/mnt/NAS-T/k8s-volumes/ephemeral/plex/data"
             server: 10.10.20.10
+            readOnly: true
         - name: "plex-litestream"
           configMap:
             name: plex-litestream
+            defaultMode: 0444
         - name: "plex-database"
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
+        - name: tmp
           emptyDir: {}
       initContainers:
         - name: init-litestream
           image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 911
+            runAsGroup: 911
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           args:
             [
               "restore",
@@ -77,11 +106,20 @@ spec:
               mountPath: "/data"
             - name: config-db
               mountPath: "/nfs"
+              readOnly: true
             - name: plex-litestream
               mountPath: /etc/litestream.yml
               subPath: litestream.yaml
         - name: init-litestream-blobs
           image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 911
+            runAsGroup: 911
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           args:
             [
               "restore",
@@ -94,13 +132,19 @@ spec:
               mountPath: "/data"
             - name: config-db
               mountPath: "/nfs"
+              readOnly: true
             - name: plex-litestream
               mountPath: /etc/litestream.yml
               subPath: litestream.yaml
       hostNetwork: true
       containers:
         - name: plex
-          image: lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls332@sha256:d6e045dac4ea2ccb94e0aa4441e02dbec9c9d306d650814eb33d20ad497a2107
+          image: lscr.io/linuxserver/plex:1.43.5.11079-b3b13e506-ls331@sha256:0c2f1122a4275efeea953a9882359f3809b27279d3c3022392e8e610a2eccc67
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           resources:
             requests:
               memory: "1Gi"
@@ -108,6 +152,10 @@ spec:
             limits:
               gpu.intel.com/i915: 1
           env:
+            # Kubernetes creates /run owned by root; tell LSIO to skip its
+            # root-only user setup and run the app as the pod's non-root UID.
+            - name: LSIO_NON_ROOT_USER
+              value: "1"
             - name: hostname
               value: syncthing-server
             - name: TZ
@@ -128,15 +176,6 @@ spec:
             - containerPort: 32400
               name: web
               protocol: TCP
-            - containerPort: 1900
-              name: dlna-udp
-              protocol: UDP
-            - containerPort: 32469
-              name: dlna-tcp
-              protocol: TCP
-            - containerPort: 5353
-              name: bonjour
-              protocol: UDP
             - containerPort: 8324
               name: companion
               protocol: TCP
@@ -151,18 +190,29 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: run
+              mountPath: /run
+            - name: tmp
+              mountPath: /tmp
+            # Plex only reads media. On-demand subtitles go to the blob DB under /config.
             - name: persistent-data
               mountPath: /persistent-data
+              readOnly: true
             - name: ephemeral-data
               mountPath: /ephemeral-data
+              readOnly: true
             - name: plex-database
               mountPath: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Databases"
         - name: litestream
           image: litestream/litestream:0.5.18@sha256:513bff62a88fc0c86c73d27333c41c54c89fe890a7c32a551600adff9309b11b
-          lifecycle:
-            postStart:
-              exec:
-                command: ["chmod", "-R", "777", "/data"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 911
+            runAsGroup: 911
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           args: ["replicate"]
           volumeMounts:
             - name: config-db

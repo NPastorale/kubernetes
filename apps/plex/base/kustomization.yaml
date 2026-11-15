@@ -1,5 +1,7 @@
 resources:
-  - Ingress.yaml
+  - Certificate.yaml
+  - HTTPRoute.yaml
+  - ListenerSet.yaml
   - Service.yaml
   - StatefulSet.yaml
 configMapGenerator:
