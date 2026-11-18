@@ -5,7 +5,7 @@ metadata:
 spec:
   members: 1
   type: ReplicaSet
-  version: "8.0.38"
+  version: "9.0.8"
   featureCompatibilityVersion: "8.0"
   security:
     authentication:
