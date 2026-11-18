@@ -23,7 +23,7 @@ spec:
             server: 10.10.20.10
       containers:
         - name: unifi
-          image: lscr.io/linuxserver/unifi-network-application:10.6.109-ls154@sha256:f782b39e005d4c104b2cfa3185594ce93b3c9bd4b0622cc6559d417844d2d037
+          image: lscr.io/linuxserver/unifi-network-application:10.6.109-ls155@sha256:053a608b25f578bb92b7b4f59e3835f6cc6dd0c7500c30b24ac0e27e1742ab20
           resources:
             requests:
               memory: "56Mi"
