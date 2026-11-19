@@ -1,0 +1,23 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  parentRef:
+    name: internal
+    namespace: nginx-fabric
+  listeners:
+    - name: grafana-https
+      port: 443
+      protocol: HTTPS
+      hostname: grafana.nahue.ar
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: grafana-tls
+      allowedRoutes:
+        namespaces:
+          from: Same

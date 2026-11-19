@@ -21,6 +21,28 @@ spec:
         #     - 10.10.20.11
         #     - 10.10.20.12
         #     - 10.10.20.13
+        grafana:
+          grafana.ini:
+            server:
+              domain: grafana.nahue.ar
+              root_url: https://grafana.nahue.ar
+          route:
+            main:
+              enabled: true
+              hostnames:
+                - grafana.nahue.ar
+              parentRefs:
+                - group: gateway.networking.k8s.io
+                  kind: ListenerSet
+                  name: kube-prometheus-stack
+                  namespace: monitoring
+                  sectionName: grafana-https
+              filters:
+                - type: ExtensionRef
+                  extensionRef:
+                    group: gateway.nginx.org
+                    kind: SnippetsFilter
+                    name: authelia-forward-auth
         prometheus:
           prometheusSpec:
             retention: 30d

@@ -1,0 +1,4 @@
+resources:
+  - Certificate.yaml
+  - ListenerSet.yaml
+  - SnippetsFilter.yaml
