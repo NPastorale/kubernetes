@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: kube-prometheus-stack
+    repoURL: ghcr.io/prometheus-community/charts
+    targetRevision: 91.5.0
+    helm:
+      valuesObject:
+        # kubeEtcd:
+        #   endpoints:
+        #     - 10.10.20.11
+        #     - 10.10.20.12
+        #     - 10.10.20.13
+        prometheus:
+          prometheusSpec:
+            retention: 30d
+            retentionSize: 20GB
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  accessModes:
+                    - ReadWriteOnce
+                  storageClassName: nfs-csi-ephemeral
+                  resources:
+                    requests:
+                      storage: 30Gi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
