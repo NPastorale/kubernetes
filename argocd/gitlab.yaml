@@ -132,6 +132,16 @@ spec:
                 [runners.kubernetes]
                 privileged = true
                 image = "alpine:latest"
+                [runners.kubernetes.node_selector]
+                  "kubernetes.io/hostname" = "legion"
+                [[runners.kubernetes.volumes.host_path]]
+                  name = "kvm"
+                  mount_path = "/dev/kvm"
+                  host_path = "/dev/kvm"
+                [[runners.kubernetes.volumes.host_path]]
+                  name = "tun"
+                  mount_path = "/dev/net/tun"
+                  host_path = "/dev/net/tun"
                 [runners.cache]
                 Type = "s3"
                 Path = "runner"
