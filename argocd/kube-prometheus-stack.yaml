@@ -16,11 +16,9 @@ spec:
     targetRevision: 93.5.0
     helm:
       valuesObject:
-        # kubeEtcd:
-        #   endpoints:
-        #     - 10.10.20.11
-        #     - 10.10.20.12
-        #     - 10.10.20.13
+        kubeEtcd:
+          endpoints:
+            - 10.10.20.31
         grafana:
           grafana.ini:
             server:
