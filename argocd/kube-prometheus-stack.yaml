@@ -13,7 +13,7 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: ghcr.io/prometheus-community/charts
-    targetRevision: 93.4.1
+    targetRevision: 93.5.0
     helm:
       valuesObject:
         # kubeEtcd:
