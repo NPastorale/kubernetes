@@ -23,12 +23,6 @@ spec:
           route:
             main:
               enabled: true
-              filters:
-                - extensionRef:
-                    group: gateway.nginx.org
-                    kind: SnippetsFilter
-                    name: authelia-forward-auth
-                  type: ExtensionRef
               hostnames:
                 - grafana.nahue.ar
               parentRefs:
