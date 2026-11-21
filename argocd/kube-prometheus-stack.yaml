@@ -12,21 +12,23 @@ spec:
   project: default
   source:
     chart: kube-prometheus-stack
-    repoURL: ghcr.io/prometheus-community/charts
-    targetRevision: 93.6.1
     helm:
       valuesObject:
-        kubeEtcd:
-          endpoints:
-            - 10.10.20.31
         grafana:
           grafana.ini:
             server:
               domain: grafana.nahue.ar
               root_url: https://grafana.nahue.ar
+          revisionHistoryLimit: 0
           route:
             main:
               enabled: true
+              filters:
+                - extensionRef:
+                    group: gateway.nginx.org
+                    kind: SnippetsFilter
+                    name: authelia-forward-auth
+                  type: ExtensionRef
               hostnames:
                 - grafana.nahue.ar
               parentRefs:
@@ -35,12 +37,11 @@ spec:
                   name: kube-prometheus-stack
                   namespace: monitoring
                   sectionName: grafana-https
-              filters:
-                - type: ExtensionRef
-                  extensionRef:
-                    group: gateway.nginx.org
-                    kind: SnippetsFilter
-                    name: authelia-forward-auth
+        kube-state-metrics:
+          revisionHistoryLimit: 0
+        kubeEtcd:
+          endpoints:
+            - 10.10.20.31
         prometheus:
           prometheusSpec:
             retention: 30d
@@ -50,10 +51,16 @@ spec:
                 spec:
                   accessModes:
                     - ReadWriteOnce
-                  storageClassName: nfs-csi-ephemeral
                   resources:
                     requests:
                       storage: 30Gi
+                  storageClassName: nfs-csi-ephemeral
+        prometheus-node-exporter:
+          revisionHistoryLimit: 0
+        prometheusOperator:
+          revisionHistoryLimit: 0
+    repoURL: ghcr.io/prometheus-community/charts
+    targetRevision: 93.6.1
   syncPolicy:
     automated:
       prune: true
