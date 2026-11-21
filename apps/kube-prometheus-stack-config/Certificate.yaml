@@ -4,16 +4,16 @@ metadata:
   name: grafana-tls
   namespace: monitoring
 spec:
-  secretName: grafana-tls
-  issuerRef:
-    name: letsencrypt-short-lived-prod
-    kind: ClusterIssuer
   dnsNames:
     - grafana.nahue.ar
+  isCA: false
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-short-lived-prod
   privateKey:
     algorithm: ECDSA
-    size: 384
     rotationPolicy: Always
+    size: 384
+  secretName: grafana-tls
   usages:
     - server auth
-  isCA: false
