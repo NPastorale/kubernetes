@@ -16,7 +16,7 @@ metadata:
   namespace: gitlab
 spec:
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie@sha256:c8caac9817d2b5e5e66297a3ccf86d9fcbd68f097aa6cc00161d83f9635e88cc
+  imageName: ghcr.io/cloudnative-pg/postgresql:19-minimal-trixie@sha256:12688a494f25aa0b7e1e3cd1800abe85b427fd1a09c991668a48162e3431a2af
   storage:
     size: 50Gi
     storageClass: truenas-nvmeof
