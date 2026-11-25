@@ -13,7 +13,7 @@ spec:
   source:
     chart: mongodb-kubernetes
     repoURL: https://mongodb.github.io/helm-charts
-    targetRevision: 1.15.0
+    targetRevision: 1.16.0
   syncPolicy:
     automated:
       enabled: true
