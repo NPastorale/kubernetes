@@ -54,7 +54,7 @@ spec:
         prometheusOperator:
           revisionHistoryLimit: 0
     repoURL: ghcr.io/prometheus-community/charts
-    targetRevision: 93.9.0
+    targetRevision: 93.10.1
   syncPolicy:
     automated:
       prune: true
