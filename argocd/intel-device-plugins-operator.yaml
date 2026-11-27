@@ -13,7 +13,7 @@ spec:
   source:
     chart: intel-device-plugins-operator
     repoURL: ghcr.io/intel/helm-charts
-    targetRevision: 0.37.1
+    targetRevision: 0.37.2
   syncPolicy:
     automated:
       enabled: true
